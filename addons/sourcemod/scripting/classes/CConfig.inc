@@ -13,12 +13,15 @@ methodmap CConfig < StringMap
 		stringMap.SetString("sName",            "");
 		stringMap.SetString("sShort",           "");
 		stringMap.SetString("sColor",           "");
+		stringMap.SetString("sSpawner",         "");
 
 		stringMap.SetValue("iConfigID",         0);
 		stringMap.SetValue("iHammerID",         0);
 
 		stringMap.SetValue("bShowMessages",     false);
 		stringMap.SetValue("bShowInterface",    false);
+
+		stringMap.SetValue("bAllowTransfer",    true);
 
 		stringMap.SetValue("hButtons",          new ArrayList());
 		stringMap.SetValue("hTriggers",         new ArrayList());
@@ -54,6 +57,16 @@ methodmap CConfig < StringMap
 	public bool SetColor(const char[] sBuffer)
 	{
 		return this.SetString("sColor", sBuffer);
+	}
+
+	public bool GetSpawner(char[] sBuffer, int iLength)
+	{
+		return this.GetString("sSpawner", sBuffer, iLength);
+	}
+
+	public bool SetSpawner(const char[] sBuffer)
+	{
+		return this.SetString("sSpawner", sBuffer);
 	}
 
 	property int iConfigID
@@ -117,6 +130,22 @@ methodmap CConfig < StringMap
 		public set(bool bValue)
 		{
 			this.SetValue("bShowInterface", bValue);
+		}
+	}
+
+	property bool bAllowTransfer
+	{
+		public get()
+		{
+			bool bValue;
+			if (this.GetValue("bAllowTransfer", bValue))
+				return bValue;
+
+			return false;
+		}
+		public set(bool bValue)
+		{
+			this.SetValue("bAllowTransfer", bValue);
 		}
 	}
 
