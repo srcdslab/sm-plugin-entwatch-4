@@ -5,7 +5,7 @@
 #define entWatch_core_included
 
 #define EW_VERSION                          "4.1.0.2"   /**< The current version of entWatch */
-#define EW_VERSION_CONFIG                   1           /**< The current configuration version of entWatch */
+#define EW_VERSION_CONFIG                   1         /**< The current configuration version of entWatch */
 
 /**
  *
@@ -30,15 +30,17 @@
 #define EW_BUTTON_TYPE_NONE                 0   /**< Button has no type */
 #define EW_BUTTON_TYPE_USE                  1   /**< Button is +use activated */
 #define EW_BUTTON_TYPE_OUTPUT               2   /**< Button is activated by outputs */
+#define EW_BUTTON_TYPE_COUNTERUP            3   /**< Item usage based on counter with OnHitMax output */
+#define EW_BUTTON_TYPE_COUNTERDOWN          4   /**< Item usage based on counter with OnHitMin */
 
 /**
  *
  */
 #define EW_BUTTON_MODE_NONE                 0   /**< Button has no mode */
 #define EW_BUTTON_MODE_COOLDOWN             1   /**< Standard cooldown */
-#define EW_BUTTON_MODE_MAXUSES              2   /**< Standard max uses */
-#define EW_BUTTON_MODE_COOLDOWN_MAXUSES     3   /**< Cooldown after each use, max uses */
-#define EW_BUTTON_MODE_COOLDOWN_CHARGES     4   /**< Cooldown after multiple uses */
+#define EW_BUTTON_MODE_MAXUSES              2   /**< Standard max uses with or without cooldown */
+#define EW_BUTTON_MODE_COOLDOWN_CHARGES     3   /**< Cooldown after multiple uses */
+#define EW_BUTTON_MODE_COUNTERVALUE         4   /**< Counter value */
 
 /**
  *
