@@ -849,13 +849,16 @@ void Database_FetchClientBan(int client)
 	char sSteam[64], sQuery[1024];
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);
 
+	char escSteam[129];
+	g_hDB.Escape(sSteam, escSteam, sizeof(escSteam));
+
 	FormatEx(sQuery, sizeof(sQuery),
 		"SELECT `admin_name`, `admin_steamid`, `duration_minutes`, `issued_at`, `expires_at`, `reason`, `unbanned_at`,"
 		... " (SELECT COUNT(*) FROM `EntWatch_Ebans` WHERE `client_steamid` = '%s') AS total_ebans"
 		... " FROM `EntWatch_Ebans`"
 		... " WHERE `client_steamid` = '%s'"
 		... " ORDER BY `issued_at` DESC LIMIT 1",
-		sSteam, sSteam);
+		escSteam, escSteam);
 
 	g_hDB.Query(DB_OnFetchClientBan, sQuery, GetClientUserId(client), DBPrio_Normal);
 }
@@ -926,10 +929,12 @@ void Database_InsertBan(int target, int admin, int iDuration, int iIssuedAt, int
 	GetClientName(target, sClientName, sizeof(sClientName));
 	GetClientAuthId(target, AuthId_Steam2, sClientSteam, sizeof(sClientSteam), true);
 
-	char escAdminName[65], escClientName[65], escReason[129];
-	g_hDB.Escape(sAdminName,  escAdminName,  sizeof(escAdminName));
-	g_hDB.Escape(sClientName, escClientName, sizeof(escClientName));
-	g_hDB.Escape(reason,      escReason,     sizeof(escReason));
+	char escAdminName[65], escClientName[65], escReason[129], escAdminSteam[129], escClientSteam[129];
+	g_hDB.Escape(sAdminName,   escAdminName,   sizeof(escAdminName));
+	g_hDB.Escape(sClientName,  escClientName,  sizeof(escClientName));
+	g_hDB.Escape(reason,       escReason,      sizeof(escReason));
+	g_hDB.Escape(sAdminSteam,  escAdminSteam,  sizeof(escAdminSteam));
+	g_hDB.Escape(sClientSteam, escClientSteam, sizeof(escClientSteam));
 
 	char sQuery[1024];
 	if (iExpiresAt > 0)
@@ -938,7 +943,7 @@ void Database_InsertBan(int target, int admin, int iDuration, int iIssuedAt, int
 			"INSERT INTO `EntWatch_Ebans` "
 			... "(`client_name`,`client_steamid`,`admin_name`,`admin_steamid`,`duration_minutes`,`issued_at`,`expires_at`,`reason`) "
 			... "VALUES ('%s','%s','%s','%s',%d,%d,%d,'%s')",
-			escClientName, sClientSteam, escAdminName, sAdminSteam, iDuration, iIssuedAt, iExpiresAt, escReason);
+			escClientName, escClientSteam, escAdminName, escAdminSteam, iDuration, iIssuedAt, iExpiresAt, escReason);
 	}
 	else
 	{
@@ -946,7 +951,7 @@ void Database_InsertBan(int target, int admin, int iDuration, int iIssuedAt, int
 			"INSERT INTO `EntWatch_Ebans` "
 			... "(`client_name`,`client_steamid`,`admin_name`,`admin_steamid`,`duration_minutes`,`issued_at`,`expires_at`,`reason`) "
 			... "VALUES ('%s','%s','%s','%s',%d,%d,NULL,'%s')",
-			escClientName, sClientSteam, escAdminName, sAdminSteam, iDuration, iIssuedAt, escReason);
+			escClientName, escClientSteam, escAdminName, escAdminSteam, iDuration, iIssuedAt, escReason);
 	}
 
 	g_hDB.Query(DB_OnGenericError, sQuery, 0, DBPrio_Normal);
@@ -961,9 +966,11 @@ void Database_UpdateUnban(int target, int admin, const char[] reason)
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	GetClientAuthId(target, AuthId_Steam2, sClientSteam, sizeof(sClientSteam), true);
 
-	char escAdminName[65], escReason[129];
-	g_hDB.Escape(sAdminName, escAdminName, sizeof(escAdminName));
-	g_hDB.Escape(reason,     escReason,    sizeof(escReason));
+	char escAdminName[65], escReason[129], escAdminSteam[129], escClientSteam[129];
+	g_hDB.Escape(sAdminName,   escAdminName,   sizeof(escAdminName));
+	g_hDB.Escape(reason,       escReason,      sizeof(escReason));
+	g_hDB.Escape(sAdminSteam,  escAdminSteam,  sizeof(escAdminSteam));
+	g_hDB.Escape(sClientSteam, escClientSteam, sizeof(escClientSteam));
 
 	char sQuery[512];
 	FormatEx(sQuery, sizeof(sQuery),
@@ -971,7 +978,7 @@ void Database_UpdateUnban(int target, int admin, const char[] reason)
 		... " SET `unbanned_at`=%d, `unban_reason`='%s', `unban_admin_name`='%s', `unban_admin_steamid`='%s'"
 		... " WHERE `client_steamid`='%s' AND `unbanned_at` IS NULL"
 		... " ORDER BY `issued_at` DESC LIMIT 1",
-		GetTime(), escReason, escAdminName, sAdminSteam, sClientSteam);
+		GetTime(), escReason, escAdminName, escAdminSteam, escClientSteam);
 
 	g_hDB.Query(DB_OnGenericError, sQuery, 0, DBPrio_Normal);
 }
@@ -1136,13 +1143,25 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 	char sAdminName[32], sAdminSteam[64];
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 
-	char escAdmin[65], escClient[65], escReason[129];
-	g_hDB.Escape(sAdminName,          escAdmin,  sizeof(escAdmin));
-	g_hDB.Escape(player.szPlayerName, escClient, sizeof(escClient));
-	g_hDB.Escape(reason,              escReason, sizeof(escReason));
+	char escAdmin[65], escClient[65], escReason[129], escAdminSteam[129], escClientSteam[129];
+	g_hDB.Escape(sAdminName,             escAdmin,       sizeof(escAdmin));
+	g_hDB.Escape(player.szPlayerName,    escClient,      sizeof(escClient));
+	g_hDB.Escape(reason,                 escReason,      sizeof(escReason));
+	g_hDB.Escape(sAdminSteam,            escAdminSteam,  sizeof(escAdminSteam));
+	g_hDB.Escape(player.szPlayerSteamID, escClientSteam, sizeof(escClientSteam));
 
 	int iNow     = GetTime();
 	int iExpires = (iDuration > 0) ? (iNow + iDuration * 60) : 0;
+
+	// Supersede any existing active eban for this steamid so we never end up with
+	// multiple active rows (eunban / cleanup only clear one row at a time).
+	char sSupersede[512];
+	FormatEx(sSupersede, sizeof(sSupersede),
+		"UPDATE `EntWatch_Ebans`"
+		... " SET `unbanned_at`=%d, `unban_reason`='Superseded by new eban', `unban_admin_name`='%s', `unban_admin_steamid`='%s'"
+		... " WHERE `client_steamid`='%s' AND `unbanned_at` IS NULL",
+		iNow, escAdmin, escAdminSteam, escClientSteam);
+	g_hDB.Query(DB_OnGenericError, sSupersede, 0, DBPrio_Low);
 
 	char sQuery[1024];
 	if (iExpires > 0)
@@ -1151,7 +1170,7 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 			"INSERT INTO `EntWatch_Ebans` "
 			... "(`client_name`,`client_steamid`,`admin_name`,`admin_steamid`,`duration_minutes`,`issued_at`,`expires_at`,`reason`) "
 			... "VALUES ('%s','%s','%s','%s',%d,%d,%d,'%s')",
-			escClient, player.szPlayerSteamID, escAdmin, sAdminSteam, iDuration, iNow, iExpires, escReason);
+			escClient, escClientSteam, escAdmin, escAdminSteam, iDuration, iNow, iExpires, escReason);
 	}
 	else
 	{
@@ -1159,7 +1178,7 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 			"INSERT INTO `EntWatch_Ebans` "
 			... "(`client_name`,`client_steamid`,`admin_name`,`admin_steamid`,`duration_minutes`,`issued_at`,`expires_at`,`reason`) "
 			... "VALUES ('%s','%s','%s','%s',%d,%d,NULL,'%s')",
-			escClient, player.szPlayerSteamID, escAdmin, sAdminSteam, iDuration, iNow, escReason);
+			escClient, escClientSteam, escAdmin, escAdminSteam, iDuration, iNow, escReason);
 	}
 
 	g_hDB.Query(DB_OnGenericError, sQuery, 0, DBPrio_Low);
