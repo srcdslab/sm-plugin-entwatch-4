@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.0"
+#define EW_VERSION          "4.2.1"
 #define EW_VERSION_CONFIG   2
 
 

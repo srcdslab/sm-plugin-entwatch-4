@@ -129,6 +129,11 @@ public void Ew4_Restrictions_AskPluginLoad2()
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Restrictions_OnPluginStart()
 {
+	// Restrictions is a compiled-in module of EntWatch 4 (guarded by EW4_RESTRICTIONS at
+	// its include site). Register the library so the runtime LibraryExists("entWatch-restrictions")
+	// checks in menu-interface.inc resolve correctly.
+	RegPluginLibrary("entWatch-restrictions");
+
 	if (SQL_CheckConfig(EW_DB_NAME))
 		Database_Connect();
 	else
