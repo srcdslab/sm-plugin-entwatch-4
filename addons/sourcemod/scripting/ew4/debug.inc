@@ -7,33 +7,15 @@
 //====================================================================================================
 // Requires Sourcemod Version: 1.10.0.6531 or above
 //====================================================================================================
-#pragma semicolon 1
-#pragma newdecls required
-
-#include <sourcemod>
-#include <sdktools_tempents>
-#include <sdktools_tempents_stocks>
-#include <entWatch_core>
 
 /* INTERGERS */
-int g_iBeamSprite = -1;
-int g_iHaloSprite = -1;
+int g_iBeamSpriteDebug = -1;
+int g_iHaloSpriteDebug = -1;
 
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-public Plugin myinfo =
-{
-	name         = "[entWatch] Debug",
-	author       = "zaCade, Prometheum, koen",
-	description  = "Handle the debug functions of [entWatch]",
-	version      = EW_VERSION
-};
-
-//----------------------------------------------------------------------------------------------------
-// Purpose:
-//----------------------------------------------------------------------------------------------------
-public void OnPluginStart()
+public void Ew4_Debug_OnPluginStart()
 {
 	RegAdminCmd("sm_edebug_printitems",   Command_PrintItems,   ADMFLAG_CONFIG);
 	RegAdminCmd("sm_edebug_printconfigs", Command_PrintConfigs, ADMFLAG_CONFIG);
@@ -45,15 +27,15 @@ public void OnPluginStart()
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-public void OnMapStart()
+public void Ew4_Debug_OnMapStart()
 {
-	LoadGameConfig();
+	Ew4_Debug_LoadGameConfig();
 }
 
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-stock void LoadGameConfig()
+stock void Ew4_Debug_LoadGameConfig()
 {
 	GameData hGameConf;
 	if ((hGameConf = new GameData("funcommands.games")) == null)
@@ -64,10 +46,10 @@ stock void LoadGameConfig()
 
 	char sBuffer[PLATFORM_MAX_PATH];
 	if (hGameConf.GetKeyValue("SpriteBeam", sBuffer, sizeof(sBuffer)) && sBuffer[0])
-		g_iBeamSprite = PrecacheModel(sBuffer);
+		g_iBeamSpriteDebug = PrecacheModel(sBuffer);
 
 	if (hGameConf.GetKeyValue("SpriteHalo", sBuffer, sizeof(sBuffer)) && sBuffer[0])
-		g_iHaloSprite = PrecacheModel(sBuffer);
+		g_iHaloSpriteDebug = PrecacheModel(sBuffer);
 
 	delete hGameConf;
 }
@@ -240,7 +222,7 @@ public Action Command_LoadConfig(int iClient, int iArgs)
 {
 	bool bSuccessful = EW_LoadConfig(true);
 
-	ReplyToCommand(iClient, "\x04[entWatch] \x01loaded map config. (Status: %s)", bSuccessful ? "Successful" : "Failed");
+	CPrintToChat(iClient, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Debug_LoadConfig_Result", bSuccessful ? "Successful" : "Failed");
 	LogAction(iClient, -1, "\"%L\" loaded map config.", iClient);
 
 	return Plugin_Handled;
@@ -286,21 +268,13 @@ public Action Command_TraceItems(int iClient, int iArgs)
 			iColor[2] = iColorDecimal >> 0  & 0xFF;
 			iColor[3] = 0xFF;
 
-			TE_SetupBeamPoints(flOriginStart, flOriginEnd, g_iBeamSprite, g_iHaloSprite, 0, 10, 5.0, 2.0, 2.0, 0, 0.5, iColor, 10);
+			TE_SetupBeamPoints(flOriginStart, flOriginEnd, g_iBeamSpriteDebug, g_iHaloSpriteDebug, 0, 10, 5.0, 2.0, 2.0, 0, 0.5, iColor, 10);
 			TE_SendToClient(iClient);
 		}
 	}
 
-	ReplyToCommand(iClient, "\x04[entWatch] \x01items traced.");
+	CPrintToChat(iClient, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Debug_TraceItems_Done");
 	LogAction(iClient, -1, "\"%L\" traced items.", iClient);
 
 	return Plugin_Handled;
-}
-
-//----------------------------------------------------------------------------------------------------
-// Purpose:
-//----------------------------------------------------------------------------------------------------
-stock bool IsValidClient(int iClient)
-{
-	return ((1 <= iClient <= MaxClients) && IsClientConnected(iClient));
 }

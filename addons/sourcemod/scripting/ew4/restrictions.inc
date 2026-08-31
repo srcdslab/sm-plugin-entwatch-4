@@ -5,19 +5,13 @@
 // Description: Handle the restrictions of [entWatch]
 //
 //====================================================================================================
-
-#pragma semicolon 1
-#pragma newdecls required
-
-#include <sourcemod>
-#include <sdkhooks>
-#include <sdktools>
-#include <entWatch_core>
-
+// Requires Sourcemod Version: 1.10.0.6531 or above
+// Requires: multicolors (https://github.com/srcdslab/sm-plugin-MultiColors)
+//====================================================================================================
 #define EW_DB_NAME             "EntWatch4"
 #define EW_DB_CHARSET          "utf8mb4"
 #define EW_DB_COLLATION        "utf8mb4_unicode_ci"
-#define EW_SESSION_BAN_TIMEOUT 90
+#define EW_SESSION_BAN_TIMEOUT 90        // seconds after disconnect before a session ban is cleaned up
 #define EW_CONSOLE_NAME        "Console"
 #define EW_SERVER_STEAMID      "SERVER"
 
@@ -31,9 +25,9 @@ enum struct ClientSettings_Restrict
 	char szAdminName[32];
 	char szAdminSteamID[64];
 	char szReason[64];
-	int  iDuration;
-	int  iIssuedAt;
-	int  iExpiresAt;
+	int  iDuration;     // -1=session, 0=perma, >0=minutes
+	int  iIssuedAt;     // unix timestamp of ban
+	int  iExpiresAt;    // unix timestamp of expiry (0 if perma/session)
 	int  intTotalEbans;
 
 	void Reset()
@@ -56,8 +50,8 @@ enum struct OfflinePlayerData
 	char szPlayerSteamID[64];
 	char szLastItem[32];
 	int  iUserID;
-	int  iTrackedUntil;
-	int  iDisconnectedAt;
+	int  iTrackedUntil;   // unix timestamp after which we stop tracking, -1 = still connected
+	int  iDisconnectedAt; // unix timestamp of disconnect, -1 = still connected
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -80,7 +74,6 @@ ConVar g_hCVar_DropOnEBan;
 ConVar g_hCVar_OfflineClearRecords;
 ConVar g_hCVar_Admin_OfflineLong;
 
-bool g_bLate = false;
 bool g_bUseReasonMenu = false;
 bool g_bEbanInvalidSteamID = true;
 bool g_bDetailedStatus = false;
@@ -118,20 +111,9 @@ GlobalForward g_hFwd_OnUnrestrictBroadcast;
 GlobalForward g_hFwd_OnOfflineRestrictBroadcast;
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Plugin info
-//----------------------------------------------------------------------------------------------------
-public Plugin myinfo =
-{
-	name        = "[entWatch] Restrictions",
-	author      = "zaCade, Prometheum, koen, Rushaway",
-	description = "Handle the restrictions of [entWatch]",
-	version     = EW_VERSION
-};
-
-//----------------------------------------------------------------------------------------------------
 // Purpose: Register natives and library
 //----------------------------------------------------------------------------------------------------
-public APLRes AskPluginLoad2(Handle hMyself, bool bLate, char[] sError, int errorSize)
+public void Ew4_Restrictions_AskPluginLoad2()
 {
 	CreateNative("EW_ClientRestrict",     Native_ClientRestrict);
 	CreateNative("EW_ClientUnrestrict",   Native_ClientUnrestrict);
@@ -140,16 +122,12 @@ public APLRes AskPluginLoad2(Handle hMyself, bool bLate, char[] sError, int erro
 	CreateNative("EW_GetClientBanInfo",   Native_GetClientBanInfo);
 	CreateNative("EW_ShowBanReasonMenu",   Native_ShowBanReasonMenu);
 	CreateNative("EW_ShowUnbanReasonMenu", Native_ShowUnbanReasonMenu);
-
-	RegPluginLibrary("entWatch-restrictions");
-	g_bLate = bLate;
-	return APLRes_Success;
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Initialize plugin, setup database and commands
+// Purpose: Initialize plugin, load translations, setup database and commands
 //----------------------------------------------------------------------------------------------------
-public void OnPluginStart()
+public void Ew4_Restrictions_OnPluginStart()
 {
 	if (SQL_CheckConfig(EW_DB_NAME))
 		Database_Connect();
@@ -174,29 +152,30 @@ public void OnPluginStart()
 	g_hCVar_OfflineClearRecords = CreateConVar("sm_eban_offline_cache_minutes",     "30",                    "Track disconnected players for X minutes (1-240)",            _, true, 1.0, true, 240.0);
 	g_hCVar_Admin_OfflineLong   = CreateConVar("sm_eban_offline_admin_max_minutes", "720",                   "Max minutes non-root admins can offline eban",                _, true, 1.0);
 
-	g_hCVar_UseReasonMenu.AddChangeHook(OnCvarChanged);
-	g_hCVar_DefaultBanReason.AddChangeHook(OnCvarChanged);
-	g_hCVar_DefaultUnbanReason.AddChangeHook(OnCvarChanged);
-	g_hCVar_DefaultBanTime.AddChangeHook(OnCvarChanged);
-	g_hCVar_AdminBanLong.AddChangeHook(OnCvarChanged);
-	g_hCVar_EbanInvalidSteamID.AddChangeHook(OnCvarChanged);
-	g_hCVar_MaxBanTime.AddChangeHook(OnCvarChanged);
-	g_hCVar_DetailedStatus.AddChangeHook(OnCvarChanged);
-	g_hCVar_DropOnEBan.AddChangeHook(OnCvarChanged);
-	g_hCVar_OfflineClearRecords.AddChangeHook(OnCvarChanged);
-	g_hCVar_Admin_OfflineLong.AddChangeHook(OnCvarChanged);
+	g_hCVar_UseReasonMenu.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_DefaultBanReason.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_DefaultUnbanReason.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_DefaultBanTime.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_AdminBanLong.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_EbanInvalidSteamID.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_MaxBanTime.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_DetailedStatus.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_DropOnEBan.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_OfflineClearRecords.AddChangeHook(OnRestrictionsCvarChanged);
+	g_hCVar_Admin_OfflineLong.AddChangeHook(OnRestrictionsCvarChanged);
 
-	g_bUseReasonMenu      = g_hCVar_UseReasonMenu.BoolValue;
-	g_iDefaultBanTime     = g_hCVar_DefaultBanTime.IntValue;
-	g_iAdminBanLong       = g_hCVar_AdminBanLong.IntValue;
+	// Cache cvar values
+	g_bUseReasonMenu  = g_hCVar_UseReasonMenu.BoolValue;
+	g_iDefaultBanTime = g_hCVar_DefaultBanTime.IntValue;
+	g_iAdminBanLong   = g_hCVar_AdminBanLong.IntValue;
 	g_bEbanInvalidSteamID = g_hCVar_EbanInvalidSteamID.BoolValue;
-	g_iMaxBanTime         = g_hCVar_MaxBanTime.IntValue;
-	g_bDetailedStatus     = g_hCVar_DetailedStatus.BoolValue;
-	g_bDropItemOnEBan     = g_hCVar_DropOnEBan.BoolValue;
+	g_iMaxBanTime     = g_hCVar_MaxBanTime.IntValue;
+	g_bDetailedStatus = g_hCVar_DetailedStatus.BoolValue;
+	g_bDropItemOnEBan = g_hCVar_DropOnEBan.BoolValue;
 	g_hCVar_DefaultBanReason.GetString(g_sDefaultBanReason, sizeof(g_sDefaultBanReason));
 	g_hCVar_DefaultUnbanReason.GetString(g_sDefaultUnbanReason, sizeof(g_sDefaultUnbanReason));
-	g_iOfflineTimeClear   = g_hCVar_OfflineClearRecords.IntValue;
-	g_iOfflineTimeLong    = g_hCVar_Admin_OfflineLong.IntValue;
+	g_iOfflineTimeClear = g_hCVar_OfflineClearRecords.IntValue;
+	g_iOfflineTimeLong  = g_hCVar_Admin_OfflineLong.IntValue;
 
 	RegAdminCmd("sm_eban",   Command_ClientRestrict,        ADMFLAG_BAN);
 	RegAdminCmd("sm_eunban", Command_ClientUnrestrict,      ADMFLAG_UNBAN);
@@ -205,29 +184,17 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_restrictions", Command_DisplayRestrictions);
 	RegConsoleCmd("sm_status",       Command_DisplayStatus);
 
-	CreateTimer(30.0, Timer_Refresh,             _, TIMER_REPEAT);
-	CreateTimer(60.0, Timer_OfflineEban_Cleanup, _, TIMER_REPEAT);
+	CreateTimer(30.0, Timer_Refresh,               _, TIMER_REPEAT);
+	CreateTimer(60.0, Timer_OfflineEban_Cleanup,   _, TIMER_REPEAT);
 
 	if (g_OfflineArray == null)
 		g_OfflineArray = new ArrayList(sizeof(OfflinePlayerData));
-
-	if (!g_bLate)
-		return;
-
-	for (int client = 1; client <= MaxClients; client++)
-	{
-		if (!IsClientConnected(client) || !IsClientInGame(client) || IsFakeClient(client))
-			continue;
-
-		OfflinePlayer_TrackOrUpdate(client, "None", true);
-		Database_FetchClientBan(client);
-	}
 }
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Cvar change hook
 //----------------------------------------------------------------------------------------------------
-void OnCvarChanged(ConVar convar, const char[] oldValue, const char[] newValue)
+void OnRestrictionsCvarChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
 	if (convar == g_hCVar_UseReasonMenu)
 		g_bUseReasonMenu = g_hCVar_UseReasonMenu.BoolValue;
@@ -256,7 +223,7 @@ void OnCvarChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Disconnect DB on unload
 //----------------------------------------------------------------------------------------------------
-public void OnPluginEnd()
+public void Ew4_Restrictions_OnPluginEnd()
 {
 	Database_Disconnect();
 }
@@ -264,7 +231,7 @@ public void OnPluginEnd()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Reset state on map change
 //----------------------------------------------------------------------------------------------------
-public void OnMapStart()
+public void Ew4_Restrictions_OnMapStart()
 {
 	g_bCleanedUpOnMapStart = false;
 	g_iCleanupRetryAttempts = 0;
@@ -274,7 +241,7 @@ public void OnMapStart()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Start tracking player and queue DB fetch
 //----------------------------------------------------------------------------------------------------
-public void OnClientPostAdminCheck(int client)
+public void Ew4_Restrictions_OnClientPostAdminCheck(int client)
 {
 	if (IsFakeClient(client))
 		return;
@@ -286,7 +253,7 @@ public void OnClientPostAdminCheck(int client)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Clean up on disconnect
 //----------------------------------------------------------------------------------------------------
-public void OnClientDisconnect(int client)
+public void Ew4_Restrictions_OnClientDisconnect(int client)
 {
 	g_RestrictClients[client].Reset();
 	OfflinePlayer_OnClientDisconnect(client);
@@ -318,7 +285,7 @@ public Action Command_ClientRestrict(int client, int args)
 {
 	if (GetCmdArgs() < 1)
 	{
-		ReplyToCommand(client, "Usage: sm_eban <#userid/name> [duration] [reason]");
+		CReplyToCommand(client, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrict_Usage");
 		return Plugin_Handled;
 	}
 
@@ -341,7 +308,7 @@ public Action Command_ClientRestrict(int client, int args)
 	{
 		char sName[MAX_NAME_LENGTH];
 		GetClientName(target, sName, sizeof(sName));
-		ReplyToCommand(client, "%s is already restricted.", sName);
+		CReplyToCommand(client, "{#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sName, g_clr.sWarning, "EW_Restrict_AlreadyRestricted");
 		return Plugin_Handled;
 	}
 
@@ -361,7 +328,7 @@ public Action Command_ClientRestrict(int client, int args)
 
 	if (iDuration < -1 || (g_iMaxBanTime != 0 && iDuration > g_iMaxBanTime))
 	{
-		ReplyToCommand(client, "Invalid duration. Must be -1 to %d (0=permanent, -1=session).", g_iMaxBanTime);
+		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrict_InvalidDuration", g_clr.sAuthID, g_iMaxBanTime, g_clr.sWarning, "EW_Minutes");
 		return Plugin_Handled;
 	}
 
@@ -389,7 +356,7 @@ public Action Command_ClientUnrestrict(int client, int args)
 {
 	if (GetCmdArgs() < 1)
 	{
-		ReplyToCommand(client, "Usage: sm_eunban <#userid/name> [reason]");
+		CReplyToCommand(client, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Unrestrict_Usage");
 		return Plugin_Handled;
 	}
 
@@ -405,7 +372,7 @@ public Action Command_ClientUnrestrict(int client, int args)
 	{
 		char sName[MAX_NAME_LENGTH];
 		GetClientName(target, sName, sizeof(sName));
-		ReplyToCommand(client, "%s is not currently restricted.", sName);
+		CReplyToCommand(client, "{#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sName, g_clr.sWarning, "EW_Unrestrict_NotRestricted");
 		return Plugin_Handled;
 	}
 
@@ -444,10 +411,10 @@ public Action Command_DisplayRestrictions(int client, int args)
 	if (strlen(aBuf) > 2)
 	{
 		aBuf[strlen(aBuf) - 2] = '\0';
-		ReplyToCommand(client, "Currently restricted: %s", aBuf);
+		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrictions_List", g_clr.sName, aBuf);
 	}
 	else
-		ReplyToCommand(client, "No players are currently restricted.");
+		CReplyToCommand(client, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrictions_None");
 
 	return Plugin_Handled;
 }
@@ -469,7 +436,7 @@ public Action Command_DisplayStatus(int client, int args)
 
 	if (!IsValidClient(target))
 	{
-		ReplyToCommand(client, "Player is not valid.");
+		CReplyToCommand(client, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_InvalidPlayer");
 		return Plugin_Handled;
 	}
 
@@ -477,37 +444,37 @@ public Action Command_DisplayStatus(int client, int args)
 	GetClientName(target, sName, sizeof(sName));
 
 	int iTotalEbans = g_RestrictClients[target].intTotalEbans;
-	ReplyToCommand(client, "%s has %d total eban%s.", sName, iTotalEbans, iTotalEbans != 1 ? "s" : "");
+	CReplyToCommand(client, "{#%s}%t {#%s}%s {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sName, g_clr.sWarning, "EW_Status_TotalEbans", g_clr.sAuthID, iTotalEbans, g_clr.sWarning, "EW_Status_TotalEbans_Suffix");
 
 	if (!g_RestrictClients[target].bRestricted)
 	{
-		ReplyToCommand(client, "%s is not currently restricted.", sName);
+		CReplyToCommand(client, "{#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sName, g_clr.sWarning, "EW_Status_NotRestricted");
 		return Plugin_Handled;
 	}
 
-	ReplyToCommand(client, "%s is currently restricted.", sName);
-	ReplyToCommand(client, "Reason: %s", g_RestrictClients[target].szReason);
+	CReplyToCommand(client, "{#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sName, g_clr.sWarning, "EW_Status_IsRestricted");
+	CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Reason", g_clr.sName, g_RestrictClients[target].szReason);
 
 	if (!g_bDetailedStatus)
 		return Plugin_Handled;
 
-	ReplyToCommand(client, "Admin: %s (%s)", g_RestrictClients[target].szAdminName, g_RestrictClients[target].szAdminSteamID);
+	CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s {#%s}(%s)", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_RestrictedBy", g_clr.sName, g_RestrictClients[target].szAdminName, g_clr.sAuthID, g_RestrictClients[target].szAdminSteamID);
 
 	char sIssuedBuf[64];
 	FormatTime(sIssuedBuf, sizeof(sIssuedBuf), NULL_STRING, g_RestrictClients[target].iIssuedAt);
-	ReplyToCommand(client, "Issued: %s", sIssuedBuf);
+	CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_IssuedAt", g_clr.sAuthID, sIssuedBuf);
 
 	switch (g_RestrictClients[target].iDuration)
 	{
 		case -1:
 		{
-			ReplyToCommand(client, "Duration: Temporary (Session)");
-			ReplyToCommand(client, "Expires: End of session");
+			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Session");
+			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_Session");
 		}
 		case 0:
 		{
-			ReplyToCommand(client, "Duration: Permanent");
-			ReplyToCommand(client, "Expires: Never");
+			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Permanent");
+			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_Never");
 		}
 		default:
 		{
@@ -515,11 +482,11 @@ public Action Command_DisplayStatus(int client, int args)
 			if (iTimeLeft > 0)
 			{
 				char sTimeLeft[64], sExpireBuf[64];
-				FormatTimeLeft(iTimeLeft, sTimeLeft, sizeof(sTimeLeft));
+				FormatTimeLeft(iTimeLeft, sTimeLeft, sizeof(sTimeLeft), client);
 				FormatTime(sExpireBuf, sizeof(sExpireBuf), NULL_STRING, g_RestrictClients[target].iExpiresAt);
 
-				ReplyToCommand(client, "Duration: %d minutes", g_RestrictClients[target].iDuration);
-				ReplyToCommand(client, "Expires: %s (%s remaining)", sExpireBuf, sTimeLeft);
+				CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, g_RestrictClients[target].iDuration, g_clr.sWarning, "EW_Minutes");
+				CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s {#%s}(%s {#%s}%t)", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, sExpireBuf, g_clr.sAuthID, sTimeLeft, g_clr.sWarning, "EW_Status_Expires_Remaining");
 			}
 		}
 	}
@@ -557,7 +524,7 @@ public bool EW_OnClientItemTriggerCanInteract(int iClient, CItemTrigger hItem)
 	return !IsRestrictedClient(iClient);
 }
 
-public void EW_OnClientItemWeaponInteract(int iClient, CItem hItem, int iType)
+public void Ew4_Restrictions_OnClientItemWeaponInteract(int iClient, CItem hItem, int iType)
 {
 	if (iType != EW_WEAPON_INTERACTION_PICKUP || IsFakeClient(iClient) || hItem.hConfig == null)
 		return;
@@ -571,6 +538,9 @@ public void EW_OnClientItemWeaponInteract(int iClient, CItem hItem, int iType)
 // CORE RESTRICT / UNRESTRICT
 //====================================================================================================
 
+//----------------------------------------------------------------------------------------------------
+// Purpose: Apply restriction to a connected client
+//----------------------------------------------------------------------------------------------------
 stock bool ClientRestrict(int admin, int target, int iDuration, const char[] reason)
 {
 	if (!IsValidClient(target) || IsRestrictedClient(target))
@@ -616,6 +586,9 @@ stock bool ClientRestrict(int admin, int target, int iDuration, const char[] rea
 	return true;
 }
 
+//----------------------------------------------------------------------------------------------------
+// Purpose: Remove restriction from a connected client
+//----------------------------------------------------------------------------------------------------
 stock bool ClientUnrestrict(int admin, int target, const char[] reason)
 {
 	if (!IsValidClient(target) || !IsRestrictedClient(target))
@@ -648,11 +621,17 @@ stock bool ClientUnrestrict(int admin, int target, const char[] reason)
 	return true;
 }
 
+//----------------------------------------------------------------------------------------------------
+// Purpose: Check if client is restricted
+//----------------------------------------------------------------------------------------------------
 stock bool IsRestrictedClient(int client)
 {
 	return IsValidClient(client) && g_RestrictClients[client].bRestricted;
 }
 
+//----------------------------------------------------------------------------------------------------
+// Purpose: Drop all special EntWatch items from a client
+//----------------------------------------------------------------------------------------------------
 void DropClientItems(int client)
 {
 	if (!IsValidClient(client) || !EW_ClientHasItem(client))
@@ -661,7 +640,7 @@ void DropClientItems(int client)
 	char sClassname[32];
 	for (int slot = 0; slot <= 4; slot++)
 	{
-		if (slot == 2)
+		if (slot == 2) // never drop knife
 			continue;
 
 		int weapon = GetPlayerWeaponSlot(client, slot);
@@ -871,14 +850,12 @@ void Database_FetchClientBan(int client)
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);
 
 	FormatEx(sQuery, sizeof(sQuery),
-		"SELECT `admin_name`, `admin_steamid`, `duration_minutes`, `issued_at`, `expires_at`, `reason`,"
+		"SELECT `admin_name`, `admin_steamid`, `duration_minutes`, `issued_at`, `expires_at`, `reason`, `unbanned_at`,"
 		... " (SELECT COUNT(*) FROM `EntWatch_Ebans` WHERE `client_steamid` = '%s') AS total_ebans"
 		... " FROM `EntWatch_Ebans`"
 		... " WHERE `client_steamid` = '%s'"
-		... "   AND `unbanned_at` IS NULL"
-		... "   AND (`expires_at` IS NULL OR `expires_at` > %d)"
 		... " ORDER BY `issued_at` DESC LIMIT 1",
-		sSteam, sSteam, GetTime());
+		sSteam, sSteam);
 
 	g_hDB.Query(DB_OnFetchClientBan, sQuery, GetClientUserId(client), DBPrio_Normal);
 }
@@ -899,13 +876,7 @@ public void DB_OnFetchClientBan(Database db, DBResultSet results, const char[] e
 
 	if (!results.FetchRow())
 	{
-		g_RestrictClients[client].bRestricted       = false;
-		g_RestrictClients[client].szAdminName[0]    = '\0';
-		g_RestrictClients[client].szAdminSteamID[0] = '\0';
-		g_RestrictClients[client].szReason[0]       = '\0';
-		g_RestrictClients[client].iDuration         = 0;
-		g_RestrictClients[client].iIssuedAt         = 0;
-		g_RestrictClients[client].iExpiresAt        = 0;
+		g_RestrictClients[client].bRestricted = false;
 		return;
 	}
 
@@ -916,13 +887,30 @@ public void DB_OnFetchClientBan(Database db, DBResultSet results, const char[] e
 	int iIssuedAt   = results.FetchInt(3);
 	int iExpiresAt  = results.IsFieldNull(4) ? 0 : results.FetchInt(4);
 	results.FetchString(5, reason, sizeof(reason));
-	int iTotalEbans = results.FetchInt(6);
+	bool bUnbanned  = !results.IsFieldNull(6);
+	int iTotalEbans = results.FetchInt(7);
 
-	g_RestrictClients[client].bRestricted    = true;
-	g_RestrictClients[client].iDuration      = iDuration;
-	g_RestrictClients[client].iIssuedAt      = iIssuedAt;
-	g_RestrictClients[client].iExpiresAt     = iExpiresAt;
-	g_RestrictClients[client].intTotalEbans  = iTotalEbans;
+	g_RestrictClients[client].intTotalEbans = iTotalEbans;
+
+	int iNow = GetTime();
+	bool bActive = !bUnbanned && (iExpiresAt == 0 || iNow < iExpiresAt);
+
+	if (!bActive)
+	{
+		g_RestrictClients[client].bRestricted       = false;
+		g_RestrictClients[client].szAdminName[0]    = '\0';
+		g_RestrictClients[client].szAdminSteamID[0] = '\0';
+		g_RestrictClients[client].szReason[0]       = '\0';
+		g_RestrictClients[client].iDuration         = 0;
+		g_RestrictClients[client].iIssuedAt         = 0;
+		g_RestrictClients[client].iExpiresAt        = 0;
+		return;
+	}
+
+	g_RestrictClients[client].bRestricted = true;
+	g_RestrictClients[client].iDuration   = iDuration;
+	g_RestrictClients[client].iIssuedAt   = iIssuedAt;
+	g_RestrictClients[client].iExpiresAt  = iExpiresAt;
 	strcopy(g_RestrictClients[client].szAdminName,    sizeof(g_RestrictClients[client].szAdminName),    adminName);
 	strcopy(g_RestrictClients[client].szAdminSteamID, sizeof(g_RestrictClients[client].szAdminSteamID), adminSteam);
 	strcopy(g_RestrictClients[client].szReason,       sizeof(g_RestrictClients[client].szReason),       reason);
@@ -1090,8 +1078,8 @@ void OfflinePlayer_TrackOrUpdate(int client, const char[] itemName, bool bIsConn
 	}
 
 	OfflinePlayerData newP;
-	newP.iUserID         = GetClientUserId(client);
-	newP.iTrackedUntil   = -1;
+	newP.iUserID        = GetClientUserId(client);
+	newP.iTrackedUntil  = -1;
 	newP.iDisconnectedAt = -1;
 	strcopy(newP.szPlayerName,    sizeof(newP.szPlayerName),    sName);
 	strcopy(newP.szPlayerSteamID, sizeof(newP.szPlayerSteamID), sSteam);
@@ -1138,7 +1126,7 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 {
 	if (g_eDBState != EbanDB_Connected)
 	{
-		ReplyToCommand(admin, "Database is not connected.");
+		CReplyToCommand(admin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_DB_NotConnected");
 		return;
 	}
 
@@ -1176,6 +1164,23 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 
 	g_hDB.Query(DB_OnGenericError, sQuery, 0, DBPrio_Low);
 
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (!IsClientInGame(i))
+			continue;
+
+		if (iDuration == 0)
+		{
+			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminName, g_clr.sWarning, "EW_Restricted", g_clr.sWarning, "EW_Offline", g_clr.sName, player.szPlayerName, g_clr.sWarning, "EW_Permanently");
+			CPrintToChat(i, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Reason", g_clr.sName, reason);
+		}
+		else
+		{
+			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%t {#%s}%s {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminName, g_clr.sWarning, "EW_Restricted", g_clr.sWarning, "EW_Offline", g_clr.sName, player.szPlayerName, g_clr.sWarning, "EW_For", g_clr.sAuthID, iDuration, g_clr.sWarning, "EW_Minutes");
+			CPrintToChat(i, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Reason", g_clr.sName, reason);
+		}
+	}
+
 	Call_StartForward(g_hFwd_OnOfflineRestrictBroadcast);
 	Call_PushCell(admin);
 	Call_PushCell(iDuration);
@@ -1208,15 +1213,17 @@ void Menu_ShowBanReasonSelection(int admin, int target, int iDuration)
 	char sName[MAX_NAME_LENGTH], sTitle[128];
 	GetClientName(target, sName, sizeof(sName));
 
+	SetGlobalTransTarget(admin);
 	if (iDuration == -1)
-		FormatEx(sTitle, sizeof(sTitle), "Restrict %s (Session)", sName);
+		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_BanReason_Title_Session",  sName);
 	else if (iDuration == 0)
-		FormatEx(sTitle, sizeof(sTitle), "Restrict %s (Permanent)", sName);
+		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_BanReason_Title_Permanent", sName);
 	else
-		FormatEx(sTitle, sizeof(sTitle), "Restrict %s (%d min)", sName, iDuration);
+		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_BanReason_Title_Duration",  sName, iDuration);
 
 	hMenu.SetTitle(sTitle);
 
+	// Reason keys match phrase names directly — translated at display time
 	static const char sReasonKeys[][64] =
 	{
 		"Item misuse",
@@ -1229,13 +1236,16 @@ void Menu_ShowBanReasonSelection(int admin, int target, int iDuration)
 		"Other"
 	};
 
-	char sIndex[96];
+	char sIndex[96], sDisplay[64];
 	int targetUserId = GetClientUserId(target);
 
+	SetGlobalTransTarget(admin);
 	for (int i = 0; i < sizeof(sReasonKeys); i++)
 	{
-		FormatEx(sIndex, sizeof(sIndex), "%d/%d/%s", iDuration, targetUserId, sReasonKeys[i]);
-		hMenu.AddItem(sIndex, sReasonKeys[i]);
+		// Store raw English key as value — the reason stored in DB is always English
+		FormatEx(sIndex,   sizeof(sIndex),   "%d/%d/%s", iDuration, targetUserId, sReasonKeys[i]);
+		FormatEx(sDisplay, sizeof(sDisplay), "%t", sReasonKeys[i]);
+		hMenu.AddItem(sIndex, sDisplay);
 	}
 
 	hMenu.Display(admin, MENU_TIME_FOREVER);
@@ -1259,7 +1269,7 @@ public int MenuHandler_BanReasonSelection(Menu hMenu, MenuAction hAction, int pa
 			if (IsValidClient(target))
 				ClientRestrict(param1, target, iDuration, parts[2]);
 			else
-				ReplyToCommand(param1, "Player is no longer valid.");
+				CReplyToCommand(param1, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Error_PlayerInvalid");
 		}
 	}
 	return 0;
@@ -1271,7 +1281,10 @@ void Menu_ShowUnbanReasonSelection(int admin, int target)
 
 	char sName[MAX_NAME_LENGTH], sTitle[128];
 	GetClientName(target, sName, sizeof(sName));
-	FormatEx(sTitle, sizeof(sTitle), "Unrestrict %s", sName);
+
+	SetGlobalTransTarget(admin);
+	FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_UnbanReason_Title", sName);
+
 	hMenu.SetTitle(sTitle);
 
 	static const char sReasonKeys[][64] =
@@ -1283,13 +1296,14 @@ void Menu_ShowUnbanReasonSelection(int admin, int target)
 		"Other"
 	};
 
-	char sIndex[96];
+	char sIndex[96], sDisplay[64];
 	int targetUserId = GetClientUserId(target);
 
 	for (int i = 0; i < sizeof(sReasonKeys); i++)
 	{
-		FormatEx(sIndex, sizeof(sIndex), "%d/%s", targetUserId, sReasonKeys[i]);
-		hMenu.AddItem(sIndex, sReasonKeys[i]);
+		FormatEx(sIndex,   sizeof(sIndex),   "%d/%s", targetUserId, sReasonKeys[i]);
+		FormatEx(sDisplay, sizeof(sDisplay), "%t", sReasonKeys[i]);
+		hMenu.AddItem(sIndex, sDisplay);
 	}
 
 	hMenu.Display(admin, MENU_TIME_FOREVER);
@@ -1311,7 +1325,7 @@ public int MenuHandler_UnbanReasonSelection(Menu hMenu, MenuAction hAction, int 
 			if (IsValidClient(target))
 				ClientUnrestrict(param1, target, parts[1]);
 			else
-				ReplyToCommand(param1, "Player is no longer valid.");
+				CReplyToCommand(param1, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Error_PlayerInvalid");
 		}
 	}
 	return 0;
@@ -1320,7 +1334,11 @@ public int MenuHandler_UnbanReasonSelection(Menu hMenu, MenuAction hAction, int 
 void Menu_ShowOfflinePlayerList(int client)
 {
 	Menu hMenu = new Menu(MenuHandler_OfflinePlayerList);
-	hMenu.SetTitle("Offline Players");
+
+	char sTitle[128];
+	SetGlobalTransTarget(client);
+	FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_Offline_Title");
+	hMenu.SetTitle(sTitle);
 	hMenu.ExitButton = true;
 
 	int  iNow   = GetTime();
@@ -1335,14 +1353,18 @@ void Menu_ShowOfflinePlayerList(int client)
 
 		char sIndex[16], sDisplay[64];
 		int minsAgo = (iNow - p.iDisconnectedAt) / 60;
-		FormatEx(sDisplay, sizeof(sDisplay), "%s #%d (%d min ago)", p.szPlayerName, p.iUserID, minsAgo);
+		FormatEx(sDisplay, sizeof(sDisplay), "%t", "EW_Menu_Offline_EntryFormat", p.szPlayerName, p.iUserID, minsAgo);
 		FormatEx(sIndex, sizeof(sIndex), "%d", p.iUserID);
 		hMenu.AddItem(sIndex, sDisplay);
 		bFound = true;
 	}
 
 	if (!bFound)
-		hMenu.AddItem("", "No offline players tracked.", ITEMDRAW_DISABLED);
+	{
+		char sNone[64];
+		FormatEx(sNone, sizeof(sNone), "%t", "EW_Menu_Offline_NoPlayers");
+		hMenu.AddItem("", sNone, ITEMDRAW_DISABLED);
+	}
 
 	hMenu.Display(client, MENU_TIME_FOREVER);
 }
@@ -1370,7 +1392,7 @@ public int MenuHandler_OfflinePlayerList(Menu menu, MenuAction action, int param
 				Menu_ShowOfflinePlayerDetails(param1);
 				return 0;
 			}
-			ReplyToCommand(param1, "Player is no longer tracked.");
+			CReplyToCommand(param1, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Error_PlayerNoLongerTracked");
 		}
 	}
 	return 0;
@@ -1383,23 +1405,26 @@ void Menu_ShowOfflinePlayerDetails(int client)
 
 	char sTitle[128], sText[128];
 
-	FormatEx(sTitle, sizeof(sTitle), "Details: %s", g_aMenuBuffer[client].szPlayerName);
+	SetGlobalTransTarget(client);
+
+	FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_OfflineDetails_Title", g_aMenuBuffer[client].szPlayerName);
 	hMenu.SetTitle(sTitle);
 
-	FormatEx(sText, sizeof(sText), "Name: %s (#%d)", g_aMenuBuffer[client].szPlayerName, g_aMenuBuffer[client].iUserID);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDetails_Name", g_aMenuBuffer[client].szPlayerName, g_aMenuBuffer[client].iUserID);
 	hMenu.AddItem("", sText, ITEMDRAW_DISABLED);
 
-	FormatEx(sText, sizeof(sText), "SteamID: %s", g_aMenuBuffer[client].szPlayerSteamID);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDetails_SteamID", g_aMenuBuffer[client].szPlayerSteamID);
 	hMenu.AddItem("", sText, ITEMDRAW_DISABLED);
 
 	int minsAgo = (GetTime() - g_aMenuBuffer[client].iDisconnectedAt) / 60;
-	FormatEx(sText, sizeof(sText), "Disconnected: %d min ago", minsAgo);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDetails_Disconnected", minsAgo);
 	hMenu.AddItem("", sText, ITEMDRAW_DISABLED);
 
-	FormatEx(sText, sizeof(sText), "Last item: %s", g_aMenuBuffer[client].szLastItem);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDetails_LastItem", g_aMenuBuffer[client].szLastItem);
 	hMenu.AddItem("", sText, ITEMDRAW_DISABLED);
 
-	hMenu.AddItem("ban", "Restrict this player");
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDetails_BanButton");
+	hMenu.AddItem("ban", sText);
 
 	hMenu.Display(client, MENU_TIME_FOREVER);
 }
@@ -1424,16 +1449,19 @@ void Menu_ShowOfflinePlayerDuration(int client)
 	Menu hMenu = new Menu(MenuHandler_OfflinePlayerDuration);
 	hMenu.ExitBackButton = true;
 
-	char sTitle[128];
-	FormatEx(sTitle, sizeof(sTitle), "Duration for %s", g_aMenuBuffer[client].szPlayerName);
+	char sTitle[128], sText[64];
+
+	SetGlobalTransTarget(client);
+
+	FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_OfflineDuration_Title", g_aMenuBuffer[client].szPlayerName);
 	hMenu.SetTitle(sTitle);
 
-	hMenu.AddItem("10",    "10 minutes");
-	hMenu.AddItem("60",    "1 hour");
-	hMenu.AddItem("1440",  "1 day");
-	hMenu.AddItem("10080", "1 week");
-	hMenu.AddItem("40320", "1 month");
-	hMenu.AddItem("0",     "Permanent");
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDuration_10min");    hMenu.AddItem("10",    sText);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDuration_1Hour");    hMenu.AddItem("60",    sText);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDuration_1Day");     hMenu.AddItem("1440",  sText);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDuration_1Week");    hMenu.AddItem("10080", sText);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDuration_1Month");   hMenu.AddItem("40320", sText);
+	FormatEx(sText, sizeof(sText), "%t", "EW_Menu_OfflineDuration_Permanent");hMenu.AddItem("0",     sText);
 
 	hMenu.Display(client, MENU_TIME_FOREVER);
 }
@@ -1464,12 +1492,14 @@ void Menu_ShowOfflinePlayerReason(int client, int iDuration)
 	Menu hMenu = new Menu(MenuHandler_OfflinePlayerReason);
 	hMenu.ExitBackButton = true;
 
-	char sTitle[128], sIndex[96];
+	char sTitle[128], sDisplay[64], sIndex[96];
+
+	SetGlobalTransTarget(client);
 
 	if (iDuration == 0)
-		FormatEx(sTitle, sizeof(sTitle), "Reason (Permanent) for %s", g_aMenuBuffer[client].szPlayerName);
+		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_OfflineReason_Title_Permanent", g_aMenuBuffer[client].szPlayerName);
 	else
-		FormatEx(sTitle, sizeof(sTitle), "Reason (%d min) for %s", iDuration, g_aMenuBuffer[client].szPlayerName);
+		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_OfflineReason_Title_Duration",  g_aMenuBuffer[client].szPlayerName, iDuration);
 	hMenu.SetTitle(sTitle);
 
 	static const char sReasonKeys[][64] =
@@ -1486,8 +1516,9 @@ void Menu_ShowOfflinePlayerReason(int client, int iDuration)
 
 	for (int i = 0; i < sizeof(sReasonKeys); i++)
 	{
-		FormatEx(sIndex, sizeof(sIndex), "%d/%s", iDuration, sReasonKeys[i]);
-		hMenu.AddItem(sIndex, sReasonKeys[i]);
+		FormatEx(sIndex,   sizeof(sIndex),   "%d/%s", iDuration, sReasonKeys[i]);
+		FormatEx(sDisplay, sizeof(sDisplay), "%t", sReasonKeys[i]);
+		hMenu.AddItem(sIndex, sDisplay);
 	}
 
 	hMenu.Display(client, MENU_TIME_FOREVER);
@@ -1517,7 +1548,6 @@ public int MenuHandler_OfflinePlayerReason(Menu menu, MenuAction action, int par
 //====================================================================================================
 // NATIVES
 //====================================================================================================
-
 public int Native_ClientRestrict(Handle hPlugin, int numParams)
 {
 	int admin = GetNativeCell(1);
@@ -1661,13 +1691,14 @@ bool ValidateBanPermissions(int admin, int iDuration, bool bIsOffline)
 
 	if (iDuration > iMax && !CheckCommandAccess(admin, "sm_eban_long", ADMFLAG_ROOT))
 	{
-		ReplyToCommand(admin, "You don't have permission to ban for %d+ minutes (max: %d).", iDuration, iMax);
+		CReplyToCommand(admin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Perm_MaxDuration");
+		CReplyToCommand(admin, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Perm_MaxDuration_Max", g_clr.sAuthID, iMax, g_clr.sWarning, "EW_Minutes");
 		return false;
 	}
 
 	if (iDuration == 0 && !CheckCommandAccess(admin, "sm_eban_perm", ADMFLAG_ROOT))
 	{
-		ReplyToCommand(admin, "You don't have permission to ban permanently.");
+		CReplyToCommand(admin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Perm_NoPermanent");
 		return false;
 	}
 
@@ -1690,6 +1721,9 @@ void GetAdminInfo(int admin, char[] sName, int nameSize, char[] sSteam, int stea
 	}
 }
 
+//----------------------------------------------------------------------------------------------------
+// Purpose: Broadcast a ban/unban action in each online client's own language
+//----------------------------------------------------------------------------------------------------
 void LogBanAction(int admin, int target, int iDuration, const char[] reason, bool bIsUnban)
 {
 	char sAdminName[MAX_NAME_LENGTH], sTargetName[MAX_NAME_LENGTH];
@@ -1697,9 +1731,21 @@ void LogBanAction(int admin, int target, int iDuration, const char[] reason, boo
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sDummySteam, sizeof(sDummySteam));
 	GetClientName(target, sTargetName, sizeof(sTargetName));
 
+	char sAdminInfo[128];
+	FormatPlayerInfo(admin, sAdminInfo, sizeof(sAdminInfo));
+
 	if (bIsUnban)
 	{
 		LogAction(admin, target, "\"%L\" unrestricted \"%L\". Reason: %s", admin, target, reason);
+
+		for (int i = 1; i <= MaxClients; i++)
+		{
+			if (!IsClientInGame(i))
+				continue;
+
+			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminInfo, g_clr.sWarning, "EW_Unrestricted", g_clr.sName, sTargetName);
+			CPrintToChat(i, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Reason", g_clr.sName, reason);
+		}
 
 		Call_StartForward(g_hFwd_OnUnrestrictBroadcast);
 		Call_PushCell(admin);
@@ -1721,6 +1767,24 @@ void LogBanAction(int admin, int target, int iDuration, const char[] reason, boo
 			LogAction(admin, target, "\"%L\" restricted \"%L\" for %d minutes. Reason: %s", admin, target, iDuration, reason);
 	}
 
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (!IsClientInGame(i))
+			continue;
+
+		switch (iDuration)
+		{
+			case -1:
+				CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminInfo, g_clr.sWarning, "EW_Restricted", g_clr.sName, sTargetName, g_clr.sWarning, "EW_Temporarily");
+			case 0:
+				CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminInfo, g_clr.sWarning, "EW_Restricted", g_clr.sName, sTargetName, g_clr.sWarning, "EW_Permanently");
+			default:
+				CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%s {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminInfo, g_clr.sWarning, "EW_Restricted", g_clr.sName, sTargetName, g_clr.sWarning, "EW_For", g_clr.sAuthID, iDuration, g_clr.sWarning, "EW_Minutes");
+		}
+
+		CPrintToChat(i, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Reason", g_clr.sName, reason);
+	}
+
 	Call_StartForward(g_hFwd_OnRestrictBroadcast);
 	Call_PushCell(admin);
 	Call_PushCell(target);
@@ -1731,21 +1795,20 @@ void LogBanAction(int admin, int target, int iDuration, const char[] reason, boo
 	Call_Finish();
 }
 
-stock void FormatTimeLeft(int iSeconds, char[] sBuffer, int maxlen)
+//----------------------------------------------------------------------------------------------------
+// Purpose: Format a duration in seconds into a human-readable translated string
+//----------------------------------------------------------------------------------------------------
+stock void FormatTimeLeft(int iSeconds, char[] sBuffer, int maxlen, int iTransTarget = LANG_SERVER)
 {
+	SetGlobalTransTarget(iTransTarget);
 	if (iSeconds < 60)
-		FormatEx(sBuffer, maxlen, "%d second%s", iSeconds, iSeconds != 1 ? "s" : "");
+		FormatEx(sBuffer, maxlen, "%d %t", iSeconds, "EW_Time_Seconds");
 	else if (iSeconds < 3600)
-		FormatEx(sBuffer, maxlen, "%d min %d sec", iSeconds / 60, iSeconds % 60);
+		FormatEx(sBuffer, maxlen, "%d %t %d %t", iSeconds / 60, "EW_Time_Minutes", iSeconds % 60, "EW_Time_Seconds");
 	else if (iSeconds < 86400)
-		FormatEx(sBuffer, maxlen, "%d hr %d min", iSeconds / 3600, (iSeconds / 60) % 60);
+		FormatEx(sBuffer, maxlen, "%d %t %d %t", iSeconds / 3600, "EW_Time_Hours", (iSeconds / 60) % 60, "EW_Time_Minutes");
 	else
-		FormatEx(sBuffer, maxlen, "%d day%s %d hr", iSeconds / 86400, (iSeconds / 86400) != 1 ? "s" : "", (iSeconds / 3600) % 24);
-}
-
-stock bool IsValidClient(int client)
-{
-	return (1 <= client <= MaxClients) && IsClientConnected(client);
+		FormatEx(sBuffer, maxlen, "%d %t %d %t", iSeconds / 86400, "EW_Time_Days", (iSeconds / 3600) % 24, "EW_Time_Hours");
 }
 
 stock bool IsInvalidSteamID(int client)

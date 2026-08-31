@@ -1,0 +1,1591 @@
+"Phrases"
+{
+	// =========================================================================
+	// Core — Interaction tag
+	// =========================================================================
+
+	"EW_Tag"
+	{
+		"en"		"[entWatch]"
+		"ru"		"[entWatch]"
+		"fr"		"[entWatch]"
+		"chi"		"[entWatch]"
+		"es"		"[entWatch]"
+	}
+
+	// =========================================================================
+	// Core — Item interaction messages
+	// Used in API_OnClientItemWeaponInteract / API_OnClientItemButtonInteract
+	// Colors are injected in code via g_clr — phrases are plain text fragments
+	// =========================================================================
+
+	"Item Drop"
+	{
+		"en"		"has dropped"
+		"ru"		"выбросил"
+		"fr"		"a jeté"
+		"chi"		"丢弃了"
+		"es"		"ha dejado caer"
+	}
+
+	"Item Death"
+	{
+		"en"		"died with"
+		"ru"		"умер с"
+		"fr"		"est mort avec"
+		"chi"		"死亡时持有"
+		"es"		"murió con"
+	}
+
+	"Item Pickup"
+	{
+		"en"		"picked up"
+		"ru"		"подобрал"
+		"fr"		"a ramassé"
+		"chi"		"捡起了"
+		"es"		"recogió"
+	}
+
+	"Item Disconnect"
+	{
+		"en"		"disconnected with"
+		"ru"		"отключился с"
+		"fr"		"s'est déconnecté avec"
+		"chi"		"断线时持有"
+		"es"		"se desconectó con"
+	}
+
+	"Item Activate"
+	{
+		"en"		"used"
+		"ru"		"использовал"
+		"fr"		"a utilisé"
+		"chi"		"使用了"
+		"es"		"usó"
+	}
+
+	// =========================================================================
+	// Core — Item transfer messages
+	// Used in transfer.inc — CPrintToChatAll
+	// =========================================================================
+
+	"Item Transfer"
+	{
+		"en"		"transferred"
+		"ru"		"передал"
+		"fr"		"a transféré"
+		"chi"		"转移了"
+		"es"		"transfirió"
+	}
+
+	"Item Transfer All From"
+	{
+		"en"		"transferred all items from"
+		"ru"		"передал все предметы от"
+		"fr"		"a transféré tous les objets de"
+		"chi"		"转移了所有道具，来自"
+		"es"		"transfirió todos los objetos de"
+	}
+
+	// =========================================================================
+	// Core — Item spawn messages
+	// Used in spawn-items.inc — CPrintToChatAll
+	// =========================================================================
+
+	"EW_Spawn_NoPTConfig"
+	{
+		"en"		"PT configuration not found."
+		"ru"		"Конфигурация PT не найдена."
+		"fr"		"Configuration PT introuvable."
+		"chi"		"未找到 PT 配置。"
+		"es"		"Configuración PT no encontrada."
+	}
+
+	"EW_Spawn_PTConfigError"
+	{
+		"en"		"PT configuration error."
+		"ru"		"Ошибка конфигурации PT."
+		"fr"		"Erreur de configuration PT."
+		"chi"		"PT 配置错误。"
+		"es"		"Error de configuración PT."
+	}
+
+	"EW_Spawn_MakerError"
+	{
+		"en"		"Failed to create entity maker."
+		"ru"		"Не удалось создать entity maker."
+		"fr"		"Échec de la création de l'entity maker."
+		"chi"		"创建实体生成器失败。"
+		"es"		"No se pudo crear el entity maker."
+	}
+
+	"EW_Spawn_Usage"
+	{
+		"en"		"Usage: sm_espawnitem <receiver> <itemname> [<strip 0/1>]"
+		"ru"		"Использование: sm_espawnitem <получатель> <предмет> [<strip 0/1>]"
+		"fr"		"Utilisation : sm_espawnitem <destinataire> <objet> [<strip 0/1>]"
+		"chi"		"用法: sm_espawnitem <接收者> <道具名> [<strip 0/1>]"
+		"es"		"Uso: sm_espawnitem <receptor> <objeto> [<strip 0/1>]"
+	}
+
+	"EW_Spawn_NoMatchingItems"
+	{
+		"en"		"Error: no matching items found."
+		"ru"		"Ошибка: совпадающих предметов не найдено."
+		"fr"		"Erreur : aucun objet correspondant trouvé."
+		"chi"		"错误：未找到匹配道具。"
+		"es"		"Error: no se encontraron objetos coincidentes."
+	}
+
+	"EW_Spawn_PlayerNoLongerValid"
+	{
+		"en"		"Player no longer valid."
+		"ru"		"Игрок больше не действителен."
+		"fr"		"Le joueur n'est plus valide."
+		"chi"		"玩家已失效。"
+		"es"		"El jugador ya no es válido."
+	}
+
+	"Item Spawn"
+	{
+		"en"		"spawned"
+		"ru"		"заспавнил"
+		"fr"		"a fait apparaître"
+		"chi"		"生成了"
+		"es"		"generó"
+	}
+
+	// =========================================================================
+	// Common tokens — reused across all chat messages
+	// =========================================================================
+
+	"EW_To"
+	{
+		"en"		"to"
+		"ru"		"→"
+		"fr"		"à"
+		"chi"		"→"
+		"es"		"a"
+	}
+
+	"EW_On"
+	{
+		"en"		"on"
+		"ru"		"на"
+		"fr"		"sur"
+		"chi"		"给"
+		"es"		"en"
+	}
+
+	"EW_For"
+	{
+		"en"		"for"
+		"ru"		"на"
+		"fr"		"pour"
+		"chi"		"为期"
+		"es"		"por"
+	}
+
+	"EW_Minutes"
+	{
+		"en"		"minute(s)"
+		"ru"		"минут(а)"
+		"fr"		"minute(s)"
+		"chi"		"分钟"
+		"es"		"minuto(s)"
+	}
+
+	"EW_Temporarily"
+	{
+		"en"		"temporarily"
+		"ru"		"временно"
+		"fr"		"temporairement"
+		"chi"		"临时"
+		"es"		"temporalmente"
+	}
+
+	"EW_Permanently"
+	{
+		"en"		"permanently"
+		"ru"		"навсегда"
+		"fr"		"définitivement"
+		"chi"		"永久"
+		"es"		"permanentemente"
+	}
+
+	"EW_Offline"
+	{
+		"en"		"offline"
+		"ru"		"оффлайн"
+		"fr"		"hors ligne"
+		"chi"		"离线"
+		"es"		"sin conexión"
+	}
+
+	"EW_Reason"
+	{
+		"en"		"Reason:"
+		"ru"		"Причина:"
+		"fr"		"Raison :"
+		"chi"		"原因："
+		"es"		"Motivo:"
+	}
+
+	"EW_Restricted"
+	{
+		"en"		"restricted"
+		"ru"		"ограничил"
+		"fr"		"a restreint"
+		"chi"		"限制了"
+		"es"		"restringió a"
+	}
+
+	"EW_Unrestricted"
+	{
+		"en"		"lifted the restriction on"
+		"ru"		"снял ограничение с"
+		"fr"		"a levé la restriction de"
+		"chi"		"解除了对"
+		"es"		"levantó la restricción de"
+	}
+
+	"EW_Player"
+	{
+		"en"		"player"
+		"ru"		"игрока"
+		"fr"		"joueur"
+		"chi"		"玩家"
+		"es"		"jugador"
+	}
+
+	// =========================================================================
+	// Interface — HUD toggle
+	// Used in Command_ToggleHUD (interface.inc) — CPrintToChat
+	// =========================================================================
+
+	"EW_Chat_HUD_Hidden"
+	{
+		"en"		"The HUD is now hidden."
+		"ru"		"HUD теперь скрыт."
+		"fr"		"Le HUD est maintenant masqué."
+		"chi"		"HUD 已隐藏。"
+		"es"		"El HUD ahora está oculto."
+	}
+
+	"EW_Chat_HUD_Visible"
+	{
+		"en"		"The HUD is now visible."
+		"ru"		"HUD теперь отображается."
+		"fr"		"Le HUD est maintenant visible."
+		"chi"		"HUD 已显示。"
+		"es"		"El HUD ahora está visible."
+	}
+
+	// =========================================================================
+	// Menu Interface — Item list / transfer / spawn errors
+	// Used via PrintToChat (menu-interface.inc)
+	// =========================================================================
+
+	"EW_Menu_NoItems"
+	{
+		"en"		"No items found."
+		"ru"		"Предметы не найдены."
+		"fr"		"Aucun objet trouvé."
+		"chi"		"未找到任何道具。"
+		"es"		"No se encontraron objetos."
+	}
+
+	"EW_Menu_PlayerNoLongerValid"
+	{
+		"en"		"Player no longer valid."
+		"ru"		"Игрок больше не действителен."
+		"fr"		"Le joueur n'est plus valide."
+		"chi"		"玩家已失效。"
+		"es"		"El jugador ya no es válido."
+	}
+
+	"EW_Menu_ReceiverDisconnected"
+	{
+		"en"		"Receiver disconnected."
+		"ru"		"Получатель отключился."
+		"fr"		"Le destinataire s'est déconnecté."
+		"chi"		"接收者已断线。"
+		"es"		"El receptor se desconectó."
+	}
+
+	"EW_Menu_TransferFailed"
+	{
+		"en"		"Transfer failed."
+		"ru"		"Передача не удалась."
+		"fr"		"Le transfert a échoué."
+		"chi"		"转移失败。"
+		"es"		"La transferencia falló."
+	}
+
+	"EW_Menu_BanInfoFailed"
+	{
+		"en"		"Could not fetch ban info."
+		"ru"		"Не удалось получить информацию об ограничении."
+		"fr"		"Impossible de récupérer les informations de restriction."
+		"chi"		"无法获取封禁信息。"
+		"es"		"No se pudo obtener la información de restricción."
+	}
+
+	"EW_Menu_SpawnFailed"
+	{
+		"en"		"Spawn failed."
+		"ru"		"Спавн не удался."
+		"fr"		"L'apparition a échoué."
+		"chi"		"生成失败。"
+		"es"		"La generación falló."
+	}
+
+	"EW_Transfer_Usage"
+	{
+		"en"		"Usage: sm_etransfer <#userid/name/$item> <#userid/name>"
+		"ru"		"Использование: sm_etransfer <#userid/имя/$предмет> <#userid/имя>"
+		"fr"		"Utilisation : sm_etransfer <#userid/nom/$objet> <#userid/nom>"
+		"chi"		"用法: sm_etransfer <#userid/名称/$道具> <#userid/名称>"
+		"es"		"Uso: sm_etransfer <#userid/nombre/$objeto> <#userid/nombre>"
+	}
+
+	"EW_Transfer_NoTransferableItems"
+	{
+		"en"		"Error: no transferable items found!"
+		"ru"		"Ошибка: передаваемых предметов не найдено!"
+		"fr"		"Erreur : aucun objet transférable trouvé !"
+		"chi"		"错误：未找到可转移道具！"
+		"es"		"¡Error: no se encontraron objetos transferibles!"
+	}
+
+	"EW_Transfer_TargetNoTransferableItems"
+	{
+		"en"		"Error: target has no transferable items!"
+		"ru"		"Ошибка: у цели нет передаваемых предметов!"
+		"fr"		"Erreur : la cible n'a aucun objet transférable !"
+		"chi"		"错误：目标没有可转移道具！"
+		"es"		"¡Error: el objetivo no tiene objetos transferibles!"
+	}
+
+	// =========================================================================
+	// Restrictions — Console commands
+	// Used via CReplyToCommand — plain text, no color tags
+	// =========================================================================
+
+	"EW_Restrict_Usage"
+	{
+		"en"		"Usage: sm_eban <#userid/name> [duration] [reason]"
+		"ru"		"Использование: sm_eban <#userid/имя> [длительность] [причина]"
+		"fr"		"Utilisation : sm_eban <#userid/nom> [durée] [raison]"
+		"chi"		"用法: sm_eban <#userid/名称> [时长] [原因]"
+		"es"		"Uso: sm_eban <#userid/nombre> [duración] [motivo]"
+	}
+
+	"EW_Restrict_AlreadyRestricted"
+	{
+		"en"		"is already restricted."
+		"ru"		"уже ограничен."
+		"fr"		"est déjà restreint."
+		"chi"		"已被限制。"
+		"es"		"ya está restringido."
+	}
+
+	"EW_Restrict_InvalidDuration"
+	{
+		"en"		"Invalid duration. Must be between -1 and the configured maximum (0 = permanent, -1 = session)."
+		"ru"		"Некорректная длительность. Допустимо от -1 до настроенного максимума (0 = навсегда, -1 = сессия)."
+		"fr"		"Durée invalide. Doit être comprise entre -1 et le maximum configuré (0 = permanent, -1 = session)."
+		"chi"		"无效时长。必须在 -1 到配置上限之间（0 = 永久，-1 = 本局）。"
+		"es"		"Duración inválida. Debe estar entre -1 y el máximo configurado (0 = permanente, -1 = sesión)."
+	}
+
+	"EW_Unrestrict_Usage"
+	{
+		"en"		"Usage: sm_eunban <#userid/name> [reason]"
+		"ru"		"Использование: sm_eunban <#userid/имя> [причина]"
+		"fr"		"Utilisation : sm_eunban <#userid/nom> [raison]"
+		"chi"		"用法: sm_eunban <#userid/名称> [原因]"
+		"es"		"Uso: sm_eunban <#userid/nombre> [motivo]"
+	}
+
+	"EW_Unrestrict_NotRestricted"
+	{
+		"en"		"is not currently restricted."
+		"ru"		"в данный момент не ограничен."
+		"fr"		"n'est actuellement pas restreint."
+		"chi"		"当前未被限制。"
+		"es"		"no está restringido actualmente."
+	}
+
+	// =========================================================================
+	// Restrictions — sm_restrictions / sm_status
+	// Used via CReplyToCommand — plain text, no color tags
+	// =========================================================================
+
+	"EW_Restrictions_List"
+	{
+		"en"		"Currently restricted:"
+		"ru"		"Текущие ограничения:"
+		"fr"		"Actuellement restreints :"
+		"chi"		"当前受限玩家："
+		"es"		"Actualmente restringidos:"
+	}
+
+	"EW_Restrictions_None"
+	{
+		"en"		"No players are currently restricted."
+		"ru"		"В данный момент ограниченных игроков нет."
+		"fr"		"Aucun joueur n'est actuellement restreint."
+		"chi"		"当前没有玩家被限制。"
+		"es"		"Actualmente no hay jugadores restringidos."
+	}
+
+	"EW_Status_InvalidPlayer"
+	{
+		"en"		"Player is not valid."
+		"ru"		"Игрок недействителен."
+		"fr"		"Le joueur est invalide."
+		"chi"		"玩家无效。"
+		"es"		"El jugador no es válido."
+	}
+
+	"EW_Status_TotalEbans"
+	{
+		"en"		"has accumulated a total of"
+		"ru"		"получал eban всего"
+		"fr"		"a accumulé au total"
+		"chi"		"共累计"
+		"es"		"ha acumulado un total de"
+	}
+
+	"EW_Status_TotalEbans_Suffix"
+	{
+		"en"		"eban(s)."
+		"ru"		"eban(ов)."
+		"fr"		"eban(s)."
+		"chi"		"次 eban。"
+		"es"		"eban(es)."
+	}
+
+	"EW_Status_NotRestricted"
+	{
+		"en"		"is not currently restricted."
+		"ru"		"в данный момент не ограничен."
+		"fr"		"n'est actuellement pas restreint."
+		"chi"		"当前未被限制。"
+		"es"		"no está restringido actualmente."
+	}
+
+	"EW_Status_IsRestricted"
+	{
+		"en"		"is currently restricted."
+		"ru"		"в данный момент ограничен."
+		"fr"		"est actuellement restreint."
+		"chi"		"当前已被限制。"
+		"es"		"está actualmente restringido."
+	}
+
+	"EW_Status_Reason"
+	{
+		"en"		"Reason:"
+		"ru"		"Причина:"
+		"fr"		"Raison :"
+		"chi"		"原因："
+		"es"		"Motivo:"
+	}
+
+	"EW_Status_RestrictedBy"
+	{
+		"en"		"Restricted by:"
+		"ru"		"Ограничил:"
+		"fr"		"Restreint par :"
+		"chi"		"限制者："
+		"es"		"Restringido por:"
+	}
+
+	"EW_Status_IssuedAt"
+	{
+		"en"		"Issued at:"
+		"ru"		"Выдано:"
+		"fr"		"Émis le :"
+		"chi"		"发起时间："
+		"es"		"Emitido:"
+	}
+
+	"EW_Status_Duration"
+	{
+		"en"		"Duration:"
+		"ru"		"Длительность:"
+		"fr"		"Durée :"
+		"chi"		"时长："
+		"es"		"Duración:"
+	}
+
+	"EW_Status_Session"
+	{
+		"en"		"Temporary (current session only)"
+		"ru"		"Временное (только текущая сессия)"
+		"fr"		"Temporaire (session en cours uniquement)"
+		"chi"		"临时（仅本局）"
+		"es"		"Temporal (solo sesión actual)"
+	}
+
+	"EW_Status_Permanent"
+	{
+		"en"		"Permanent"
+		"ru"		"Навсегда"
+		"fr"		"Permanent"
+		"chi"		"永久"
+		"es"		"Permanente"
+	}
+
+	"EW_Status_Expires"
+	{
+		"en"		"Expires:"
+		"ru"		"Истекает:"
+		"fr"		"Expiration :"
+		"chi"		"到期："
+		"es"		"Vence:"
+	}
+
+	"EW_Status_Expires_Session"
+	{
+		"en"		"At end of session"
+		"ru"		"По окончании сессии"
+		"fr"		"En fin de session"
+		"chi"		"本局结束时"
+		"es"		"Al final de la sesión"
+	}
+
+	"EW_Status_Expires_Never"
+	{
+		"en"		"Never"
+		"ru"		"Никогда"
+		"fr"		"Jamais"
+		"chi"		"永不"
+		"es"		"Nunca"
+	}
+
+	"EW_Status_Expires_Remaining"
+	{
+		"en"		"remaining"
+		"ru"		"осталось"
+		"fr"		"restant"
+		"chi"		"剩余"
+		"es"		"restante"
+	}
+
+	// =========================================================================
+	// Restrictions — Permission errors
+	// Used via CReplyToCommand — plain text, no color tags
+	// =========================================================================
+
+	"EW_Perm_MaxDuration"
+	{
+		"en"		"You are not authorized to issue a restriction of this duration or more."
+		"ru"		"У вас нет прав выдавать ограничение такой длительности или более."
+		"fr"		"Vous n'êtes pas autorisé à émettre une restriction de cette durée ou plus."
+		"chi"		"你无权发起该时长或以上的限制。"
+		"es"		"No estás autorizado a emitir una restricción de esta duración o más."
+	}
+
+	"EW_Perm_MaxDuration_Max"
+	{
+		"en"		"Maximum allowed:"
+		"ru"		"Максимум:"
+		"fr"		"Maximum autorisé :"
+		"chi"		"最大允许："
+		"es"		"Máximo permitido:"
+	}
+
+	"EW_Perm_NoPermanent"
+	{
+		"en"		"You are not authorized to issue permanent restrictions."
+		"ru"		"У вас нет прав выдавать постоянные ограничения."
+		"fr"		"Vous n'êtes pas autorisé à émettre des restrictions permanentes."
+		"chi"		"你无权发起永久限制。"
+		"es"		"No estás autorizado a emitir restricciones permanentes."
+	}
+
+	// =========================================================================
+	// Database
+	// =========================================================================
+
+	"EW_DB_NotConnected"
+	{
+		"en"		"The database is currently unavailable. Please try again later."
+		"ru"		"База данных в данный момент недоступна. Попробуйте позже."
+		"fr"		"La base de données est actuellement indisponible. Veuillez réessayer plus tard."
+		"chi"		"数据库当前不可用，请稍后再试。"
+		"es"		"La base de datos no está disponible en este momento. Por favor, inténtalo más tarde."
+	}
+
+	// =========================================================================
+	// Menus — EBan reason selection (online ban)
+	// Used in Menu_ShowBanReasonSelection (restrictions.inc)
+	// =========================================================================
+
+	"EW_Menu_BanReason_Title_Session"
+	{
+		"en"		"Restriction Reason — Temporary"
+		"ru"		"Причина ограничения — Временно"
+		"fr"		"Raison de restriction — Temporaire"
+		"chi"		"限制原因 — 临时"
+		"es"		"Motivo de restricción — Temporal"
+	}
+
+	"EW_Menu_BanReason_Title_Permanent"
+	{
+		"en"		"Restriction Reason — Permanent"
+		"ru"		"Причина ограничения — Навсегда"
+		"fr"		"Raison de restriction — Permanent"
+		"chi"		"限制原因 — 永久"
+		"es"		"Motivo de restricción — Permanente"
+	}
+
+	"EW_Menu_BanReason_Title_Duration"
+	{
+		"en"		"Restriction Reason — Timed"
+		"ru"		"Причина ограничения — Временное"
+		"fr"		"Raison de restriction — Durée limitée"
+		"chi"		"限制原因 — 限时"
+		"es"		"Motivo de restricción — Limitado"
+	}
+
+	// =========================================================================
+	// Menus — Shared ban reasons (online and offline)
+	// Keys are stored as-is in the database — English only
+	// Translated at display time only
+	// =========================================================================
+
+	"Item misuse"
+	{
+		"en"		"Item misuse"
+		"ru"		"Неправильное использование предмета"
+		"fr"		"Mauvaise utilisation de l'objet"
+		"chi"		"道具滥用"
+		"es"		"Mal uso del objeto"
+	}
+
+	"Trolling on purpose"
+	{
+		"en"		"Trolling on purpose"
+		"ru"		"Намеренный троллинг"
+		"fr"		"Trolling délibéré"
+		"chi"		"故意捣乱"
+		"es"		"Trolleo intencional"
+	}
+
+	"Throwing item away"
+	{
+		"en"		"Throwing item away"
+		"ru"		"Выбрасывание предмета"
+		"fr"		"Jeter l'objet délibérément"
+		"chi"		"故意丢弃道具"
+		"es"		"Tirar el objeto intencionalmente"
+	}
+
+	"Not using an item"
+	{
+		"en"		"Not using an item"
+		"ru"		"Отказ использовать предмет"
+		"fr"		"Refus d'utiliser l'objet"
+		"chi"		"不使用道具"
+		"es"		"No usar el objeto"
+	}
+
+	"Trimming team"
+	{
+		"en"		"Trimming team"
+		"ru"		"Подрезание команды"
+		"fr"		"Sabotage de l'équipe"
+		"chi"		"故意减损队伍"
+		"es"		"Sabotaje al equipo"
+	}
+
+	"Not listening to leader"
+	{
+		"en"		"Not listening to leader"
+		"ru"		"Игнорирование лидера"
+		"fr"		"Ne pas écouter le leader"
+		"chi"		"不听从队长指令"
+		"es"		"No escuchar al líder"
+	}
+
+	"Spamming an item"
+	{
+		"en"		"Spamming an item"
+		"ru"		"Спам предметом"
+		"fr"		"Utilisation abusive répétée de l'objet"
+		"chi"		"滥用道具"
+		"es"		"Abuso repetido del objeto"
+	}
+
+	"Other"
+	{
+		"en"		"Other"
+		"ru"		"Другое"
+		"fr"		"Autre"
+		"chi"		"其他"
+		"es"		"Otro"
+	}
+
+	// =========================================================================
+	// Menus — EUnBan reason selection
+	// Used in Menu_ShowUnbanReasonSelection (restrictions.inc)
+	// =========================================================================
+
+	"EW_Menu_UnbanReason_Title"
+	{
+		"en"		"Unrestrict Reason"
+		"ru"		"Причина снятия ограничения"
+		"fr"		"Raison de levée de restriction"
+		"chi"		"解除限制的原因"
+		"es"		"Motivo para levantar la restricción"
+	}
+
+	"Wrong target"
+	{
+		"en"		"Wrong target"
+		"ru"		"Ошибочная цель"
+		"fr"		"Mauvaise cible"
+		"chi"		"目标错误"
+		"es"		"Objetivo equivocado"
+	}
+
+	"Giving another chance"
+	{
+		"en"		"Giving another chance"
+		"ru"		"Даём ещё один шанс"
+		"fr"		"Accorder une nouvelle chance"
+		"chi"		"给予另一次机会"
+		"es"		"Dar otra oportunidad"
+	}
+
+	"Bad duration"
+	{
+		"en"		"Incorrect duration"
+		"ru"		"Неверная длительность"
+		"fr"		"Durée incorrecte"
+		"chi"		"时长有误"
+		"es"		"Duración incorrecta"
+	}
+
+	"Was not on purpose"
+	{
+		"en"		"Was not intentional"
+		"ru"		"Не намеренно"
+		"fr"		"N'était pas intentionnel"
+		"chi"		"并非故意行为"
+		"es"		"No fue intencional"
+	}
+
+	// =========================================================================
+	// Menus — Offline player list
+	// Used in Menu_ShowOfflinePlayerList (restrictions.inc)
+	// =========================================================================
+
+	"EW_Menu_Offline_Title"
+	{
+		"en"		"[entWatch] Recently Disconnected Players"
+		"ru"		"[entWatch] Недавно отключившиеся игроки"
+		"fr"		"[entWatch] Joueurs récemment déconnectés"
+		"chi"		"[entWatch] 近期已离线玩家"
+		"es"		"[entWatch] Jugadores desconectados recientemente"
+	}
+
+	"EW_Menu_Offline_NoPlayers"
+	{
+		"en"		"No recently disconnected players on record."
+		"ru"		"Недавно отключившихся игроков не найдено."
+		"fr"		"Aucun joueur récemment déconnecté enregistré."
+		"chi"		"暂无近期离线玩家记录。"
+		"es"		"No hay registros de jugadores desconectados recientemente."
+	}
+
+	"EW_Menu_Offline_MinutesAgo"
+	{
+		"en"		"min ago"
+		"ru"		"мин. назад"
+		"fr"		"min"
+		"chi"		"分钟前"
+		"es"		"min"
+	}
+
+	// =========================================================================
+	// Menus — Offline player details
+	// Used in Menu_ShowOfflinePlayerDetails (restrictions.inc)
+	// =========================================================================
+
+	"EW_Menu_OfflineDetails_Title"
+	{
+		"en"		"[entWatch] Offline Player"
+		"ru"		"[entWatch] Оффлайн игрок"
+		"fr"		"[entWatch] Joueur hors ligne"
+		"chi"		"[entWatch] 离线玩家"
+		"es"		"[entWatch] Jugador desconectado"
+	}
+
+	"EW_Menu_OfflineDetails_Name"
+	{
+		"en"		"Name:"
+		"ru"		"Имя:"
+		"fr"		"Nom :"
+		"chi"		"名称："
+		"es"		"Nombre:"
+	}
+
+	"EW_Menu_OfflineDetails_SteamID"
+	{
+		"en"		"SteamID:"
+		"ru"		"SteamID:"
+		"fr"		"SteamID :"
+		"chi"		"SteamID："
+		"es"		"SteamID:"
+	}
+
+	"EW_Menu_OfflineDetails_Disconnected"
+	{
+		"en"		"Disconnected:"
+		"ru"		"Отключился:"
+		"fr"		"Déconnecté :"
+		"chi"		"断开时间："
+		"es"		"Desconectado:"
+	}
+
+	"EW_Menu_OfflineDetails_LastItem"
+	{
+		"en"		"Last held item:"
+		"ru"		"Последний предмет:"
+		"fr"		"Dernier objet tenu :"
+		"chi"		"最后持有道具："
+		"es"		"Último objeto sostenido:"
+	}
+
+	"EW_Menu_OfflineDetails_BanButton"
+	{
+		"en"		"Issue a restriction"
+		"ru"		"Выдать ограничение"
+		"fr"		"Émettre une restriction"
+		"chi"		"发起限制"
+		"es"		"Emitir una restricción"
+	}
+
+	// =========================================================================
+	// Menus — Offline ban duration picker
+	// Used in Menu_ShowOfflinePlayerDuration (restrictions.inc)
+	// =========================================================================
+
+	"EW_Menu_OfflineDuration_Title"
+	{
+		"en"		"[entWatch] Select Restriction Duration"
+		"ru"		"[entWatch] Выберите длительность ограничения"
+		"fr"		"[entWatch] Sélectionner la durée de restriction"
+		"chi"		"[entWatch] 选择限制时长"
+		"es"		"[entWatch] Seleccionar duración de restricción"
+	}
+
+	"EW_Menu_OfflineDuration_10min"
+	{
+		"en"		"10 Minutes"
+		"ru"		"10 минут"
+		"fr"		"10 minutes"
+		"chi"		"10 分钟"
+		"es"		"10 minutos"
+	}
+
+	"EW_Menu_OfflineDuration_1Hour"
+	{
+		"en"		"1 Hour"
+		"ru"		"1 час"
+		"fr"		"1 heure"
+		"chi"		"1 小时"
+		"es"		"1 hora"
+	}
+
+	"EW_Menu_OfflineDuration_1Day"
+	{
+		"en"		"1 Day"
+		"ru"		"1 день"
+		"fr"		"1 jour"
+		"chi"		"1 天"
+		"es"		"1 día"
+	}
+
+	"EW_Menu_OfflineDuration_1Week"
+	{
+		"en"		"1 Week"
+		"ru"		"1 неделя"
+		"fr"		"1 semaine"
+		"chi"		"1 周"
+		"es"		"1 semana"
+	}
+
+	"EW_Menu_OfflineDuration_1Month"
+	{
+		"en"		"1 Month"
+		"ru"		"1 месяц"
+		"fr"		"1 mois"
+		"chi"		"1 个月"
+		"es"		"1 mes"
+	}
+
+	"EW_Menu_OfflineDuration_Permanent"
+	{
+		"en"		"Permanently"
+		"ru"		"Навсегда"
+		"fr"		"Définitivement"
+		"chi"		"永久"
+		"es"		"Permanentemente"
+	}
+
+	// =========================================================================
+	// Menus — Offline ban reason picker
+	// Used in Menu_ShowOfflinePlayerReason (restrictions.inc)
+	// =========================================================================
+
+	"EW_Menu_OfflineReason_Title_Permanent"
+	{
+		"en"		"[entWatch] Restriction Reason — Permanent"
+		"ru"		"[entWatch] Причина ограничения — Навсегда"
+		"fr"		"[entWatch] Raison de restriction — Permanent"
+		"chi"		"[entWatch] 限制原因 — 永久"
+		"es"		"[entWatch] Motivo de restricción — Permanente"
+	}
+
+	"EW_Menu_OfflineReason_Title_Duration"
+	{
+		"en"		"[entWatch] Restriction Reason — Timed"
+		"ru"		"[entWatch] Причина ограничения — Временное"
+		"fr"		"[entWatch] Raison de restriction — Durée limitée"
+		"chi"		"[entWatch] 限制原因 — 限时"
+		"es"		"[entWatch] Motivo de restricción — Limitado"
+	}
+
+	// =========================================================================
+	// Generic errors
+	// =========================================================================
+
+	"EW_Error_PlayerInvalid"
+	{
+		"en"		"This player is no longer connected to the server."
+		"ru"		"Этот игрок больше не подключён к серверу."
+		"fr"		"Ce joueur n'est plus connecté au serveur."
+		"chi"		"该玩家已不在服务器上。"
+		"es"		"Este jugador ya no está conectado al servidor."
+	}
+
+	"EW_Error_PlayerNoLongerTracked"
+	{
+		"en"		"This player is no longer being tracked by the offline registry."
+		"ru"		"Этот игрок больше не отслеживается в реестре оффлайн-игроков."
+		"fr"		"Ce joueur n'est plus suivi dans le registre hors ligne."
+		"chi"		"该玩家已不再被离线记录追踪。"
+		"es"		"Este jugador ya no está siendo rastreado en el registro sin conexión."
+	}
+
+	// =========================================================================
+	// Time formatting
+	// Used in FormatTimeLeft (restrictions.inc)
+	// =========================================================================
+
+	"EW_Time_Seconds"
+	{
+		"en"		"second(s)"
+		"ru"		"с"
+		"fr"		"seconde(s)"
+		"chi"		"秒"
+		"es"		"segundo(s)"
+	}
+
+	"EW_Time_Minutes"
+	{
+		"en"		"minute(s)"
+		"ru"		"мин"
+		"fr"		"minute(s)"
+		"chi"		"分钟"
+		"es"		"minuto(s)"
+	}
+
+	"EW_Time_Hours"
+	{
+		"en"		"hour(s)"
+		"ru"		"ч"
+		"fr"		"heure(s)"
+		"chi"		"小时"
+		"es"		"hora(s)"
+	}
+
+	"EW_Time_Days"
+	{
+		"en"		"day(s)"
+		"ru"		"дн"
+		"fr"		"jour(s)"
+		"chi"		"天"
+		"es"		"día(s)"
+	}
+
+	// =========================================================================
+	// Override Item — sm_ewset* / sm_ewlockbutton
+	// Used via CReplyToCommand (ew4_override_item.sp)
+	// =========================================================================
+
+	"EW_Override_SetCooldown_Usage"
+	{
+		"en"    "Usage: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"ru"    "Использование: sm_ewsetcooldown <hammerid> <задержка> [force:0/1]"
+		"fr"    "Utilisation : sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"chi"   "用法: sm_ewsetcooldown <hammerid> <冷却时间> [force:0/1]"
+		"es"    "Uso: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+	}
+
+	"EW_Override_SetMaxUses_Usage"
+	{
+		"en"    "Usage: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"ru"    "Использование: sm_ewsetmaxuses <hammerid> <макс. использований>"
+		"fr"    "Utilisation : sm_ewsetmaxuses <hammerid> <maxuses>"
+		"chi"   "用法: sm_ewsetmaxuses <hammerid> <最大使用次数>"
+		"es"    "Uso: sm_ewsetmaxuses <hammerid> <maxuses>"
+	}
+
+	"EW_Override_SetMode_Usage"
+	{
+		"en"    "Usage: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"ru"    "Использование: sm_ewsetmode <hammerid> <тип(0-4)> <режим(0-4)> <задержка> <макс. использований>"
+		"fr"    "Utilisation : sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"chi"   "用法: sm_ewsetmode <hammerid> <类型(0-4)> <模式(0-4)> <冷却时间> <最大使用次数>"
+		"es"    "Uso: sm_ewsetmode <hammerid> <tipo(0-4)> <modo(0-4)> <cooldown> <maxuses>"
+	}
+
+	"EW_Override_SetName_Usage"
+	{
+		"en"    "Usage: sm_ewsetname <hammerid> <newname>"
+		"ru"    "Использование: sm_ewsetname <hammerid> <новое имя>"
+		"fr"    "Utilisation : sm_ewsetname <hammerid> <nouveaunom>"
+		"chi"   "用法: sm_ewsetname <hammerid> <新名称>"
+		"es"    "Uso: sm_ewsetname <hammerid> <nuevonombre>"
+	}
+
+	"EW_Override_SetShortName_Usage"
+	{
+		"en"    "Usage: sm_ewsetshortname <hammerid> <newshortname>"
+		"ru"    "Использование: sm_ewsetshortname <hammerid> <новое короткое имя>"
+		"fr"    "Utilisation : sm_ewsetshortname <hammerid> <nouveaucourtnnom>"
+		"chi"   "用法: sm_ewsetshortname <hammerid> <新短名称>"
+		"es"    "Uso: sm_ewsetshortname <hammerid> <nuevonombrecorto>"
+	}
+
+	"EW_Override_LockButton_Usage"
+	{
+		"en"    "Usage: sm_ewlockbutton <hammerid> <1=lock|0=unlock>"
+		"ru"    "Использование: sm_ewlockbutton <hammerid> <1=блокировать|0=разблокировать>"
+		"fr"    "Utilisation : sm_ewlockbutton <hammerid> <1=verrouiller|0=déverrouiller>"
+		"chi"   "用法: sm_ewlockbutton <hammerid> <1=锁定|0=解锁>"
+		"es"    "Uso: sm_ewlockbutton <hammerid> <1=bloquear|0=desbloquear>"
+	}
+
+	"EW_Override_NoButton"
+	{
+		"en"    "No item/button found for HammerID %d."
+		"ru"    "Предмет/кнопка с HammerID %d не найдена."
+		"fr"    "Aucun objet/bouton trouvé pour le HammerID %d."
+		"chi"   "未找到 HammerID 为 %d 的道具/按钮。"
+		"es"    "No se encontró ningún objeto/botón para el HammerID %d."
+	}
+
+	"EW_Override_NoItem"
+	{
+		"en"    "No item found for HammerID %d."
+		"ru"    "Предмет с HammerID %d не найден."
+		"fr"    "Aucun objet trouvé pour le HammerID %d."
+		"chi"   "未找到 HammerID 为 %d 的道具。"
+		"es"    "No se encontró ningún objeto para el HammerID %d."
+	}
+
+	"EW_Override_InvalidType"
+	{
+		"en"    "Invalid type (0-4)."
+		"ru"    "Недопустимый тип (0-4)."
+		"fr"    "Type invalide (0-4)."
+		"chi"   "无效类型（0-4）。"
+		"es"    "Tipo inválido (0-4)."
+	}
+
+	"EW_Override_InvalidMode"
+	{
+		"en"    "Invalid mode (0-4)."
+		"ru"    "Недопустимый режим (0-4)."
+		"fr"    "Mode invalide (0-4)."
+		"chi"   "无效模式（0-4）。"
+		"es"    "Modo inválido (0-4)."
+	}
+
+	"EW_Override_SetCooldown_Done"
+	{
+		"#format"   "{1:s},{2:.1f}"
+		"en"    "{1} button cooldown set to {2}s."
+		"ru"    "Задержка кнопки {1} установлена на {2} с."
+		"fr"    "Cooldown du bouton {1} défini à {2} s."
+		"chi"   "{1} 按钮冷却时间已设置为 {2} 秒。"
+		"es"    "Cooldown del botón {1} establecido en {2} s."
+	}
+
+	"EW_Override_SetMaxUses_Done"
+	{
+		"#format"   "{1:s},{2:d}"
+		"en"    "{1} button maxuses set to {2}."
+		"ru"    "Макс. использований кнопки {1} установлено на {2}."
+		"fr"    "Utilisations max du bouton {1} définies à {2}."
+		"chi"   "{1} 按钮最大使用次数已设置为 {2}。"
+		"es"    "Usos máximos del botón {1} establecidos en {2}."
+	}
+
+	"EW_Override_SetMode_Done"
+	{
+		"#format"   "{1:s},{2:d},{3:d},{4:.1f},{5:d}"
+		"en"    "{1} button → type {2}, mode {3}, cd {4}s, maxuses {5}."
+		"ru"    "Кнопка {1} → тип {2}, режим {3}, задержка {4} с, макс. {5}."
+		"fr"    "Bouton {1} → type {2}, mode {3}, cd {4} s, maxuses {5}."
+		"chi"   "{1} 按钮 → 类型 {2}，模式 {3}，冷却 {4} 秒，最大次数 {5}。"
+		"es"    "Botón {1} → tipo {2}, modo {3}, cd {4} s, maxuses {5}."
+	}
+
+	"EW_Override_SetName_Done"
+	{
+		"#format"   "{1:d},{2:s}"
+		"en"    "Item #{1} name set to \"{2}\"."
+		"ru"    "Имя предмета #{1} изменено на \"{2}\"."
+		"fr"    "Nom de l'objet #{1} défini sur \"{2}\"."
+		"chi"   "道具 #{1} 名称已设置为\"{2}\"。"
+		"es"    "Nombre del objeto #{1} establecido en \"{2}\"."
+	}
+
+	"EW_Override_SetShortName_Done"
+	{
+		"#format"   "{1:d},{2:s}"
+		"en"    "Item #{1} short name set to \"{2}\"."
+		"ru"    "Короткое имя предмета #{1} изменено на \"{2}\"."
+		"fr"    "Nom court de l'objet #{1} défini sur \"{2}\"."
+		"chi"   "道具 #{1} 短名称已设置为\"{2}\"。"
+		"es"    "Nombre corto del objeto #{1} establecido en \"{2}\"."
+	}
+
+	"EW_Override_LockButton_Done"
+	{
+		"#format"   "{1:s},{2:s}"
+		"en"    "{1} button {2}."
+		"ru"    "Кнопка {1} {2}."
+		"fr"    "Bouton {1} {2}."
+		"chi"   "{1} 按钮已{2}。"
+		"es"    "Botón {1} {2}."
+	}
+
+	"EW_Override_Locked"
+	{
+		"en"    "locked"
+		"ru"    "заблокирована"
+		"fr"    "verrouillé"
+		"chi"   "锁定"
+		"es"    "bloqueado"
+	}
+
+	"EW_Override_Unlocked"
+	{
+		"en"    "unlocked"
+		"ru"    "разблокирована"
+		"fr"    "déverrouillé"
+		"chi"   "解锁"
+		"es"    "desbloqueado"
+	}
+
+	// =========================================================================
+	// Menu Interface — Admin top menu
+	// Used in EWM_RegisterAdminMenu / EWM_Menu_AM_* handlers
+	// =========================================================================
+
+	"EW_AdminMenu_Category_Title"
+	{
+		"en"    "EntWatch Commands:"
+		"ru"    "Команды EntWatch:"
+		"fr"    "Commandes EntWatch :"
+		"chi"   "EntWatch 命令："
+		"es"    "Comandos EntWatch:"
+	}
+
+	"EW_AdminMenu_Category_Option"
+	{
+		"en"    "EntWatch Commands"
+		"ru"    "Команды EntWatch"
+		"fr"    "Commandes EntWatch"
+		"chi"   "EntWatch 命令"
+		"es"    "Comandos EntWatch"
+	}
+
+	"EW_AdminMenu_ItemList"
+	{
+		"en"    "List of Items"
+		"ru"    "Список предметов"
+		"fr"    "Liste des objets"
+		"chi"   "道具列表"
+		"es"    "Lista de objetos"
+	}
+
+	"EW_AdminMenu_EBanList"
+	{
+		"en"    "Restrict Player"
+		"ru"    "Ограничить игрока"
+		"fr"    "Restreindre un joueur"
+		"chi"   "限制玩家"
+		"es"    "Restringir jugador"
+	}
+
+	"EW_AdminMenu_EUnBanList"
+	{
+		"en"    "List of Restrictions"
+		"ru"    "Список ограничений"
+		"fr"    "Liste des restrictions"
+		"chi"   "限制列表"
+		"es"    "Lista de restricciones"
+	}
+
+	"EW_AdminMenu_SpawnItem"
+	{
+		"en"    "Spawn an Item"
+		"ru"    "Заспавнить предмет"
+		"fr"    "Faire apparaître un objet"
+		"chi"   "生成一个道具"
+		"es"    "Generar un objeto"
+	}
+
+	// =========================================================================
+	// Menu Interface — Item list menu
+	// Used in EWM_Menu_PM_ItemList
+	// =========================================================================
+
+	"EW_PM_ItemList_Title"
+	{
+		"en"    "entWatch - Item List:"
+		"ru"    "entWatch - Список предметов:"
+		"fr"    "entWatch - Liste des objets :"
+		"chi"   "entWatch - 道具列表："
+		"es"    "entWatch - Lista de objetos:"
+	}
+
+	"EW_PM_ItemList_NoOwner"
+	{
+		"en"    "No owner"
+		"ru"    "Нет владельца"
+		"fr"    "Sans propriétaire"
+		"chi"   "无持有者"
+		"es"    "Sin propietario"
+	}
+
+	// =========================================================================
+	// Menu Interface — Item info menu
+	// Used in EWM_Menu_PM_ItemInfo
+	// =========================================================================
+
+	"EW_PM_ItemInfo_TitlePrefix"
+	{
+		"en"    "Item:"
+		"ru"    "Предмет:"
+		"fr"    "Objet :"
+		"chi"   "道具："
+		"es"    "Objeto:"
+	}
+
+	"EW_PM_ItemInfo_RestrictPlayer"
+	{
+		"en"    "Restrict Player"
+		"ru"    "Ограничить игрока"
+		"fr"    "Restreindre le joueur"
+		"chi"   "限制玩家"
+		"es"    "Restringir jugador"
+	}
+
+	"EW_PM_ItemInfo_TransferItem"
+	{
+		"en"    "Transfer Item"
+		"ru"    "Передать предмет"
+		"fr"    "Transférer l'objet"
+		"chi"   "转移道具"
+		"es"    "Transferir objeto"
+	}
+
+	// =========================================================================
+	// Menu Interface — Item transfer menu
+	// Used in EWM_Menu_PM_ItemTransfer
+	// =========================================================================
+
+	"EW_PM_Transfer_Title"
+	{
+		"en"    "Select Receiver:"
+		"ru"    "Выберите получателя:"
+		"fr"    "Sélectionner le destinataire :"
+		"chi"   "选择接收者："
+		"es"    "Seleccionar receptor:"
+	}
+
+	"EW_PM_Transfer_NoValidPlayers"
+	{
+		"en"    "No valid players found"
+		"ru"    "Подходящих игроков не найдено"
+		"fr"    "Aucun joueur valide trouvé"
+		"chi"   "未找到有效玩家"
+		"es"    "No se encontraron jugadores válidos"
+	}
+
+	// =========================================================================
+	// Menu Interface — EBan list menu
+	// Used in EWM_Menu_PM_EBanList
+	// =========================================================================
+
+	"EW_PM_EBanList_Title"
+	{
+		"en"    "entWatch - Restrict Player:"
+		"ru"    "entWatch - Ограничить игрока:"
+		"fr"    "entWatch - Restreindre un joueur :"
+		"chi"   "entWatch - 限制玩家："
+		"es"    "entWatch - Restringir jugador:"
+	}
+
+	"EW_PM_EBanList_NoPlayers"
+	{
+		"en"    "No Players Found"
+		"ru"    "Игроков не найдено"
+		"fr"    "Aucun joueur trouvé"
+		"chi"   "未找到玩家"
+		"es"    "No se encontraron jugadores"
+	}
+
+	// =========================================================================
+	// Menu Interface — EBan duration menu
+	// Used in EWM_Menu_PM_EBanDuration
+	// =========================================================================
+
+	"EW_PM_EBanDuration_Title"
+	{
+		"#format"   "{1:N}"
+		"en"    "Duration for {1}:"
+		"ru"    "Длительность для {1}:"
+		"fr"    "Durée pour {1} :"
+		"chi"   "{1} 的限制时长："
+		"es"    "Duración para {1}:"
+	}
+
+	"EW_PM_EBanDuration_Session"
+	{
+		"en"    "Temporary (Session)"
+		"ru"    "Временно (сессия)"
+		"fr"    "Temporaire (session)"
+		"chi"   "临时（本局）"
+		"es"    "Temporal (sesión)"
+	}
+
+	// =========================================================================
+	// Menu Interface — EUnBan list menu
+	// Used in EWM_Menu_PM_EUnBanList
+	// =========================================================================
+
+	"EW_PM_EUnBanList_Title"
+	{
+		"en"    "entWatch - List of Restrictions:"
+		"ru"    "entWatch - Список ограничений:"
+		"fr"    "entWatch - Liste des restrictions :"
+		"chi"   "entWatch - 限制列表："
+		"es"    "entWatch - Lista de restricciones:"
+	}
+
+	"EW_PM_EUnBanList_NoPlayers"
+	{
+		"en"    "No Restricted Players Found"
+		"ru"    "Ограниченных игроков не найдено"
+		"fr"    "Aucun joueur restreint trouvé"
+		"chi"   "未找到受限玩家"
+		"es"    "No se encontraron jugadores restringidos"
+	}
+
+	// =========================================================================
+	// Menu Interface — EBan info menu
+	// Used in EWM_Menu_PM_EBanInfo
+	// =========================================================================
+
+	"EW_PM_EBanInfo_Title"
+	{
+		"#format"   "{1:N}"
+		"en"    "Ban Info: {1}"
+		"ru"    "Инфо об ограничении: {1}"
+		"fr"    "Info restriction : {1}"
+		"chi"   "限制信息：{1}"
+		"es"    "Info restricción: {1}"
+	}
+
+	"EW_PM_EBanInfo_Admin"
+	{
+		"#format"   "{1:s}"
+		"en"    "Admin: {1}"
+		"ru"    "Администратор: {1}"
+		"fr"    "Admin : {1}"
+		"chi"   "管理员：{1}"
+		"es"    "Admin: {1}"
+	}
+
+	"EW_PM_EBanInfo_Duration_Session"
+	{
+		"en"    "Duration: Session"
+		"ru"    "Длительность: Сессия"
+		"fr"    "Durée : Session"
+		"chi"   "时长：本局"
+		"es"    "Duración: Sesión"
+	}
+
+	"EW_PM_EBanInfo_Duration_Permanent"
+	{
+		"en"    "Duration: Permanent"
+		"ru"    "Длительность: Навсегда"
+		"fr"    "Durée : Permanent"
+		"chi"   "时长：永久"
+		"es"    "Duración: Permanente"
+	}
+
+	"EW_PM_EBanInfo_Duration_Timed"
+	{
+		"#format"   "{1:d}"
+		"en"    "Duration: {1} min"
+		"ru"    "Длительность: {1} мин"
+		"fr"    "Durée : {1} min"
+		"chi"   "时长：{1} 分钟"
+		"es"    "Duración: {1} min"
+	}
+
+	"EW_PM_EBanInfo_Reason"
+	{
+		"#format"   "{1:s}"
+		"en"    "Reason: {1}"
+		"ru"    "Причина: {1}"
+		"fr"    "Raison : {1}"
+		"chi"   "原因：{1}"
+		"es"    "Motivo: {1}"
+	}
+
+	"EW_PM_EBanInfo_TotalEbans"
+	{
+		"#format"   "{1:d}"
+		"en"    "Total eBans: {1}"
+		"ru"    "Всего eban: {1}"
+		"fr"    "Total eBans : {1}"
+		"chi"   "累计 eban：{1}"
+		"es"    "Total eBans: {1}"
+	}
+
+	"EW_PM_EBanInfo_UnrestrictButton"
+	{
+		"en"    "Unrestrict Player"
+		"ru"    "Снять ограничение"
+		"fr"    "Lever la restriction"
+		"chi"   "解除限制"
+		"es"    "Levantar restricción"
+	}
+
+	// =========================================================================
+	// Menu Interface — Spawn item list menu
+	// Used in EWM_Menu_PM_SpawnItemList
+	// =========================================================================
+
+	"EW_PM_SpawnItemList_Title"
+	{
+		"en"    "entWatch - Spawn an Item:"
+		"ru"    "entWatch - Заспавнить предмет:"
+		"fr"    "entWatch - Faire apparaître un objet :"
+		"chi"   "entWatch - 生成道具："
+		"es"    "entWatch - Generar un objeto:"
+	}
+
+	"EW_PM_SpawnItemList_NoItems"
+	{
+		"en"    "No Spawnable Items Found"
+		"ru"    "Спавнируемых предметов не найдено"
+		"fr"    "Aucun objet générable trouvé"
+		"chi"   "未找到可生成道具"
+		"es"    "No se encontraron objetos generables"
+	}
+
+	// =========================================================================
+	// Menu Interface — Spawn strip menu
+	// Used in EWM_Menu_PM_SpawnItemStrip
+	// =========================================================================
+
+	"EW_PM_SpawnStrip_Title"
+	{
+		"en"    "entWatch - Strip Weapons?"
+		"ru"    "entWatch - Убрать оружие?"
+		"fr"    "entWatch - Retirer les armes ?"
+		"chi"   "entWatch - 移除武器？"
+		"es"    "entWatch - ¿Quitar armas?"
+	}
+
+	"EW_PM_SpawnStrip_Yes"
+	{
+		"en"    "Yes, strip weapons"
+		"ru"    "Да, убрать оружие"
+		"fr"    "Oui, retirer les armes"
+		"chi"   "是，移除武器"
+		"es"    "Sí, quitar armas"
+	}
+
+	"EW_PM_SpawnStrip_No"
+	{
+		"en"    "No, keep weapons"
+		"ru"    "Нет, оставить оружие"
+		"fr"    "Non, garder les armes"
+		"chi"   "否，保留武器"
+		"es"    "No, conservar armas"
+	}
+
+	// =========================================================================
+	// Menu Interface — Spawn target menu
+	// Used in EWM_Menu_PM_SpawnItemTarget
+	// =========================================================================
+
+	"EW_PM_SpawnTarget_Title"
+	{
+		"en"    "entWatch - Select Receiver:"
+		"ru"    "entWatch - Выберите получателя:"
+		"fr"    "entWatch - Sélectionner le destinataire :"
+		"chi"   "entWatch - 选择接收者："
+		"es"    "entWatch - Seleccionar receptor:"
+	}
+
+	"EW_PM_SpawnTarget_NoPlayers"
+	{
+		"en"    "No Valid Players Found"
+		"ru"    "Подходящих игроков не найдено"
+		"fr"    "Aucun joueur valide trouvé"
+		"chi"   "未找到有效玩家"
+		"es"    "No se encontraron jugadores válidos"
+	}
+
+	// =========================================================================
+	// Debug — Console commands
+	// Used via ReplyToCommand (debug.inc)
+	// =========================================================================
+
+	"EW_Debug_LoadConfig_Result"
+	{
+		"#format"	"{1:s}"
+		"en"		"Loaded map config. (Status: {1})"
+		"ru"		"Конфигурация карты загружена. (Статус: {1})"
+		"fr"		"Configuration de la carte chargée. (Statut : {1})"
+		"chi"		"地图配置已加载。（状态：{1}）"
+		"es"		"Configuración del mapa cargada. (Estado: {1})"
+	}
+
+	"EW_Debug_TraceItems_Done"
+	{
+		"en"		"items traced."
+		"ru"		"предметы отслежены."
+		"fr"		"objets tracés."
+		"chi"		"道具已追踪。"
+		"es"		"objetos rastreados."
+	}
+}

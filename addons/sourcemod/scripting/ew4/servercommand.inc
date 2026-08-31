@@ -7,12 +7,8 @@
 //====================================================================================================
 // Requires Sourcemod Version: 1.11.0.6820 or above
 //====================================================================================================
-#pragma semicolon 1
-#pragma newdecls required
 
-#include <sourcemod>
 #include <dhooks>
-#include <entWatch_core>
 
 /* DYNAMICHOOKS */
 DynamicHook g_hAcceptInput;
@@ -20,32 +16,21 @@ DynamicHook g_hAcceptInput;
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-public Plugin myinfo =
+public void Ew4_ServerCommand_OnPluginStart()
 {
-	name         = "[entWatch] Server Command",
-	author       = "zaCade & Prometheum",
-	description  = "Handle the filtering of servercommand messages for [entWatch]",
-	version      = EW_VERSION
-};
-
-//----------------------------------------------------------------------------------------------------
-// Purpose:
-//----------------------------------------------------------------------------------------------------
-public void OnPluginStart()
-{
-	LoadGameConfig();
+	Ew4_ServerCommand_LoadGameConfig();
 
 	int iEntity = INVALID_ENT_REFERENCE;
 	while ((iEntity = FindEntityByClassname(iEntity, "point_servercommand")) != INVALID_ENT_REFERENCE)
 	{
-		OnEntityCreated(iEntity, "point_servercommand");
+		Ew4_ServerCommand_OnEntityCreated(iEntity, "point_servercommand");
 	}
 }
 
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-stock void LoadGameConfig()
+stock void Ew4_ServerCommand_LoadGameConfig()
 {
 	GameData hGameConf;
 	if ((hGameConf = new GameData("sdktools.games")) == null)
@@ -82,18 +67,18 @@ stock void LoadGameConfig()
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-public void OnEntityCreated(int iEntity, const char[] sClassname)
+public void Ew4_ServerCommand_OnEntityCreated(int iEntity, const char[] sClassname)
 {
 	if (!IsValidEntity(iEntity) || StrEqual(sClassname, "point_servercommand"))
 		return;
 
-	g_hAcceptInput.HookEntity(Hook_Pre, iEntity, OnAcceptInput);
+	g_hAcceptInput.HookEntity(Hook_Pre, iEntity, Ew4_ServerCommand_OnAcceptInput);
 }
 
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-public MRESReturn OnAcceptInput(int iEntity, DHookReturn hReturn, DHookParam hParams)
+public MRESReturn Ew4_ServerCommand_OnAcceptInput(int iEntity, DHookReturn hReturn, DHookParam hParams)
 {
 	char sInputName[128];
 	hParams.GetString(1, sInputName, sizeof(sInputName));
