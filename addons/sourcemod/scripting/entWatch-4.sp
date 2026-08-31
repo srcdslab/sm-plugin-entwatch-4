@@ -1592,11 +1592,8 @@ public any Native_GetConfigsArray(Handle hPlugin, int iNumParams)
 //----------------------------------------------------------------------------------------------------
 public any Native_IsEntityItem(Handle hPlugin, int iNumParams)
 {
-	if (!g_hArray_Items.Length)
-		return false;
-
 	int iEntity = GetNativeCell(1);
-	if (!IsValidEdict(iEntity) && IsValidEntity(iEntity) && g_hArray_Items.Length)
+	if (!IsValidEntity(iEntity) || !g_hArray_Items.Length)
 		return false;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
