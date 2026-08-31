@@ -294,16 +294,15 @@ public Action Command_ClientRestrict(int client, int args)
 		return Plugin_Handled;
 	}
 
-	int len, next_len, iDuration = -1;
+	int iDuration = g_iDefaultBanTime;
 	char sArguments[256], sArg[64], sTime[20];
 
 	GetCmdArgString(sArguments, sizeof(sArguments));
-	len = BreakString(sArguments, sArg, sizeof(sArg));
+
+	// Token 1 is the target name; everything after it is the (optional) duration + reason.
+	int len = BreakString(sArguments, sArg, sizeof(sArg));
 	if (len == -1)
-	{
-		len = 0;
-		sArguments[0] = '\0';
-	}
+		len = strlen(sArguments);
 
 	int target = FindTarget(client, sArg, true);
 	if (target == -1)
@@ -317,19 +316,19 @@ public Action Command_ClientRestrict(int client, int args)
 		return Plugin_Handled;
 	}
 
-	if ((next_len = BreakString(sArguments[len], sTime, sizeof(sTime))) != -1)
-		len += next_len;
-	else
+	// Token 2 is consumed as the duration ONLY if it fully parses as an integer.
+	// Otherwise it stays part of the reason, and the reason is never blanked out.
+	int iReasonPos = len;
+	if (sArguments[len])
 	{
-		len = 0;
-		sArguments[0] = '\0';
+		int iValue;
+		int next_len = BreakString(sArguments[len], sTime, sizeof(sTime));
+		if (sTime[0] && StringToIntEx(sTime, iValue) == strlen(sTime))
+		{
+			iDuration  = iValue;
+			iReasonPos = (next_len == -1) ? strlen(sArguments) : len + next_len;
+		}
 	}
-
-	if (!sTime[0] || !StringToIntEx(sTime, iDuration))
-		iDuration = g_iDefaultBanTime;
-
-	if (GetCmdArgs() == 1)
-		iDuration = g_iDefaultBanTime;
 
 	if (iDuration < -1 || (g_iMaxBanTime != 0 && iDuration > g_iMaxBanTime))
 	{
@@ -344,11 +343,11 @@ public Action Command_ClientRestrict(int client, int args)
 	}
 
 	char sReason[64];
-	FormatEx(sReason, sizeof(sReason), "%s", sArguments[len]);
-	if (!sReason[0])
-		FormatEx(sReason, sizeof(sReason), "%s", g_sDefaultBanReason);
+	FormatEx(sReason, sizeof(sReason), "%s", sArguments[iReasonPos]);
 	TrimString(sReason);
 	StripQuotes(sReason);
+	if (!sReason[0])
+		FormatEx(sReason, sizeof(sReason), "%s", g_sDefaultBanReason);
 
 	ClientRestrict(client, target, iDuration, sReason);
 	return Plugin_Handled;
