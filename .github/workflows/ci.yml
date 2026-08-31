@@ -43,11 +43,22 @@ jobs:
           set -euo pipefail
           mkdir -p ../plugins
           echo "::group::Compiling entWatch-4.sp"
-          if ! spcomp -i include -o ../plugins/entWatch-4.smx entWatch-4.sp; then
+          # spcomp exits 0 even when it only emits warnings, so capture the output
+          # and fail the build if any warning is present (warnings-as-errors).
+          set +e
+          spcomp -i include -o ../plugins/entWatch-4.smx entWatch-4.sp 2>&1 | tee spcomp.log
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "::endgroup::"
+          if [ "$status" -ne 0 ]; then
             echo "::error file=addons/sourcemod/scripting/entWatch-4.sp::Failed to compile entWatch-4.sp"
             exit 1
           fi
-          echo "::endgroup::"
+          if grep -Eq '\bwarning\b' spcomp.log; then
+            echo "::error file=addons/sourcemod/scripting/entWatch-4.sp::Compiler emitted warnings (treated as errors)"
+            grep -E '\bwarning\b' spcomp.log || true
+            exit 1
+          fi
 
       - name: Create package
         run: |
