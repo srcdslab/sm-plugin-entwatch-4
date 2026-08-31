@@ -1692,7 +1692,7 @@ stock void Forward_OnClientItemTriggerInteract(int iClient, CItemTrigger hItemTr
 //----------------------------------------------------------------------------------------------------
 public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInteractionType)
 {
-	#if defined EW4_BEACONS
+	#if defined EW4_RESTRICTIONS
 	Ew4_Restrictions_OnClientItemWeaponInteract(iClient, hItem, iInteractionType);
 	#endif
 
