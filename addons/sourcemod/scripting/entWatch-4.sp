@@ -684,7 +684,14 @@ stock void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 //----------------------------------------------------------------------------------------------------
 public void OnEntityCreated(int iEntity, const char[] sClassname)
 {
-	if (!IsValidEntity(iEntity) || !g_hArray_Configs.Length)
+	if (!IsValidEntity(iEntity))
+		return;
+
+	#if defined EW4_SERVERCOMMAND
+	Ew4_ServerCommand_OnEntityCreated(iEntity, sClassname);
+	#endif
+
+	if (!g_hArray_Configs.Length)
 		return;
 
 	SDKHook(iEntity, SDKHook_SpawnPost, OnEntitySpawnPost);
