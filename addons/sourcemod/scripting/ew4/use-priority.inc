@@ -101,9 +101,9 @@ public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float a
 	if (!EW_ClientHasItem(iClient))
 		return Plugin_Continue;
 
-	float vEye[3], vAngles[3], vForward[3], vEnd[3];
+	float vEye[3], vForward[3], vEnd[3];
 	GetClientEyePosition(iClient, vEye);
-	GetAngleVectors(vAngles, vForward, NULL_VECTOR, NULL_VECTOR);
+	GetAngleVectors(angles, vForward, NULL_VECTOR, NULL_VECTOR);
 
 	vEnd[0] = vEye[0] + vForward[0] * g_flRange;
 	vEnd[1] = vEye[1] + vForward[1] * g_flRange;
@@ -134,7 +134,7 @@ public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float a
 	if (hFoundItemButton.hConfigButton.iMode == EW_BUTTON_MODE_MAXUSES && hFoundItemButton.iCurrentUses >= hFoundItemButton.hConfigButton.iMaxUses)
 		return Plugin_Continue;
 
-	if (HasEntProp(hFoundItemButton.iButton, Prop_Data, "m_flWaitTime") && hFoundItemButton.flWaitTime >= g_flGameFrameTime)
+	if (HasEntProp(hFoundItemButton.iButton, Prop_Data, "m_flWait") && hFoundItemButton.flWaitTime >= g_flGameFrameTime)
 		return Plugin_Continue;
 
 	AcceptEntityInput(hFoundItemButton.iButton, "Use", iClient, iClient);
