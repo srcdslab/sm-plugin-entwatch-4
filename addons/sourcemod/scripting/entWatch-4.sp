@@ -17,9 +17,9 @@
 #include <multicolors>
 #include <entWatch_core>
 
-// ─────────────────────────────────────────────
-// Feature flags — comment/uncomment to toggle modules
-// ─────────────────────────────────────────────
+//--------------------------------------------------------------------------------------------------
+// Feature flags - comment/uncomment to toggle modules
+//--------------------------------------------------------------------------------------------------
 #define EW4_BEACONS
 #define EW4_DEBUG
 #define EW4_FORCEDROP
@@ -31,7 +31,7 @@
 #define EW4_TRANSFER
 #define EW4_USE_PRIORITY
 
-/* BOOLS */
+/* BOOLEANS */
 bool g_bLate;
 bool g_bIntermission;
 
@@ -96,9 +96,9 @@ enum struct ColorStruct
 
 ColorStruct g_clr;
 
-// ─────────────────────────────────────────────
-// Module includes — do not edit below this line
-// ─────────────────────────────────────────────
+//--------------------------------------------------------------------------------------------------
+// Module includes - do not edit below this line
+//--------------------------------------------------------------------------------------------------
 #if defined EW4_BEACONS
 	#include "ew4/beacons.inc"
 #endif
@@ -1849,7 +1849,7 @@ stock void FormatPlayerInfo(int iClient, char[] sBuffer, int iMaxLen)
 		}
 		case AuthId_Steam2:
 		{
-			// Shorten STEAM_X:Y:Z → X:Y:Z — shift pointer by 6 chars in-place
+			// Shorten STEAM_X:Y:Z -> X:Y:Z - shift pointer by 6 chars in-place
 			strcopy(sClientAuth, sizeof(sClientAuth), sClientAuth[6]);
 		}
 	}

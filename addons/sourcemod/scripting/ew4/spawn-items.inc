@@ -2,7 +2,7 @@
 //
 // Name: [entWatch] Spawn Items
 // Author: .Rushaway
-// Description: Item spawn logic — native implementation and admin command
+// Description: Item spawn logic - native implementation and admin command
 //
 //====================================================================================================
 
@@ -31,7 +31,7 @@ public void Ew4_Spawn_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Called after config is loaded — build the spawnable item list from configs
+// Purpose: Called after config is loaded - build the spawnable item list from configs
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Spawn_OnConfigLoaded()
 {
@@ -139,7 +139,7 @@ bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Admin command — sm_espawnitem <receiver> <itemname> [<strip 0/1>]
+// Purpose: Admin command - sm_espawnitem <receiver> <itemname> [<strip 0/1>]
 //
 //   Searches items by name/short, spawns directly if unambiguous,
 //   shows a disambiguation menu if multiple items match.
@@ -223,7 +223,7 @@ public Action Command_SpawnItem(int iClient, int iArgs)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Disambiguation menu callback — sm_espawnitem with multiple matches
+// Purpose: Disambiguation menu callback - sm_espawnitem with multiple matches
 //----------------------------------------------------------------------------------------------------
 public int Menu_SpawnItemAmbiguity_Handler(Menu hMenu, MenuAction hAction, int iClient, int iParam2)
 {
@@ -254,7 +254,7 @@ public int Menu_SpawnItemAmbiguity_Handler(Menu hMenu, MenuAction hAction, int i
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Native — EW_SpawnItem(int iAdmin, int iItemID, int iReceiver, bool bStrip)
+// Purpose: Native - EW_SpawnItem(int iAdmin, int iItemID, int iReceiver, bool bStrip)
 //----------------------------------------------------------------------------------------------------
 public int Native_SpawnItem(Handle hPlugin, int iNumParams)
 {
@@ -267,7 +267,7 @@ public int Native_SpawnItem(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Accessor for spawnable items array — returns an ArrayList of CConfig handles for
+// Purpose: Accessor for spawnable items array - returns an ArrayList of CConfig handles for
 //          configs with valid spawner entries. Used by menu interface to show spawnable items.
 //          Note that this is NOT the same as the items array returned by EW_GetItemsArray(), which
 //          contains CItem instances for currently tracked entities.

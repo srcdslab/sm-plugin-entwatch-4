@@ -264,7 +264,7 @@ stock Action OnDisplayHUD(Handle hTimer)
 		// ---- Team pages (T = slot 1, CT = slot 2) ----
 		if (iTeam == 2 || iTeam == 3)
 		{
-			int iPageSlot = iTeam - 1; // 2 → 1, 3 → 2
+			int iPageSlot = iTeam - 1; // 2 -> 1, 3 -> 2
 
 			if (iHUDLens[iPageSlot][iHUDPages[iPageSlot]] + iLineLen >= sizeof(sHUDPages[][])
 				&& iHUDPages[iPageSlot] < sizeof(sHUDPages[]) - 1)

@@ -1,6 +1,6 @@
 //====================================================================================================
 //
-// Name: [entWatch] Interface — Admin Menus
+// Name: [entWatch] Interface - Admin Menus
 // Author: zaCade, Prometheum, koen, .Rushaway
 // Description: All admin menu handlers for [entWatch] interface.
 //
@@ -162,7 +162,7 @@ public int EWM_Menu_PM_ItemList_Handler(Menu hMenu, MenuAction hAction, int iCli
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Per-item detail menu — Restrict Player / Transfer Item
+// Purpose: Per-item detail menu - Restrict Player / Transfer Item
 //----------------------------------------------------------------------------------------------------
 void EWM_Menu_PM_ItemInfo(int iClient, int iItemID)
 {
@@ -181,7 +181,7 @@ void EWM_Menu_PM_ItemInfo(int iClient, int iItemID)
 	hMenu.SetTitle(sTitle);
 	hMenu.ExitBackButton = true;
 
-	// Restrict option — only if item has an owner and restrictions plugin is loaded
+	// Restrict option - only if item has an owner and restrictions plugin is loaded
 	if (hItem.iClient != INVALID_ENT_REFERENCE && LibraryExists("entWatch-restrictions"))
 	{
 		char sEbanInfo[32];

@@ -15,7 +15,7 @@
 bool g_bEnableSpawnedBeacon = true;
 bool g_bEnableDroppedBeacon = true;
 
-/* INTERGERS */
+/* INTEGERS */
 int g_iBeamSprite = -1;
 int g_iHaloSprite = -1;
 
