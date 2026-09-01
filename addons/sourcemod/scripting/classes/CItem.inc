@@ -153,14 +153,16 @@ methodmap CItem < StringMap
 		}
 	}
 
-	// Frees the hButtons/hTriggers containers allocated by the constructor and the
-	// backing StringMap. A bare `delete` on a CItem only frees the StringMap and
-	// leaks the two ArrayLists. Callers that populated the lists must delete the
+	// Frees the hButtons/hTriggers containers allocated by the constructor.
+	// SourcePawn has no destructors, so callers must pair this with `delete`:
+	//     hItem.Delete();
+	//     delete hItem;
+	// A bare `delete` on a CItem only frees the backing StringMap and leaks the
+	// two ArrayLists. Callers that populated the lists must delete the
 	// CItemButton/CItemTrigger entries first (see CleanupItems).
 	public void Delete()
 	{
 		delete this.hButtons;
 		delete this.hTriggers;
-		delete this;
 	}
 }
