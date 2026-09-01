@@ -5,10 +5,14 @@
 // Description: Handle the core functions of [entWatch]
 //
 //====================================================================================================
-// Requires Sourcemod Version: 1.10.0.6531 or above
+// Recommended Sourcemod Version: 1.12.0.7225 or above
 //====================================================================================================
 #pragma semicolon 1
 #pragma newdecls required
+
+#if !defined SOURCEMOD_V_MAJOR || SOURCEMOD_V_MAJOR < 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR < 12)
+	#warning entWatch-4 is developed and tested against SourceMod 1.12.0.7225 or above. Older versions may still build, but the features and performance work target 1.12+ and are not tested there.
+#endif
 
 #include <sourcemod>
 #include <sdkhooks>
@@ -144,7 +148,8 @@ public Plugin myinfo =
 	name         = "[entWatch] Core",
 	author       = "zaCade, Prometheum, koen, tilgep, .Rushaway",
 	description  = "Handle the core functions of [entWatch]",
-	version      = EW_VERSION
+	version      = EW_VERSION,
+	url          = "https://github.com/srcdslab/sm-plugin-entwatch-4"
 };
 
 //----------------------------------------------------------------------------------------------------

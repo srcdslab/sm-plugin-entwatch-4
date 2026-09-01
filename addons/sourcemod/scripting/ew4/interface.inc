@@ -5,7 +5,7 @@
 // Description: HUD display, client preferences and admin menus for [entWatch]
 //
 //====================================================================================================
-// Requires Sourcemod Version: 1.10.0.6531 or above
+// Recommended Sourcemod Version: 1.12.0.7225 or above
 //====================================================================================================
 #include <adminmenu>
 #include <clientprefs_stocks>
