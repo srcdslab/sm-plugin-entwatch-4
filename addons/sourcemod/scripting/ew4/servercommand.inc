@@ -69,7 +69,7 @@ stock void Ew4_ServerCommand_LoadGameConfig()
 //----------------------------------------------------------------------------------------------------
 public void Ew4_ServerCommand_OnEntityCreated(int iEntity, const char[] sClassname)
 {
-	if (!IsValidEntity(iEntity) || StrEqual(sClassname, "point_servercommand"))
+	if (!IsValidEntity(iEntity) || !StrEqual(sClassname, "point_servercommand", false))
 		return;
 
 	g_hAcceptInput.HookEntity(Hook_Pre, iEntity, Ew4_ServerCommand_OnAcceptInput);
