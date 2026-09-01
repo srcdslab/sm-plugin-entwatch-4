@@ -390,6 +390,15 @@
 		"es"		"ya está restringido."
 	}
 
+	"EW_Offline_AlreadyBanned"
+	{
+		"en"		"already has an active eban issued by"
+		"ru"		"уже имеет активный eban, выданный"
+		"fr"		"a déjà un eban actif émis par"
+		"chi"		"已有一个由以下管理员发起的有效 eban："
+		"es"		"ya tiene un eban activo emitido por"
+	}
+
 	"EW_Restrict_InvalidDuration"
 	{
 		"en"		"Invalid duration. Must be between -1 and the configured maximum (0 = permanent, -1 = session)."

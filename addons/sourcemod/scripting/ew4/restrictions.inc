@@ -1128,6 +1128,78 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 	if (!ValidateBanPermissions(admin, iDuration, true))
 		return;
 
+	// Refuse the offline eban when this SteamID already has an active eban rather
+	// than inserting a second active row: eunban / cleanup only clear one row at
+	// a time, and silently overwriting a live ban is not acceptable in prod. The
+	// INSERT is deferred to DB_OnOfflineBanCheck, which runs once we know the
+	// SteamID is clear.
+	char sQuery[256];
+	g_hDB.Format(sQuery, sizeof(sQuery),
+		"SELECT `admin_name` FROM `EntWatch_Ebans`"
+		... " WHERE `client_steamid`='%s' AND `unbanned_at` IS NULL"
+		... " ORDER BY `issued_at` DESC LIMIT 1",
+		player.szPlayerSteamID);
+
+	DataPack hPack = new DataPack();
+	hPack.WriteCell(GetClientUserId(admin));
+	hPack.WriteCell(iDuration);
+	hPack.WriteString(reason);
+	hPack.WriteString(player.szPlayerName);
+	hPack.WriteString(player.szPlayerSteamID);
+
+	g_hDB.Query(DB_OnOfflineBanCheck, sQuery, hPack, DBPrio_Normal);
+}
+
+public void DB_OnOfflineBanCheck(Database db, DBResultSet results, const char[] error, any data)
+{
+	DataPack hPack = view_as<DataPack>(data);
+	hPack.Reset();
+	int  admin     = GetClientOfUserId(hPack.ReadCell());
+	int  iDuration = hPack.ReadCell();
+	char reason[128], sPlayerName[32], sPlayerSteam[64];
+	hPack.ReadString(reason,       sizeof(reason));
+	hPack.ReadString(sPlayerName,  sizeof(sPlayerName));
+	hPack.ReadString(sPlayerSteam, sizeof(sPlayerSteam));
+	delete hPack;
+
+	if (error[0])
+	{
+		LogError("OfflineBanCheck failed: %s", error);
+		if (IsValidClient(admin))
+		{
+			SetGlobalTransTarget(admin);
+			CReplyToCommand(admin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_DB_NotConnected");
+		}
+		return;
+	}
+
+	// An active eban row already exists for this SteamID — report it back to the
+	// admin who ran the command and leave the existing ban untouched.
+	if (results.FetchRow())
+	{
+		char sExistingAdmin[32];
+		results.FetchString(0, sExistingAdmin, sizeof(sExistingAdmin));
+
+		if (IsValidClient(admin))
+		{
+			SetGlobalTransTarget(admin);
+			CReplyToCommand(admin, "{#%s}%t {#%s}%s {#%s}%t {#%s}%s",
+				g_clr.sTag, "EW_Tag",
+				g_clr.sName, sPlayerName,
+				g_clr.sWarning, "EW_Offline_AlreadyBanned",
+				g_clr.sName, sExistingAdmin);
+		}
+
+		LogAction(admin, -1, "\"%L\" attempted an offline restriction on \"%s\" (%s) that already has an active eban (by %s)",
+			admin, sPlayerName, sPlayerSteam, sExistingAdmin);
+		return;
+	}
+
+	OfflinePlayer_CommitBan(admin, iDuration, reason, sPlayerName, sPlayerSteam);
+}
+
+void OfflinePlayer_CommitBan(int admin, int iDuration, const char[] reason, const char[] sPlayerName, const char[] sPlayerSteam)
+{
 	char sAdminName[32], sAdminSteam[64];
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 
@@ -1141,7 +1213,7 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 			"INSERT INTO `EntWatch_Ebans` "
 			... "(`client_name`,`client_steamid`,`admin_name`,`admin_steamid`,`duration_minutes`,`issued_at`,`expires_at`,`reason`) "
 			... "VALUES ('%s','%s','%s','%s',%d,%d,%d,'%s')",
-			player.szPlayerName, player.szPlayerSteamID, sAdminName, sAdminSteam, iDuration, iNow, iExpires, reason);
+			sPlayerName, sPlayerSteam, sAdminName, sAdminSteam, iDuration, iNow, iExpires, reason);
 	}
 	else
 	{
@@ -1149,7 +1221,7 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 			"INSERT INTO `EntWatch_Ebans` "
 			... "(`client_name`,`client_steamid`,`admin_name`,`admin_steamid`,`duration_minutes`,`issued_at`,`expires_at`,`reason`) "
 			... "VALUES ('%s','%s','%s','%s',%d,%d,NULL,'%s')",
-			player.szPlayerName, player.szPlayerSteamID, sAdminName, sAdminSteam, iDuration, iNow, reason);
+			sPlayerName, sPlayerSteam, sAdminName, sAdminSteam, iDuration, iNow, reason);
 	}
 
 	g_hDB.Query(DB_OnGenericError, sQuery, 0, DBPrio_Low);
@@ -1161,12 +1233,12 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 
 		if (iDuration == 0)
 		{
-			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminName, g_clr.sWarning, "EW_Restricted", g_clr.sWarning, "EW_Offline", g_clr.sName, player.szPlayerName, g_clr.sWarning, "EW_Permanently");
+			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%t {#%s}%s {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminName, g_clr.sWarning, "EW_Restricted", g_clr.sWarning, "EW_Offline", g_clr.sName, sPlayerName, g_clr.sWarning, "EW_Permanently");
 			CPrintToChat(i, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Reason", g_clr.sName, reason);
 		}
 		else
 		{
-			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%t {#%s}%s {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminName, g_clr.sWarning, "EW_Restricted", g_clr.sWarning, "EW_Offline", g_clr.sName, player.szPlayerName, g_clr.sWarning, "EW_For", g_clr.sAuthID, iDuration, g_clr.sWarning, "EW_Minutes");
+			CPrintToChat(i, "{#%s}%t {#%s}%s {#%s}%t {#%s}%t {#%s}%s {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sName, sAdminName, g_clr.sWarning, "EW_Restricted", g_clr.sWarning, "EW_Offline", g_clr.sName, sPlayerName, g_clr.sWarning, "EW_For", g_clr.sAuthID, iDuration, g_clr.sWarning, "EW_Minutes");
 			CPrintToChat(i, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Reason", g_clr.sName, reason);
 		}
 	}
@@ -1176,19 +1248,19 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 	Call_PushCell(iDuration);
 	Call_PushString(reason);
 	Call_PushString(sAdminName);
-	Call_PushString(player.szPlayerName);
-	Call_PushString(player.szPlayerSteamID);
+	Call_PushString(sPlayerName);
+	Call_PushString(sPlayerSteam);
 	Call_Finish();
 
 	if (iDuration == 0)
 	{
 		LogAction(admin, -1, "\"%L\" offline restricted \"%s\" (%s) permanently. Reason: %s",
-			admin, player.szPlayerName, player.szPlayerSteamID, reason);
+			admin, sPlayerName, sPlayerSteam, reason);
 	}
 	else
 	{
 		LogAction(admin, -1, "\"%L\" offline restricted \"%s\" (%s) for %d minutes. Reason: %s",
-			admin, player.szPlayerName, player.szPlayerSteamID, iDuration, reason);
+			admin, sPlayerName, sPlayerSteam, iDuration, reason);
 	}
 }
 
