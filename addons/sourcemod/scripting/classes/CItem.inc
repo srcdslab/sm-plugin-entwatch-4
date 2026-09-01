@@ -152,4 +152,15 @@ methodmap CItem < StringMap
 			this.SetValue("hTriggers", hValue);
 		}
 	}
+
+	// Frees the hButtons/hTriggers containers allocated by the constructor and the
+	// backing StringMap. A bare `delete` on a CItem only frees the StringMap and
+	// leaks the two ArrayLists. Callers that populated the lists must delete the
+	// CItemButton/CItemTrigger entries first (see CleanupItems).
+	public void Delete()
+	{
+		delete this.hButtons;
+		delete this.hTriggers;
+		delete this;
+	}
 }

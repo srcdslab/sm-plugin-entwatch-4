@@ -652,25 +652,10 @@ stock void CleanupItems(bool bUnhookEntities = true)
 			delete hItemTrigger;
 		}
 
-		delete hItem.hButtons;
-		delete hItem.hTriggers;
-
-		delete hItem;
+		hItem.Delete();
 	}
 
 	g_hArray_Items.Clear();
-}
-
-//----------------------------------------------------------------------------------------------------
-// Purpose: Free a CItem that was never pushed to g_hArray_Items (failed registration).
-// `delete hItem` alone only frees the backing StringMap, leaking the hButtons/hTriggers
-// containers allocated by the constructor.
-//----------------------------------------------------------------------------------------------------
-stock void DiscardItem(CItem hItem)
-{
-	delete hItem.hButtons;
-	delete hItem.hTriggers;
-	delete hItem;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -749,7 +734,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemWeapon(hItem, iEntity))
 				{
-					DiscardItem(hItem);
+					hItem.Delete();
 					continue;
 				}
 
@@ -791,7 +776,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemButton(hConfigButton, hItem, iEntity))
 				{
-					DiscardItem(hItem);
+					hItem.Delete();
 					continue;
 				}
 
@@ -833,7 +818,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemTrigger(hConfigTrigger, hItem, iEntity))
 				{
-					DiscardItem(hItem);
+					hItem.Delete();
 					continue;
 				}
 
