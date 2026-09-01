@@ -23,7 +23,7 @@ ConVar g_hCVar_UsePriority;
 ConVar g_hCVar_UsePriorityRange;
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Create the use-priority cvars and cache their values
 //----------------------------------------------------------------------------------------------------
 stock void EW4_UsePriority_OnPluginStart()
 {
@@ -38,7 +38,7 @@ stock void EW4_UsePriority_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Keep the cached use-priority toggle and range in sync with their cvars
 //----------------------------------------------------------------------------------------------------
 public void Cvar_UsePriority_Changed(ConVar convar, const char[] oldValue, const char[] newValue)
 {

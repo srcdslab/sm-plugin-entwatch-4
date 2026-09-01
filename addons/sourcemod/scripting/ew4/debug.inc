@@ -13,7 +13,7 @@ int g_iBeamSpriteDebug = -1;
 int g_iHaloSpriteDebug = -1;
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Register the sm_edebug_* admin commands
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Debug_OnPluginStart()
 {
@@ -25,7 +25,7 @@ public void Ew4_Debug_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Precache the debug trace sprites for the new map
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Debug_OnMapStart()
 {
@@ -33,7 +33,7 @@ public void Ew4_Debug_OnMapStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Precache the beam/halo sprites from funcommands gamedata
 //----------------------------------------------------------------------------------------------------
 stock void Ew4_Debug_LoadGameConfig()
 {
@@ -55,7 +55,7 @@ stock void Ew4_Debug_LoadGameConfig()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: sm_edebug_printitems - dump the live items array to the client console
 //----------------------------------------------------------------------------------------------------
 public Action Command_PrintItems(int iClient, int iArgs)
 {
@@ -137,7 +137,7 @@ public Action Command_PrintItems(int iClient, int iArgs)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: sm_edebug_printconfigs - dump the loaded configs array to the client console
 //----------------------------------------------------------------------------------------------------
 public Action Command_PrintConfigs(int iClient, int iArgs)
 {
@@ -216,7 +216,7 @@ public Action Command_PrintConfigs(int iClient, int iArgs)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: sm_edebug_loadconfig - reload the current map's item config
 //----------------------------------------------------------------------------------------------------
 public Action Command_LoadConfig(int iClient, int iArgs)
 {
@@ -229,7 +229,7 @@ public Action Command_LoadConfig(int iClient, int iArgs)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: sm_edebug_traceitems - draw a beam from the admin to every spawned/dropped item
 //----------------------------------------------------------------------------------------------------
 public Action Command_TraceItems(int iClient, int iArgs)
 {

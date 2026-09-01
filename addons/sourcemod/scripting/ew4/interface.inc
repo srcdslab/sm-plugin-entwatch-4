@@ -30,7 +30,7 @@ TopMenu g_hAdminMenu;
 #include "menu-interface.inc"
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Create the interface cvar/cookie, register sm_hud and hook the admin menu
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Interface_OnPluginStart()
 {
@@ -59,7 +59,7 @@ void OnInterfaceCvarChanged(ConVar convar, const char[] oldValue, const char[] n
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Register the entWatch category once the admin top-menu is available
 //----------------------------------------------------------------------------------------------------
 public void OnAdminMenuReady(Handle aTopMenu)
 {
@@ -75,7 +75,7 @@ public void OnAdminMenuReady(Handle aTopMenu)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Drop the cached admin-menu handle when adminmenu unloads
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Interface_OnLibraryRemoved(const char[] name)
 {
@@ -84,7 +84,7 @@ public void Ew4_Interface_OnLibraryRemoved(const char[] name)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Start the repeating HUD display timer for the new map
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Interface_OnMapStart()
 {
@@ -92,7 +92,7 @@ public void Ew4_Interface_OnMapStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Load the client's saved HUD visibility preference
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Interface_OnClientCookiesCached(int iClient)
 {
@@ -108,7 +108,7 @@ public void Ew4_Interface_OnClientPostAdminCheck(int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Reset cached admin status and HUD preference for the slot
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Interface_OnClientDisconnect(int iClient)
 {
