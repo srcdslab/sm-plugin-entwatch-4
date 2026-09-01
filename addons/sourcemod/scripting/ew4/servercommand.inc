@@ -48,7 +48,7 @@ stock void Ew4_ServerCommand_LoadGameConfig()
 		return;
 	}
 
-	if ((g_hAcceptInput = new DynamicHook(iAcceptInputOffset, HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity)) == INVALID_HANDLE)
+	if ((g_hAcceptInput = new DynamicHook(iAcceptInputOffset, HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity)) == null)
 	{
 		delete hGameConf;
 		SetFailState("new DynamicHook(iAcceptInputOffset (%d), HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity) failed!", iAcceptInputOffset);

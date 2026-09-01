@@ -88,7 +88,7 @@ public void Ew4_Interface_OnLibraryRemoved(const char[] name)
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Interface_OnMapStart()
 {
-	CreateTimer(1.0, OnDisplayHUD, INVALID_HANDLE, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
+	CreateTimer(1.0, OnDisplayHUD, _, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
 }
 
 //----------------------------------------------------------------------------------------------------
