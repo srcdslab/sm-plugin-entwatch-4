@@ -61,81 +61,81 @@ public void Ew4_Spawn_OnConfigLoaded()
 //----------------------------------------------------------------------------------------------------
 bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 {
-    if (!s_hSpawnableItems || iConfigIndex < 0 || iConfigIndex >= s_hSpawnableItems.Length)
-        return false;
+	if (!s_hSpawnableItems || iConfigIndex < 0 || iConfigIndex >= s_hSpawnableItems.Length)
+		return false;
 
-    if (iTarget < 1 || iTarget > MaxClients || !IsClientInGame(iTarget))
-        return false;
+	if (iTarget < 1 || iTarget > MaxClients || !IsClientInGame(iTarget))
+		return false;
 
-    CConfig hConfig = s_hSpawnableItems.Get(iConfigIndex);
+	CConfig hConfig = s_hSpawnableItems.Get(iConfigIndex);
 
-    char sSpawner[64];
-    hConfig.GetSpawner(sSpawner, sizeof(sSpawner));
+	char sSpawner[64];
+	hConfig.GetSpawner(sSpawner, sizeof(sSpawner));
 
-    int iEntity = -1, iPT = -1;
-    char sPTName[64];
-    while ((iEntity = FindEntityByClassname(iEntity, "point_template")) != -1)
-    {
-        GetEntPropString(iEntity, Prop_Data, "m_iName", sPTName, sizeof(sPTName));
-        if (StrEqual(sPTName, sSpawner))
-        {
-            iPT = iEntity;
-            break;
-        }
-    }
+	int iEntity = -1, iPT = -1;
+	char sPTName[64];
+	while ((iEntity = FindEntityByClassname(iEntity, "point_template")) != -1)
+	{
+		GetEntPropString(iEntity, Prop_Data, "m_iName", sPTName, sizeof(sPTName));
+		if (StrEqual(sPTName, sSpawner))
+		{
+			iPT = iEntity;
+			break;
+		}
+	}
 
-    if (iPT == -1)
-    {
-        CReplyToCommand(iAdmin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Spawn_PTConfigError");
-        return false;
-    }
+	if (iPT == -1)
+	{
+		CReplyToCommand(iAdmin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Spawn_PTConfigError");
+		return false;
+	}
 
-    if (bStrip)
-    {
-        for (int iSlot = 0; iSlot < 5; iSlot++)
-        {
-            int iWeapon;
-            while ((iWeapon = GetPlayerWeaponSlot(iTarget, iSlot)) != -1)
-            {
-                if (IsValidEntity(iWeapon) && IsValidEdict(iWeapon))
-                {
-                    RemovePlayerItem(iTarget, iWeapon);
-                    AcceptEntityInput(iWeapon, "Kill");
-                }
-            }
-        }
-    }
+	if (bStrip)
+	{
+		for (int iSlot = 0; iSlot < 5; iSlot++)
+		{
+			int iWeapon;
+			while ((iWeapon = GetPlayerWeaponSlot(iTarget, iSlot)) != -1)
+			{
+				if (IsValidEntity(iWeapon) && IsValidEdict(iWeapon))
+				{
+					RemovePlayerItem(iTarget, iWeapon);
+					AcceptEntityInput(iWeapon, "Kill");
+				}
+			}
+		}
+	}
 
-    float vOrigin[3];
-    GetClientAbsOrigin(iTarget, vOrigin);
-    vOrigin[2] += 20.0;
+	float vOrigin[3];
+	GetClientAbsOrigin(iTarget, vOrigin);
+	vOrigin[2] += 20.0;
 
-    int iMaker = CreateEntityByName("env_entity_maker");
+	int iMaker = CreateEntityByName("env_entity_maker");
 	if (iMaker == -1)
 	{
 		CReplyToCommand(iAdmin, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Spawn_MakerError");
 		return false;
 	}
 
-    DispatchKeyValue(iMaker, "EntityTemplate", sSpawner);
-    DispatchKeyValue(iMaker, "spawnflags", "0");
-    DispatchSpawn(iMaker);
-    TeleportEntity(iMaker, vOrigin, NULL_VECTOR, NULL_VECTOR);
-    AcceptEntityInput(iMaker, "ForceSpawn");
-    AcceptEntityInput(iMaker, "Kill");
+	DispatchKeyValue(iMaker, "EntityTemplate", sSpawner);
+	DispatchKeyValue(iMaker, "spawnflags", "0");
+	DispatchSpawn(iMaker);
+	TeleportEntity(iMaker, vOrigin, NULL_VECTOR, NULL_VECTOR);
+	AcceptEntityInput(iMaker, "ForceSpawn");
+	AcceptEntityInput(iMaker, "Kill");
 
-    char sName[64];
-    hConfig.GetName(sName, sizeof(sName));
+	char sName[64];
+	hConfig.GetName(sName, sizeof(sName));
 
-    CPrintToChatAll("{#%s}%t {#%s}%N {#%s}%t {#%s}%s {#%s}%t {#%s}%N", g_clr.sTag, "EW_Tag", g_clr.sName, iAdmin, g_clr.sWarning, "Item Spawn", g_clr.sName, sName, g_clr.sWarning, "EW_On", g_clr.sName, iTarget);
+	CPrintToChatAll("{#%s}%t {#%s}%N {#%s}%t {#%s}%s {#%s}%t {#%s}%N", g_clr.sTag, "EW_Tag", g_clr.sName, iAdmin, g_clr.sWarning, "Item Spawn", g_clr.sName, sName, g_clr.sWarning, "EW_On", g_clr.sName, iTarget);
 
-    Call_StartForward(g_hFwd_OnAdminSpawnItem);
-    Call_PushCell(iAdmin);
-    Call_PushString(sName);
-    Call_PushCell(iTarget);
-    Call_Finish();
+	Call_StartForward(g_hFwd_OnAdminSpawnItem);
+	Call_PushCell(iAdmin);
+	Call_PushString(sName);
+	Call_PushCell(iTarget);
+	Call_Finish();
 
-    return true;
+	return true;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -274,5 +274,5 @@ public int Native_SpawnItem(Handle hPlugin, int iNumParams)
 //----------------------------------------------------------------------------------------------------
 stock ArrayList Ew4_Spawn_GetSpawnableItems()
 {
-    return s_hSpawnableItems;
+	return s_hSpawnableItems;
 }

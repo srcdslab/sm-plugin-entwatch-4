@@ -5,7 +5,7 @@
 // ============================================================================
 
 #if defined _entWatch_included
-    #endinput
+	#endinput
 #endif
 #define _entWatch_included
 
@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.11"
+#define EW_VERSION          "4.2.12"
 #define EW_VERSION_CONFIG   2
 
 
@@ -436,32 +436,32 @@ native bool EW_ShowUnbanReasonMenu(int iAdmin, int iClient);
 
 public SharedPlugin __pl_entWatch_core =
 {
-    name = "entWatch-core",
-    file = "entWatch-core.smx",
+	name = "entWatch-core",
+	file = "entWatch-core.smx",
 
 #if defined REQUIRE_PLUGIN
-    required = 1,
+	required = 1,
 #else
-    required = 0,
+	required = 0,
 #endif
 };
 
 #if !defined REQUIRE_PLUGIN
 public void __pl_entWatch_core_SetNTVOptional()
 {
-    MarkNativeAsOptional("EW_LoadConfig");
-    MarkNativeAsOptional("EW_GetItemsArray");
-    MarkNativeAsOptional("EW_GetConfigsArray");
-    MarkNativeAsOptional("EW_IsEntityItem");
-    MarkNativeAsOptional("EW_ClientHasItem");
-    MarkNativeAsOptional("EW_TransferItem");
-    MarkNativeAsOptional("EW_SpawnItem");
-    MarkNativeAsOptional("EW_ClientRestrict");
-    MarkNativeAsOptional("EW_ClientUnrestrict");
-    MarkNativeAsOptional("EW_IsRestrictedClient");
-    MarkNativeAsOptional("EW_GetClientBanCount");
-    MarkNativeAsOptional("EW_GetClientBanInfo");
-    MarkNativeAsOptional("EW_ShowBanReasonMenu");
-    MarkNativeAsOptional("EW_ShowUnbanReasonMenu");
+	MarkNativeAsOptional("EW_LoadConfig");
+	MarkNativeAsOptional("EW_GetItemsArray");
+	MarkNativeAsOptional("EW_GetConfigsArray");
+	MarkNativeAsOptional("EW_IsEntityItem");
+	MarkNativeAsOptional("EW_ClientHasItem");
+	MarkNativeAsOptional("EW_TransferItem");
+	MarkNativeAsOptional("EW_SpawnItem");
+	MarkNativeAsOptional("EW_ClientRestrict");
+	MarkNativeAsOptional("EW_ClientUnrestrict");
+	MarkNativeAsOptional("EW_IsRestrictedClient");
+	MarkNativeAsOptional("EW_GetClientBanCount");
+	MarkNativeAsOptional("EW_GetClientBanInfo");
+	MarkNativeAsOptional("EW_ShowBanReasonMenu");
+	MarkNativeAsOptional("EW_ShowUnbanReasonMenu");
 }
 #endif

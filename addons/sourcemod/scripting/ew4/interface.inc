@@ -23,7 +23,7 @@ ConVar g_hCVar_InterfaceMode;
 /* COOKIES */
 Cookie_Stocks g_hCookie_InterfaceHidden;
 
-/* HANDLES */ 
+/* HANDLES */
 TopMenu g_hAdminMenu;
 
 // Sub-module - all admin panel menus

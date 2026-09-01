@@ -13,12 +13,12 @@
 //----------------------------------------------------------------------------------------------------
 public void Ew4_OverrideItem_OnPluginStart()
 {
-    RegAdminCmd("sm_ewsetcooldown",  Command_SetCooldown,    ADMFLAG_CONFIG, "Set button cooldown by HammerID");
-    RegAdminCmd("sm_ewsetmaxuses",   Command_SetMaxUses,     ADMFLAG_CONFIG, "Set button max uses by HammerID");
-    RegAdminCmd("sm_ewsetmode",      Command_SetMode,        ADMFLAG_CONFIG, "Set button mode by HammerID");
-    RegAdminCmd("sm_ewsetname",      Command_SetName,        ADMFLAG_CONFIG, "Set item display name by HammerID");
-    RegAdminCmd("sm_ewsetshortname", Command_SetShortName,   ADMFLAG_CONFIG, "Set item short name by HammerID");
-    RegAdminCmd("sm_ewlockbutton",   Command_LockButton,     ADMFLAG_CONFIG, "Lock/unlock button by HammerID");
+	RegAdminCmd("sm_ewsetcooldown",  Command_SetCooldown,    ADMFLAG_CONFIG, "Set button cooldown by HammerID");
+	RegAdminCmd("sm_ewsetmaxuses",   Command_SetMaxUses,     ADMFLAG_CONFIG, "Set button max uses by HammerID");
+	RegAdminCmd("sm_ewsetmode",      Command_SetMode,        ADMFLAG_CONFIG, "Set button mode by HammerID");
+	RegAdminCmd("sm_ewsetname",      Command_SetName,        ADMFLAG_CONFIG, "Set item display name by HammerID");
+	RegAdminCmd("sm_ewsetshortname", Command_SetShortName,   ADMFLAG_CONFIG, "Set item short name by HammerID");
+	RegAdminCmd("sm_ewlockbutton",   Command_LockButton,     ADMFLAG_CONFIG, "Lock/unlock button by HammerID");
 }
 
 public Action Command_SetCooldown(int iClient, int iArgs)
