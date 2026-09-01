@@ -582,6 +582,9 @@ stock void CleanupConfigs()
 			delete hConfigTrigger;
 		}
 
+		delete hConfig.hButtons;
+		delete hConfig.hTriggers;
+
 		delete hConfig;
 	}
 
@@ -593,7 +596,7 @@ stock void CleanupConfigs()
 //----------------------------------------------------------------------------------------------------
 stock void CleanupItems()
 {
-	if (!g_hArray_Configs.Length)
+	if (!g_hArray_Items.Length)
 		return;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
@@ -654,6 +657,9 @@ stock void CleanupItems()
 
 			delete hItemTrigger;
 		}
+
+		delete hItem.hButtons;
+		delete hItem.hTriggers;
 
 		delete hItem;
 	}
