@@ -652,9 +652,7 @@ stock void CleanupItems(bool bUnhookEntities = true)
 			delete hItemTrigger;
 		}
 
-		delete hItem.hButtons;
-		delete hItem.hTriggers;
-
+		hItem.Delete();
 		delete hItem;
 	}
 
@@ -737,6 +735,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemWeapon(hItem, iEntity))
 				{
+					hItem.Delete();
 					delete hItem;
 					continue;
 				}
@@ -779,6 +778,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemButton(hConfigButton, hItem, iEntity))
 				{
+					hItem.Delete();
 					delete hItem;
 					continue;
 				}
@@ -821,6 +821,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemTrigger(hConfigTrigger, hItem, iEntity))
 				{
+					hItem.Delete();
 					delete hItem;
 					continue;
 				}
