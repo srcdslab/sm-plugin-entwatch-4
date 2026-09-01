@@ -53,6 +53,12 @@ ConVar g_hCVar_MessageMode;
 ArrayList g_hArray_Items;
 ArrayList g_hArray_Configs;
 
+// Set of every HammerID referenced by a config (item, button or trigger), keyed
+// by the decimal HammerID string. Lets OnEntitySpawnPost reject the ~99% of
+// entity spawns that can never match a config in O(1) instead of walking every
+// config, button and trigger.
+StringMap g_hConfigHammerIDs;
+
 /* HANDLES */
 Handle SDKCall_GetSlot;
 Handle SDKCall_OnPickedUp;
@@ -187,8 +193,9 @@ public void OnPluginStart()
 	g_hFwd_OnClientItemButtonCanInteract  = new GlobalForward("EW_OnClientItemButtonCanInteract",  ET_Hook, Param_Cell, Param_Cell);
 	g_hFwd_OnClientItemTriggerCanInteract = new GlobalForward("EW_OnClientItemTriggerCanInteract", ET_Hook, Param_Cell, Param_Cell);
 
-	g_hArray_Items   = new ArrayList();
-	g_hArray_Configs = new ArrayList();
+	g_hArray_Items     = new ArrayList();
+	g_hArray_Configs   = new ArrayList();
+	g_hConfigHammerIDs = new StringMap();
 
 	g_hCVar_PlayerFormat = CreateConVar("sm_eplayer_format", "3", "Player info display format in chat messages (0 = Name only, 1 = Name + UserID, 2 = Name + SteamID, 3 = Name + UserID + SteamID)", FCVAR_NONE, true, 0.0, true, 3.0);
 	g_hCVar_MsgsAuthID   = CreateConVar("sm_emessages_authid", "1", "AuthID type used in messages [0 = Engine, 1 = Steam2, 2 = Steam3, 3 = Steam64]", FCVAR_NONE, true, 0.0, true, 3.0);
@@ -297,6 +304,8 @@ public void OnPluginEnd()
 {
 	CleanupItems();
 	CleanupConfigs();
+
+	delete g_hConfigHammerIDs;
 
 	#if defined EW4_BEACONS
 	Ew4_Beacons_OnPluginEnd();
@@ -544,6 +553,8 @@ stock bool LoadConfig(bool bLoopEntities = false)
 		while (hConfigFile.GotoNextKey());
 	}
 
+	BuildConfigHammerIDIndex();
+
 	if (bLoopEntities)
 	{
 		int iEntity = INVALID_ENT_REFERENCE;
@@ -562,10 +573,68 @@ stock bool LoadConfig(bool bLoopEntities = false)
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: (Re)build the HammerID lookup set from the currently loaded configs
+//----------------------------------------------------------------------------------------------------
+stock void BuildConfigHammerIDIndex()
+{
+	g_hConfigHammerIDs.Clear();
+
+	char sKey[16];
+	for (int iConfigID; iConfigID < g_hArray_Configs.Length; iConfigID++)
+	{
+		CConfig hConfig = g_hArray_Configs.Get(iConfigID);
+
+		if (hConfig.iHammerID)
+		{
+			IntToString(hConfig.iHammerID, sKey, sizeof(sKey));
+			g_hConfigHammerIDs.SetValue(sKey, true);
+		}
+
+		for (int i; i < hConfig.hButtons.Length; i++)
+		{
+			CConfigButton hConfigButton = hConfig.hButtons.Get(i);
+			if (!hConfigButton.iHammerID)
+				continue;
+
+			IntToString(hConfigButton.iHammerID, sKey, sizeof(sKey));
+			g_hConfigHammerIDs.SetValue(sKey, true);
+		}
+
+		for (int i; i < hConfig.hTriggers.Length; i++)
+		{
+			CConfigTrigger hConfigTrigger = hConfig.hTriggers.Get(i);
+			if (!hConfigTrigger.iHammerID)
+				continue;
+
+			IntToString(hConfigTrigger.iHammerID, sKey, sizeof(sKey));
+			g_hConfigHammerIDs.SetValue(sKey, true);
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: True if any config references this HammerID (item, button or trigger)
+//----------------------------------------------------------------------------------------------------
+stock bool IsConfigHammerID(int iHammerID)
+{
+	if (!iHammerID)
+		return false;
+
+	char sKey[16];
+	IntToString(iHammerID, sKey, sizeof(sKey));
+
+	bool bDummy;
+	return g_hConfigHammerIDs.GetValue(sKey, bDummy);
+}
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Free every CConfig (and its buttons/triggers) and clear the Configs array
 //----------------------------------------------------------------------------------------------------
 stock void CleanupConfigs()
 {
+	if (g_hConfigHammerIDs != null)
+		g_hConfigHammerIDs.Clear();
+
 	if (!g_hArray_Configs.Length)
 		return;
 
@@ -695,6 +764,11 @@ stock void OnEntitySpawnPost(int iEntity)
 		return;
 
 	int iHammerID = GetEntProp(iEntity, Prop_Data, "m_iHammerID");
+
+	// Reject the overwhelming majority of spawns (particles, sprites, runtime
+	// weapons, ...) before touching the config/button/trigger loops.
+	if (!IsConfigHammerID(iHammerID))
+		return;
 
 	for (int iConfigID; iConfigID < g_hArray_Configs.Length; iConfigID++)
 	{
