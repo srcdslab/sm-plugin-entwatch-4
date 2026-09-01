@@ -100,34 +100,34 @@ ColorStruct g_clr;
 // Module includes — do not edit below this line
 // ─────────────────────────────────────────────
 #if defined EW4_BEACONS
-  #include "ew4/beacons.inc"
+	#include "ew4/beacons.inc"
 #endif
 #if defined EW4_DEBUG
-  #include "ew4/debug.inc"
+	#include "ew4/debug.inc"
 #endif
 #if defined EW4_FORCEDROP
-  #include "ew4/forcedrop.inc"
+	#include "ew4/forcedrop.inc"
 #endif
 #if defined EW4_INTERFACE
-  #include "ew4/interface.inc"
+	#include "ew4/interface.inc"
 #endif
 #if defined EW4_OVERRIDE_ITEM
-  #include "ew4/override-item.inc"
+	#include "ew4/override-item.inc"
 #endif
 #if defined EW4_RESTRICTIONS
-  #include "ew4/restrictions.inc"
+	#include "ew4/restrictions.inc"
 #endif
 #if defined EW4_SERVERCOMMAND
-  #include "ew4/servercommand.inc"
+	#include "ew4/servercommand.inc"
 #endif
 #if defined EW4_SPAWN_ITEMS
-  #include "ew4/spawn-items.inc"
+	#include "ew4/spawn-items.inc"
 #endif
 #if defined EW4_TRANSFER
-  #include "ew4/transfer.inc"
+	#include "ew4/transfer.inc"
 #endif
 #if defined EW4_USE_PRIORITY
-  #include "ew4/use-priority.inc"
+	#include "ew4/use-priority.inc"
 #endif
 
 //----------------------------------------------------------------------------------------------------
@@ -281,7 +281,7 @@ public void OnPluginStart()
 public void OnConVarChange(ConVar convar, const char[] oldValue, const char[] newValue)
 {
 	if (convar == g_hCVar_PlayerFormat)
-    	g_iPlayerFormat = g_hCVar_PlayerFormat.IntValue;
+		g_iPlayerFormat = g_hCVar_PlayerFormat.IntValue;
 	else if (convar == g_hCVar_MsgsAuthID)
 		g_iAuthIDType = g_hCVar_MsgsAuthID.IntValue;
 	else if (convar == g_hCVar_MessageMode)
@@ -1157,8 +1157,8 @@ public void OnClientDisconnect(int iClient)
 #if defined EW4_USE_PRIORITY
 public Action OnPlayerRunCmd(int iClient, int& iButtons, int& iImpulse, float vel[3], float angles[3])
 {
-    EW4_UsePriority_OnPlayerRunCmd(iClient, iButtons, angles);
-    return Plugin_Continue;
+	EW4_UsePriority_OnPlayerRunCmd(iClient, iButtons, angles);
+	return Plugin_Continue;
 }
 #endif
 
