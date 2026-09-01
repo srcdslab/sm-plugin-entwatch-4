@@ -662,6 +662,18 @@ stock void CleanupItems(bool bUnhookEntities = true)
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: Free a CItem that was never pushed to g_hArray_Items (failed registration).
+// `delete hItem` alone only frees the backing StringMap, leaking the hButtons/hTriggers
+// containers allocated by the constructor.
+//----------------------------------------------------------------------------------------------------
+stock void DiscardItem(CItem hItem)
+{
+	delete hItem.hButtons;
+	delete hItem.hTriggers;
+	delete hItem;
+}
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Clear the intermission flag at the start of a round
 //----------------------------------------------------------------------------------------------------
 stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
@@ -737,7 +749,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemWeapon(hItem, iEntity))
 				{
-					delete hItem;
+					DiscardItem(hItem);
 					continue;
 				}
 
@@ -779,7 +791,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemButton(hConfigButton, hItem, iEntity))
 				{
-					delete hItem;
+					DiscardItem(hItem);
 					continue;
 				}
 
@@ -821,7 +833,7 @@ stock void OnEntitySpawnPost(int iEntity)
 
 				if (!RegisterItemTrigger(hConfigTrigger, hItem, iEntity))
 				{
-					delete hItem;
+					DiscardItem(hItem);
 					continue;
 				}
 
