@@ -5,7 +5,7 @@
 // Description: Handle the filtering of servercommand messages for [entWatch]
 //
 //====================================================================================================
-// Requires Sourcemod Version: 1.11.0.6820 or above
+// Requires Sourcemod Version: 1.13.0 or above
 //====================================================================================================
 
 #include <dhooks>

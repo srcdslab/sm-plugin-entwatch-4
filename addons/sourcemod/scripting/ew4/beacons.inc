@@ -5,7 +5,7 @@
 // Description: Handle the beacons of [entWatch]
 //
 //====================================================================================================
-// Requires Sourcemod Version: 1.10.0.6531 or above
+// Requires Sourcemod Version: 1.13.0 or above
 //====================================================================================================
 
 #include <sdktools_tempents>
