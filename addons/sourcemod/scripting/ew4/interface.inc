@@ -266,23 +266,31 @@ stock Action OnDisplayHUD(Handle hTimer)
 		{
 			int iPageSlot = iTeam - 1; // 2 → 1, 3 → 2
 
-			if (iHUDLens[iPageSlot][iHUDPages[iPageSlot]] + iLineLen >= sizeof(sHUDPages[][]))
+			if (iHUDLens[iPageSlot][iHUDPages[iPageSlot]] + iLineLen >= sizeof(sHUDPages[][])
+				&& iHUDPages[iPageSlot] < sizeof(sHUDPages[]) - 1)
 				iHUDPages[iPageSlot]++;
 
 			int p = iHUDPages[iPageSlot];
-			StrCat(sHUDPages[iPageSlot][p], sizeof(sHUDPages[][]), sLine);
-			StrCat(sHUDPages[iPageSlot][p], sizeof(sHUDPages[][]), "\n");
-			iHUDLens[iPageSlot][p] += iLineLen;
+			if (iHUDLens[iPageSlot][p] + iLineLen < sizeof(sHUDPages[][]))
+			{
+				StrCat(sHUDPages[iPageSlot][p], sizeof(sHUDPages[][]), sLine);
+				StrCat(sHUDPages[iPageSlot][p], sizeof(sHUDPages[][]), "\n");
+				iHUDLens[iPageSlot][p] += iLineLen;
+			}
 		}
 
 		// ---- All-items page (slot 0) ----
-		if (iHUDLens[0][iHUDPages[0]] + iLineLen >= sizeof(sHUDPages[][]))
+		if (iHUDLens[0][iHUDPages[0]] + iLineLen >= sizeof(sHUDPages[][])
+			&& iHUDPages[0] < sizeof(sHUDPages[]) - 1)
 			iHUDPages[0]++;
 
 		int p0 = iHUDPages[0];
-		StrCat(sHUDPages[0][p0], sizeof(sHUDPages[][]), sLine);
-		StrCat(sHUDPages[0][p0], sizeof(sHUDPages[][]), "\n");
-		iHUDLens[0][p0] += iLineLen;
+		if (iHUDLens[0][p0] + iLineLen < sizeof(sHUDPages[][]))
+		{
+			StrCat(sHUDPages[0][p0], sizeof(sHUDPages[][]), sLine);
+			StrCat(sHUDPages[0][p0], sizeof(sHUDPages[][]), "\n");
+			iHUDLens[0][p0] += iLineLen;
+		}
 	}
 
 	// ---- Page rotation: advance every 5 ticks ----

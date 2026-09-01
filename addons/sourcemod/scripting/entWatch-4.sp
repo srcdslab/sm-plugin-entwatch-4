@@ -582,6 +582,9 @@ stock void CleanupConfigs()
 			delete hConfigTrigger;
 		}
 
+		delete hConfig.hButtons;
+		delete hConfig.hTriggers;
+
 		delete hConfig;
 	}
 
@@ -591,9 +594,14 @@ stock void CleanupConfigs()
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-stock void CleanupItems()
+// bUnhookEntities: only pass `false` when the tracked entities are about to be
+// recreated anyway (round end). The engine destroys the old button/trigger
+// entities on a round restart, which drops their SDKHooks and entity-output
+// hooks automatically, so unhooking them here is redundant work. On plugin end,
+// map end and EW_LoadConfig the entities are still alive and must be unhooked.
+stock void CleanupItems(bool bUnhookEntities = true)
 {
-	if (!g_hArray_Configs.Length)
+	if (!g_hArray_Items.Length)
 		return;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
@@ -604,28 +612,25 @@ stock void CleanupItems()
 		{
 			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
 
-			if (!IsValidEntity(hItemButton.iButton))
+			if (bUnhookEntities && IsValidEntity(hItemButton.iButton))
 			{
-				delete hItemButton;
-				continue;
-			}
+				switch (hItemButton.hConfigButton.iType)
+				{
+					case EW_BUTTON_TYPE_USE:
+					{
+						SDKUnhook(hItemButton.iButton, SDKHook_Use, OnButtonPress);
+					}
+					case EW_BUTTON_TYPE_OUTPUT:
+					{
+						char sButtonOutput[32];
+						hItemButton.hConfigButton.GetOutput(sButtonOutput, sizeof(sButtonOutput));
 
-			switch (hItemButton.hConfigButton.iType)
-			{
-				case EW_BUTTON_TYPE_USE:
-				{
-					SDKUnhook(hItemButton.iButton, SDKHook_Use, OnButtonPress);
-				}
-				case EW_BUTTON_TYPE_OUTPUT:
-				{
-					char sButtonOutput[32];
-					hItemButton.hConfigButton.GetOutput(sButtonOutput, sizeof(sButtonOutput));
-
-					UnhookSingleEntityOutput(hItemButton.iButton, sButtonOutput, OnButtonOutput);
-				}
-				case EW_BUTTON_TYPE_COUNTERUP, EW_BUTTON_TYPE_COUNTERDOWN:
-				{
-					UnhookSingleEntityOutput(hItemButton.iButton, "OutValue", OnCounterOutput);
+						UnhookSingleEntityOutput(hItemButton.iButton, sButtonOutput, OnButtonOutput);
+					}
+					case EW_BUTTON_TYPE_COUNTERUP, EW_BUTTON_TYPE_COUNTERDOWN:
+					{
+						UnhookSingleEntityOutput(hItemButton.iButton, "OutValue", OnCounterOutput);
+					}
 				}
 			}
 
@@ -636,24 +641,19 @@ stock void CleanupItems()
 		{
 			CItemTrigger hItemTrigger = hItem.hTriggers.Get(iItemTriggerID);
 
-			if (!IsValidEntity(hItemTrigger.iTrigger))
+			if (bUnhookEntities && hItemTrigger.hConfigTrigger.iType == EW_TRIGGER_TYPE_STRIP
+				&& IsValidEntity(hItemTrigger.iTrigger))
 			{
-				delete hItemTrigger;
-				continue;
-			}
-
-			switch (hItemTrigger.hConfigTrigger.iType)
-			{
-				case EW_TRIGGER_TYPE_STRIP:
-				{
-					SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
-					SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
-					SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
-				}
+				SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
+				SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
+				SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
 			}
 
 			delete hItemTrigger;
 		}
+
+		delete hItem.hButtons;
+		delete hItem.hTriggers;
 
 		delete hItem;
 	}
@@ -674,7 +674,9 @@ stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 //----------------------------------------------------------------------------------------------------
 stock void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
-	CleanupItems();
+	// Skip unhooking: the round restart destroys and recreates every tracked
+	// button/trigger entity, so their hooks are dropped by the engine anyway.
+	CleanupItems(false);
 
 	g_bIntermission = true;
 }
@@ -1599,11 +1601,8 @@ public any Native_GetConfigsArray(Handle hPlugin, int iNumParams)
 //----------------------------------------------------------------------------------------------------
 public any Native_IsEntityItem(Handle hPlugin, int iNumParams)
 {
-	if (!g_hArray_Items.Length)
-		return false;
-
 	int iEntity = GetNativeCell(1);
-	if (!IsValidEdict(iEntity) && IsValidEntity(iEntity) && g_hArray_Items.Length)
+	if (!IsValidEntity(iEntity) || !g_hArray_Items.Length)
 		return false;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
