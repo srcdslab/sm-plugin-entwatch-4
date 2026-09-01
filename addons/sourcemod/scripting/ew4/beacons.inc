@@ -27,7 +27,7 @@ ConVar g_hCVar_EnableDroppedBeacon = null;
 Handle g_hBeaconTimer = null;
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Create the beacon cvars and cache their values
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Beacons_OnPluginStart()
 {
@@ -43,7 +43,7 @@ public void Ew4_Beacons_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Stop the beacon timer on unload
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Beacons_OnPluginEnd()
 {
@@ -51,7 +51,7 @@ public void Ew4_Beacons_OnPluginEnd()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Precache the beacon sprites for the new map
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Beacons_OnMapStart()
 {
@@ -59,7 +59,7 @@ public void Ew4_Beacons_OnMapStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Stop the beacon timer on map end
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Beacons_OnMapEnd()
 {
@@ -67,7 +67,7 @@ public void Ew4_Beacons_OnMapEnd()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Refresh the cached beacon toggles and re-evaluate the timer
 //----------------------------------------------------------------------------------------------------
 void OnCvarChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
@@ -148,7 +148,7 @@ void EvaluateBeaconTimer()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Precache the beam/halo sprites from funcommands gamedata
 //----------------------------------------------------------------------------------------------------
 stock void LoadGameConfig()
 {
@@ -178,7 +178,7 @@ public void EW_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInterac
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Repeating timer - draw a ring beacon on every spawned/dropped item
 //----------------------------------------------------------------------------------------------------
 stock Action OnBeacons(Handle hTimer)
 {

@@ -21,7 +21,7 @@ public void Ew4_Spawn_AskPluginLoad2()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Create the admin-spawn forward and register sm_espawnitem
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Spawn_OnPluginStart()
 {

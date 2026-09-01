@@ -131,7 +131,7 @@ ColorStruct g_clr;
 #endif
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Plugin metadata reported to SourceMod
 //----------------------------------------------------------------------------------------------------
 public Plugin myinfo =
 {
@@ -142,7 +142,7 @@ public Plugin myinfo =
 };
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Register the core natives and library, and let each module register its own
 //----------------------------------------------------------------------------------------------------
 public APLRes AskPluginLoad2(Handle hMyself, bool bLate, char[] sError, int iErrorSize)
 {
@@ -172,7 +172,7 @@ public APLRes AskPluginLoad2(Handle hMyself, bool bLate, char[] sError, int iErr
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Set up forwards, cvars, events and initialise every enabled module
 //----------------------------------------------------------------------------------------------------
 public void OnPluginStart()
 {
@@ -276,7 +276,7 @@ public void OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Refresh cached cvar values when a tracked convar changes
 //----------------------------------------------------------------------------------------------------
 public void OnConVarChange(ConVar convar, const char[] oldValue, const char[] newValue)
 {
@@ -291,7 +291,7 @@ public void OnConVarChange(ConVar convar, const char[] oldValue, const char[] ne
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Free item/config data and shut down modules on unload
 //----------------------------------------------------------------------------------------------------
 public void OnPluginEnd()
 {
@@ -315,7 +315,7 @@ public void OnLibraryRemoved(const char[] name)
 #endif
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Load the map's item config and notify modules a new map has started
 //----------------------------------------------------------------------------------------------------
 public void OnMapStart()
 {
@@ -339,7 +339,7 @@ public void OnMapStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Free item/config data and notify modules the map has ended
 //----------------------------------------------------------------------------------------------------
 public void OnMapEnd()
 {
@@ -352,7 +352,7 @@ public void OnMapEnd()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Load the entWatch chat-message colour set from its config file
 //----------------------------------------------------------------------------------------------------
 stock void LoadColors()
 {
@@ -384,7 +384,7 @@ stock void LoadColors()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Parse the current map's entWatch item config into the Configs array
 //----------------------------------------------------------------------------------------------------
 stock bool LoadConfig(bool bLoopEntities = false)
 {
@@ -557,7 +557,7 @@ stock bool LoadConfig(bool bLoopEntities = false)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Free every CConfig (and its buttons/triggers) and clear the Configs array
 //----------------------------------------------------------------------------------------------------
 stock void CleanupConfigs()
 {
@@ -592,7 +592,7 @@ stock void CleanupConfigs()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Free every CItem (and its buttons/triggers), optionally unhooking the live entities
 //----------------------------------------------------------------------------------------------------
 // bUnhookEntities: only pass `false` when the tracked entities are about to be
 // recreated anyway (round end). The engine destroys the old button/trigger
@@ -662,7 +662,7 @@ stock void CleanupItems(bool bUnhookEntities = true)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Clear the intermission flag at the start of a round
 //----------------------------------------------------------------------------------------------------
 stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
@@ -670,7 +670,7 @@ stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Free tracked items on round end and set the intermission flag
 //----------------------------------------------------------------------------------------------------
 stock void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
@@ -682,7 +682,7 @@ stock void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Offer new entities to the servercommand module and hook them for spawn processing
 //----------------------------------------------------------------------------------------------------
 public void OnEntityCreated(int iEntity, const char[] sClassname)
 {
@@ -700,7 +700,7 @@ public void OnEntityCreated(int iEntity, const char[] sClassname)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Match a spawned entity against every config and register it as an item weapon/button/trigger
 //----------------------------------------------------------------------------------------------------
 stock void OnEntitySpawnPost(int iEntity)
 {
@@ -837,7 +837,7 @@ stock void OnEntitySpawnPost(int iEntity)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Insert an item into the array keeping it ordered by config ID
 //----------------------------------------------------------------------------------------------------
 stock void InsertItemSorted(ArrayList hArray, CItem hItem)
 {
@@ -862,7 +862,7 @@ stock void InsertItemSorted(ArrayList hArray, CItem hItem)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Bind a weapon entity to an item and pick up its current owner, if any
 //----------------------------------------------------------------------------------------------------
 stock bool RegisterItemWeapon(CItem hItem, int iWeapon)
 {
@@ -888,7 +888,7 @@ stock bool RegisterItemWeapon(CItem hItem, int iWeapon)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Hook a button entity for an item and seed its counter/use state
 //----------------------------------------------------------------------------------------------------
 stock bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iButton)
 {
@@ -963,7 +963,7 @@ stock bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iBut
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Return true if the item already has a button for this config
 //----------------------------------------------------------------------------------------------------
 stock bool HasDuplicateItemButton(CConfigButton hConfigButton, CItem hItem)
 {
@@ -982,7 +982,7 @@ stock bool HasDuplicateItemButton(CConfigButton hConfigButton, CItem hItem)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Hook a trigger entity for an item
 //----------------------------------------------------------------------------------------------------
 stock bool RegisterItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem, int iTrigger)
 {
@@ -1026,7 +1026,7 @@ stock bool RegisterItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem, int i
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Return true if the item already has a trigger for this config
 //----------------------------------------------------------------------------------------------------
 stock bool HasDuplicateItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem)
 {
@@ -1045,7 +1045,7 @@ stock bool HasDuplicateItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Clear stored entity references when a tracked weapon/button/trigger is removed
 //----------------------------------------------------------------------------------------------------
 public void OnEntityDestroyed(int iEntity)
 {
@@ -1091,7 +1091,7 @@ public void OnEntityDestroyed(int iEntity)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Hook the client's weapon equip/drop/pickup events
 //----------------------------------------------------------------------------------------------------
 public void OnClientPutInServer(int iClient)
 {
@@ -1101,7 +1101,7 @@ public void OnClientPutInServer(int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Forward the cached-cookies notification to the interface module
 //----------------------------------------------------------------------------------------------------
 public void OnClientCookiesCached(int iClient)
 {
@@ -1111,7 +1111,7 @@ public void OnClientCookiesCached(int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Forward the admin check to the interface and restrictions modules
 //----------------------------------------------------------------------------------------------------
 public void OnClientPostAdminCheck(int client)
 {
@@ -1125,7 +1125,7 @@ public void OnClientPostAdminCheck(int client)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Notify modules and drop any item the leaving client was holding
 //----------------------------------------------------------------------------------------------------
 public void OnClientDisconnect(int iClient)
 {
@@ -1163,7 +1163,7 @@ public Action OnPlayerRunCmd(int iClient, int& iButtons, int& iImpulse, float ve
 #endif
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Drop any item the dying client was holding
 //----------------------------------------------------------------------------------------------------
 stock void OnClientDeath(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
@@ -1187,7 +1187,7 @@ stock void OnClientDeath(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Mark an item as equipped when its weapon is picked up
 //----------------------------------------------------------------------------------------------------
 stock void OnWeaponPickup(int iClient, int iWeapon)
 {
@@ -1211,7 +1211,7 @@ stock void OnWeaponPickup(int iClient, int iWeapon)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Mark an item as dropped when its weapon is dropped
 //----------------------------------------------------------------------------------------------------
 stock void OnWeaponDrop(int iClient, int iWeapon)
 {
@@ -1234,7 +1234,7 @@ stock void OnWeaponDrop(int iClient, int iWeapon)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Cache the current game time once per frame
 //----------------------------------------------------------------------------------------------------
 public void OnGameFrame()
 {
@@ -1242,7 +1242,7 @@ public void OnGameFrame()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Handle a +use press on an item's use button
 //----------------------------------------------------------------------------------------------------
 stock Action OnButtonPress(int iButton, int iClient)
 {
@@ -1286,7 +1286,7 @@ stock Action OnButtonPress(int iButton, int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Handle a hooked entity output firing on an item's output button
 //----------------------------------------------------------------------------------------------------
 stock Action OnButtonOutput(const char[] sOutput, int iButton, int iClient, float flDelay)
 {
@@ -1349,7 +1349,7 @@ stock Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, flo
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Apply the button's cooldown/max-use rules and fire the interact forward
 //----------------------------------------------------------------------------------------------------
 stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
 {
@@ -1408,7 +1408,7 @@ stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButto
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Apply the button's cooldown/max-use rules for a math_counter output and fire the interact forward
 //----------------------------------------------------------------------------------------------------
 stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 {
@@ -1488,7 +1488,7 @@ stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButt
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Fire the trigger-interact forward when a client touches an item's strip trigger
 //----------------------------------------------------------------------------------------------------
 stock Action OnTriggerTouch(int iTrigger, int iClient)
 {
@@ -1530,7 +1530,7 @@ stock Action OnTriggerTouch(int iTrigger, int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Ask listeners whether a client may pick up an item weapon
 //----------------------------------------------------------------------------------------------------
 stock Action OnWeaponTouch(int iClient, int iWeapon)
 {
@@ -1563,7 +1563,7 @@ stock Action OnWeaponTouch(int iClient, int iWeapon)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Return true for a connected client index
 //----------------------------------------------------------------------------------------------------
 stock bool IsValidClient(int iClient)
 {
@@ -1571,7 +1571,7 @@ stock bool IsValidClient(int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Native EW_LoadConfig - reload the current map's item config
 //----------------------------------------------------------------------------------------------------
 public any Native_LoadConfig(Handle hPlugin, int iNumParams)
 {
@@ -1581,7 +1581,7 @@ public any Native_LoadConfig(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Native EW_GetItemsArray - return the live items ArrayList
 //----------------------------------------------------------------------------------------------------
 public any Native_GetItemsArray(Handle hPlugin, int iNumParams)
 {
@@ -1589,7 +1589,7 @@ public any Native_GetItemsArray(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Native EW_GetConfigsArray - return the live configs ArrayList
 //----------------------------------------------------------------------------------------------------
 public any Native_GetConfigsArray(Handle hPlugin, int iNumParams)
 {
@@ -1597,7 +1597,7 @@ public any Native_GetConfigsArray(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Native EW_IsEntityItem - true if the entity is a tracked weapon/button/trigger
 //----------------------------------------------------------------------------------------------------
 public any Native_IsEntityItem(Handle hPlugin, int iNumParams)
 {
@@ -1633,7 +1633,7 @@ public any Native_IsEntityItem(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Native EW_ClientHasItem - true if the client is currently holding an item
 //----------------------------------------------------------------------------------------------------
 public any Native_ClientHasItem(Handle hPlugin, int iNumParams)
 {
@@ -1694,7 +1694,7 @@ stock void Forward_OnClientItemTriggerInteract(int iClient, CItemTrigger hItemTr
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Dispatch a weapon interaction to modules and print the pickup/drop/death/disconnect message
 //----------------------------------------------------------------------------------------------------
 public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInteractionType)
 {
@@ -1754,7 +1754,7 @@ public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iIntera
 	}
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Print the item-activation chat message
 //----------------------------------------------------------------------------------------------------
 public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 {
@@ -1790,7 +1790,7 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Send an entWatch chat message honouring the recipient-mode cvar
 //----------------------------------------------------------------------------------------------------
 stock void PrintChatMessage(int iClient, const char[] sMessage, any ...)
 {

@@ -9,7 +9,7 @@
 //====================================================================================================
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Force-drop an item's weapon when its holder dies or disconnects
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Forcedrop_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInteractionType)
 {

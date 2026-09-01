@@ -14,7 +14,7 @@
 DynamicHook g_hAcceptInput;
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Load the gamedata and hook every point_servercommand entity already on the map
 //----------------------------------------------------------------------------------------------------
 public void Ew4_ServerCommand_OnPluginStart()
 {
@@ -28,7 +28,7 @@ public void Ew4_ServerCommand_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Set up the AcceptInput DynamicHook from sdktools gamedata
 //----------------------------------------------------------------------------------------------------
 stock void Ew4_ServerCommand_LoadGameConfig()
 {
@@ -65,7 +65,7 @@ stock void Ew4_ServerCommand_LoadGameConfig()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Hook AcceptInput on each newly created point_servercommand entity
 //----------------------------------------------------------------------------------------------------
 public void Ew4_ServerCommand_OnEntityCreated(int iEntity, const char[] sClassname)
 {
@@ -76,7 +76,7 @@ public void Ew4_ServerCommand_OnEntityCreated(int iEntity, const char[] sClassna
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Block the "Command" input when it originates from an entWatch item
 //----------------------------------------------------------------------------------------------------
 public MRESReturn Ew4_ServerCommand_OnAcceptInput(int iEntity, DHookReturn hReturn, DHookParam hParams)
 {

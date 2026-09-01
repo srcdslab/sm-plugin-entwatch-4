@@ -18,7 +18,7 @@ public void Ew4_Transfer_AskPluginLoad2()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose:
+// Purpose: Create the admin-transfer forward, register sm_etransfer and load SDK calls
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Transfer_OnPluginStart()
 {
