@@ -204,9 +204,9 @@ stock Action OnBeacons(Handle hTimer)
 			bHasActiveBeacons = true;
 
 			float flOrigin[3];
-			GetEntPropVector(hItem.iWeapon, Prop_Data, "m_vecOrigin", flOrigin);
+			GetEntPropVector(hItem.iWeapon, Prop_Data, "m_vecAbsOrigin", flOrigin);
 
-			flOrigin[2] += 2;
+			flOrigin[2] += 2.0;
 
 			char sColor[8];
 			hItem.hConfig.GetColor(sColor, sizeof(sColor));

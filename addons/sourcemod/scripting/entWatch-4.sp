@@ -417,7 +417,7 @@ stock bool LoadConfig(bool bLoopEntities = false)
 	GetCurrentMap(sCurrentMap, sizeof(sCurrentMap));
 
 	int iChar;
-	while (sCurrentMap[iChar] != EOS && iChar < sizeof(sCurrentMap))
+	while (iChar < sizeof(sCurrentMap) && sCurrentMap[iChar] != EOS)
 	{
 		sCurrentMap[iChar] = CharToLower(sCurrentMap[iChar]);
 		iChar++;
@@ -1206,6 +1206,22 @@ public void OnClientDisconnect(int iClient)
 	Ew4_Restrictions_OnClientDisconnect(iClient);
 	#endif
 
+	ReleaseClientItems(iClient, EW_WEAPON_INTERACTION_DISCONNECT);
+}
+
+#if defined EW4_USE_PRIORITY
+public Action OnPlayerRunCmd(int iClient, int& iButtons, int& iImpulse, float vel[3], float angles[3])
+{
+	EW4_UsePriority_OnPlayerRunCmd(iClient, iButtons, angles);
+	return Plugin_Continue;
+}
+#endif
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Release EntWatch's ownership tracking for every item a client was holding
+//----------------------------------------------------------------------------------------------------
+stock void ReleaseClientItems(int iClient, int iInteractionType)
+{
 	if (!g_hArray_Items.Length)
 		return;
 
@@ -1218,18 +1234,10 @@ public void OnClientDisconnect(int iClient)
 			hItem.iClient = INVALID_ENT_REFERENCE;
 			hItem.iState = EW_ENTITY_STATE_DROPPED;
 
-			Forward_OnClientItemWeaponInteract(iClient, hItem, EW_WEAPON_INTERACTION_DISCONNECT);
+			Forward_OnClientItemWeaponInteract(iClient, hItem, iInteractionType);
 		}
 	}
 }
-
-#if defined EW4_USE_PRIORITY
-public Action OnPlayerRunCmd(int iClient, int& iButtons, int& iImpulse, float vel[3], float angles[3])
-{
-	EW4_UsePriority_OnPlayerRunCmd(iClient, iButtons, angles);
-	return Plugin_Continue;
-}
-#endif
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Drop any item the dying client was holding
@@ -1238,21 +1246,10 @@ stock void OnClientDeath(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
 	int iClient = GetClientOfUserId(hEvent.GetInt("userid"));
 
-	if (!IsValidClient(iClient) || !g_hArray_Items.Length)
+	if (!IsValidClient(iClient))
 		return;
 
-	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
-	{
-		CItem hItem = g_hArray_Items.Get(iItemID);
-
-		if (hItem.iClient != INVALID_ENT_REFERENCE && hItem.iClient == iClient)
-		{
-			hItem.iClient = INVALID_ENT_REFERENCE;
-			hItem.iState = EW_ENTITY_STATE_DROPPED;
-
-			Forward_OnClientItemWeaponInteract(iClient, hItem, EW_WEAPON_INTERACTION_DEATH);
-		}
-	}
+	ReleaseClientItems(iClient, EW_WEAPON_INTERACTION_DEATH);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -1863,7 +1860,7 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 //----------------------------------------------------------------------------------------------------
 stock void PrintChatMessage(int iClient, const char[] sMessage, any ...)
 {
-	char sBuffer[255];
+	char sBuffer[256];
 	VFormat(sBuffer, sizeof(sBuffer), sMessage, 3);
 
 	int iTeam = GetClientTeam(iClient);
