@@ -319,7 +319,12 @@ public void OnLibraryRemoved(const char[] name)
 //----------------------------------------------------------------------------------------------------
 public void OnMapStart()
 {
+	// Only the very first load after a late plugin load needs the full world
+	// rescan inside LoadConfig(); afterwards OnEntityCreated + SpawnPost cover
+	// every spawn, so clear the flag to skip the FindEntityByClassname("*") sweep
+	// on subsequent mapchanges.
 	LoadConfig(g_bLate);
+	g_bLate = false;
 
 	#if defined EW4_BEACONS
 	Ew4_Beacons_OnMapStart();
