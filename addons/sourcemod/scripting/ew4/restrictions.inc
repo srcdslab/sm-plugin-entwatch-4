@@ -960,12 +960,14 @@ void Database_UpdateUnban(int target, int admin, const char[] reason)
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	GetClientAuthId(target, AuthId_Steam2, sClientSteam, sizeof(sClientSteam), true);
 
+	// Clear every still-active row for this SteamID. `UPDATE ... ORDER BY ... LIMIT`
+	// is MySQL-only (standard SQLite is not built with SQLITE_ENABLE_UPDATE_DELETE_LIMIT),
+	// and lifting the restriction should close any duplicate active rows anyway.
 	char sQuery[1024];
 	g_hDB.Format(sQuery, sizeof(sQuery),
 		"UPDATE `EntWatch_Ebans`"
 		... " SET `unbanned_at`=%d, `unban_reason`='%s', `unban_admin_name`='%s', `unban_admin_steamid`='%s'"
-		... " WHERE `client_steamid`='%s' AND `unbanned_at` IS NULL"
-		... " ORDER BY `issued_at` DESC LIMIT 1",
+		... " WHERE `client_steamid`='%s' AND `unbanned_at` IS NULL",
 		GetTime(), reason, sAdminName, sAdminSteam, sClientSteam);
 
 	g_hDB.Query(DB_OnGenericError, sQuery, 0, DBPrio_Normal);
