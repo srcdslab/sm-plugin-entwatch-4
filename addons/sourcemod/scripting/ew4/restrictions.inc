@@ -5,7 +5,7 @@
 // Description: Handle the restrictions of [entWatch]
 //
 //====================================================================================================
-// Requires Sourcemod Version: 1.10.0.6531 or above
+// Recommended Sourcemod Version: 1.12.0.7225 or above
 // Requires: multicolors (https://github.com/srcdslab/sm-plugin-MultiColors)
 //====================================================================================================
 #define EW_DB_NAME             "EntWatch4"
