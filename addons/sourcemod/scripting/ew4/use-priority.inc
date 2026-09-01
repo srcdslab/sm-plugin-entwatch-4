@@ -9,7 +9,7 @@
 /* BOOLEANS */
 bool g_bUsePriority = true;
 
-/* INTEGRS */
+/* INTEGERS */
 int g_iUsePriority_Client        = -1;
 int g_iUsePriority_FoundButton   = INVALID_ENT_REFERENCE;
 int g_iUsePriority_FoundItemIdx  = -1;

@@ -2,7 +2,7 @@
 //
 // Name: [entWatch] Transfer
 // Author: zaCade, Prometheum, koen, .Rushaway
-// Description: Item transfer logic — native implementation and admin command
+// Description: Item transfer logic - native implementation and admin command
 //
 //====================================================================================================
 
@@ -117,10 +117,10 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Admin command — sm_etransfer <#userid/name/$itemname> <#userid/name>
+// Purpose: Admin command - sm_etransfer <#userid/name/$itemname> <#userid/name>
 //
-//   $itemname  → transfer the first item whose name/short matches the pattern
-//   player arg → transfer ALL items held by that player to the receiver
+//   $itemname  -> transfer the first item whose name/short matches the pattern
+//   player arg -> transfer ALL items held by that player to the receiver
 //----------------------------------------------------------------------------------------------------
 public Action Command_TransferItem(int iClient, int iArgs)
 {
@@ -220,7 +220,7 @@ stock void FixedEquipPlayerWeapon(int iClient, int iWeapon)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Native — EW_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage)
+// Purpose: Native - EW_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage)
 //----------------------------------------------------------------------------------------------------
 public int Native_TransferItem(Handle hPlugin, int iNumParams)
 {

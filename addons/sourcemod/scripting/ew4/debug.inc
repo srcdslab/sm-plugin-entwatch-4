@@ -8,7 +8,7 @@
 // Requires Sourcemod Version: 1.10.0.6531 or above
 //====================================================================================================
 
-/* INTERGERS */
+/* INTEGERS */
 int g_iBeamSpriteDebug = -1;
 int g_iHaloSpriteDebug = -1;
 

@@ -61,7 +61,7 @@ ClientSettings_Restrict g_RestrictClients[MAXPLAYERS+1];
 ArrayList               g_OfflineArray;
 OfflinePlayerData       g_aMenuBuffer[MAXPLAYERS+1];
 
-/* CVARS */
+/* CONVARS */
 ConVar g_hCVar_UseReasonMenu;
 ConVar g_hCVar_DefaultBanReason;
 ConVar g_hCVar_DefaultUnbanReason;
@@ -284,7 +284,7 @@ void Client_ResetAll()
 //====================================================================================================
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: sm_eban — restrict a connected player
+// Purpose: sm_eban - restrict a connected player
 //----------------------------------------------------------------------------------------------------
 public Action Command_ClientRestrict(int client, int args)
 {
@@ -354,7 +354,7 @@ public Action Command_ClientRestrict(int client, int args)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: sm_eunban — remove restriction from a connected player
+// Purpose: sm_eunban - remove restriction from a connected player
 //----------------------------------------------------------------------------------------------------
 public Action Command_ClientUnrestrict(int client, int args)
 {
@@ -396,7 +396,7 @@ public Action Command_ClientUnrestrict(int client, int args)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: sm_restrictions — list currently restricted players
+// Purpose: sm_restrictions - list currently restricted players
 //----------------------------------------------------------------------------------------------------
 public Action Command_DisplayRestrictions(int client, int args)
 {
@@ -424,7 +424,7 @@ public Action Command_DisplayRestrictions(int client, int args)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: sm_status — show restriction status for a player
+// Purpose: sm_status - show restriction status for a player
 //----------------------------------------------------------------------------------------------------
 public Action Command_DisplayStatus(int client, int args)
 {
@@ -499,7 +499,7 @@ public Action Command_DisplayStatus(int client, int args)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: sm_eoban — ban an offline player
+// Purpose: sm_eoban - ban an offline player
 //----------------------------------------------------------------------------------------------------
 public Action Command_ClientOfflineRestrict(int client, int args)
 {
@@ -1173,7 +1173,7 @@ public void DB_OnOfflineBanCheck(Database db, DBResultSet results, const char[] 
 		return;
 	}
 
-	// An active eban row already exists for this SteamID — report it back to the
+	// An active eban row already exists for this SteamID - report it back to the
 	// admin who ran the command and leave the existing ban untouched.
 	if (results.FetchRow())
 	{
@@ -1285,7 +1285,7 @@ void Menu_ShowBanReasonSelection(int admin, int target, int iDuration)
 
 	hMenu.SetTitle(sTitle);
 
-	// Reason keys match phrase names directly — translated at display time
+	// Reason keys match phrase names directly - translated at display time
 	static const char sReasonKeys[][64] =
 	{
 		"Item misuse",
@@ -1304,7 +1304,7 @@ void Menu_ShowBanReasonSelection(int admin, int target, int iDuration)
 	SetGlobalTransTarget(admin);
 	for (int i = 0; i < sizeof(sReasonKeys); i++)
 	{
-		// Store raw English key as value — the reason stored in DB is always English
+		// Store raw English key as value - the reason stored in DB is always English
 		FormatEx(sIndex,   sizeof(sIndex),   "%d/%d/%s", iDuration, targetUserId, sReasonKeys[i]);
 		FormatEx(sDisplay, sizeof(sDisplay), "%t", sReasonKeys[i]);
 		hMenu.AddItem(sIndex, sDisplay);

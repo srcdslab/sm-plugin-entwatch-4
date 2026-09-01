@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.12"
+#define EW_VERSION          "4.2.13"
 #define EW_VERSION_CONFIG   2
 
 
@@ -85,7 +85,7 @@
 
 
 // ============================================================================
-//  Forwards — Interaction Hooks (Blocking)
+//  Forwards - Interaction Hooks (Blocking)
 //
 //  These forwards are called BEFORE an interaction occurs.
 //  Returning false will block the interaction from being processed.
@@ -126,7 +126,7 @@ forward bool EW_OnClientItemTriggerCanInteract(int iClient, CItemTrigger hItemTr
 
 
 // ============================================================================
-//  Forwards — Interaction Notifications (Post)
+//  Forwards - Interaction Notifications (Post)
 //
 //  These forwards are called AFTER an interaction has been processed.
 //  They are informational only and cannot block anything.
@@ -165,7 +165,7 @@ forward void EW_OnClientItemTriggerInteract(int iClient, CItemTrigger hItemTrigg
 
 
 // ============================================================================
-//  Forwards — Admin Actions
+//  Forwards - Admin Actions
 //
 //  Called after an admin performs a privileged action, either via
 //  in-game command or programmatically through a native.
@@ -218,7 +218,7 @@ forward void EW_OnClientUnrestricted(int iAdmin, int iClient, const char[] sReas
 
 
 // ============================================================================
-//  Forwards — Broadcast Events
+//  Forwards - Broadcast Events
 //
 //  Called when entWatch broadcasts an admin action to all connected clients.
 //  Useful for custom logging, Discord relays, or UI overlays.
@@ -267,7 +267,7 @@ forward void EW_OnOfflineRestrictBroadcast(int iAdmin, int iClient, const char[]
 
 
 // ============================================================================
-//  Natives — Core
+//  Natives - Core
 // ============================================================================
 
 /**
@@ -316,7 +316,7 @@ native bool EW_ClientHasItem(int iClient);
 
 
 // ============================================================================
-//  Natives — Admin Actions
+//  Natives - Admin Actions
 // ============================================================================
 
 /**
@@ -345,7 +345,7 @@ native bool EW_SpawnItem(int iAdmin, int iItemID, int iReceiver, bool bStrip = f
 
 
 // ============================================================================
-//  Natives — Restriction System
+//  Natives - Restriction System
 // ============================================================================
 
 
