@@ -180,4 +180,38 @@ methodmap CConfig < StringMap
 			this.SetValue("hTriggers", hValue);
 		}
 	}
+
+	// Full memory teardown: frees the contained CConfigButton/CConfigTrigger
+	// entries and the hButtons/hTriggers containers allocated by the constructor.
+	// SourcePawn has no destructors, so the caller still frees the CConfig itself:
+	//     hConfig.Delete();
+	//     delete hConfig;
+	// Entries are typed as StringMap because this include is processed before
+	// CConfigButton.inc / CConfigTrigger.inc.
+	public void Delete()
+	{
+		ArrayList hButtons = this.hButtons;
+		if (hButtons != null)
+		{
+			for (int i = 0; i < hButtons.Length; i++)
+			{
+				StringMap hEntry = hButtons.Get(i);
+				delete hEntry;
+			}
+
+			delete hButtons;
+		}
+
+		ArrayList hTriggers = this.hTriggers;
+		if (hTriggers != null)
+		{
+			for (int i = 0; i < hTriggers.Length; i++)
+			{
+				StringMap hEntry = hTriggers.Get(i);
+				delete hEntry;
+			}
+
+			delete hTriggers;
+		}
+	}
 }

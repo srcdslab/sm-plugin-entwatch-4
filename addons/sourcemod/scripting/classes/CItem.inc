@@ -153,16 +153,38 @@ methodmap CItem < StringMap
 		}
 	}
 
-	// Frees the hButtons/hTriggers containers allocated by the constructor.
-	// SourcePawn has no destructors, so callers must pair this with `delete`:
+	// Full memory teardown: frees the contained CItemButton/CItemTrigger entries
+	// and the hButtons/hTriggers containers allocated by the constructor.
+	// SourcePawn has no destructors, so the caller still frees the CItem itself:
 	//     hItem.Delete();
 	//     delete hItem;
-	// A bare `delete` on a CItem only frees the backing StringMap and leaks the
-	// two ArrayLists. Callers that populated the lists must delete the
-	// CItemButton/CItemTrigger entries first (see CleanupItems).
+	// (A bare `delete` on a CItem only frees the backing StringMap.)
+	// Entries are typed as StringMap because this include is processed before
+	// CItemButton.inc / CItemTrigger.inc.
 	public void Delete()
 	{
-		delete this.hButtons;
-		delete this.hTriggers;
+		ArrayList hButtons = this.hButtons;
+		if (hButtons != null)
+		{
+			for (int i = 0; i < hButtons.Length; i++)
+			{
+				StringMap hEntry = hButtons.Get(i);
+				delete hEntry;
+			}
+
+			delete hButtons;
+		}
+
+		ArrayList hTriggers = this.hTriggers;
+		if (hTriggers != null)
+		{
+			for (int i = 0; i < hTriggers.Length; i++)
+			{
+				StringMap hEntry = hTriggers.Get(i);
+				delete hEntry;
+			}
+
+			delete hTriggers;
+		}
 	}
 }

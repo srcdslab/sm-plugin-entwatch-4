@@ -573,23 +573,7 @@ stock void CleanupConfigs()
 	{
 		CConfig hConfig = g_hArray_Configs.Get(iConfigID);
 
-		for (int iConfigButtonID; iConfigButtonID < hConfig.hButtons.Length; iConfigButtonID++)
-		{
-			CConfigButton hConfigButton = hConfig.hButtons.Get(iConfigButtonID);
-
-			delete hConfigButton;
-		}
-
-		for (int iConfigTriggerID; iConfigTriggerID < hConfig.hTriggers.Length; iConfigTriggerID++)
-		{
-			CConfigTrigger hConfigTrigger = hConfig.hTriggers.Get(iConfigTriggerID);
-
-			delete hConfigTrigger;
-		}
-
-		delete hConfig.hButtons;
-		delete hConfig.hTriggers;
-
+		hConfig.Delete();
 		delete hConfig;
 	}
 
@@ -613,12 +597,16 @@ stock void CleanupItems(bool bUnhookEntities = true)
 	{
 		CItem hItem = g_hArray_Items.Get(iItemID);
 
-		for (int iItemButtonID; iItemButtonID < hItem.hButtons.Length; iItemButtonID++)
+		// Unhook the live entities; CItem.Delete() then frees the memory.
+		if (bUnhookEntities)
 		{
-			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
-
-			if (bUnhookEntities && IsValidEntity(hItemButton.iButton))
+			for (int iItemButtonID; iItemButtonID < hItem.hButtons.Length; iItemButtonID++)
 			{
+				CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
+
+				if (!IsValidEntity(hItemButton.iButton))
+					continue;
+
 				switch (hItemButton.hConfigButton.iType)
 				{
 					case EW_BUTTON_TYPE_USE:
@@ -639,22 +627,18 @@ stock void CleanupItems(bool bUnhookEntities = true)
 				}
 			}
 
-			delete hItemButton;
-		}
-
-		for (int iItemTriggerID; iItemTriggerID < hItem.hTriggers.Length; iItemTriggerID++)
-		{
-			CItemTrigger hItemTrigger = hItem.hTriggers.Get(iItemTriggerID);
-
-			if (bUnhookEntities && hItemTrigger.hConfigTrigger.iType == EW_TRIGGER_TYPE_STRIP
-				&& IsValidEntity(hItemTrigger.iTrigger))
+			for (int iItemTriggerID; iItemTriggerID < hItem.hTriggers.Length; iItemTriggerID++)
 			{
-				SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
-				SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
-				SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
-			}
+				CItemTrigger hItemTrigger = hItem.hTriggers.Get(iItemTriggerID);
 
-			delete hItemTrigger;
+				if (hItemTrigger.hConfigTrigger.iType == EW_TRIGGER_TYPE_STRIP
+					&& IsValidEntity(hItemTrigger.iTrigger))
+				{
+					SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
+					SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
+					SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
+				}
+			}
 		}
 
 		hItem.Delete();
