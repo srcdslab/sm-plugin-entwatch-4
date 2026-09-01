@@ -641,17 +641,12 @@ stock void CleanupItems(bool bUnhookEntities = true)
 		{
 			CItemTrigger hItemTrigger = hItem.hTriggers.Get(iItemTriggerID);
 
-			if (bUnhookEntities && IsValidEntity(hItemTrigger.iTrigger))
+			if (bUnhookEntities && hItemTrigger.hConfigTrigger.iType == EW_TRIGGER_TYPE_STRIP
+				&& IsValidEntity(hItemTrigger.iTrigger))
 			{
-				switch (hItemTrigger.hConfigTrigger.iType)
-				{
-					case EW_TRIGGER_TYPE_STRIP:
-					{
-						SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
-						SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
-						SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
-					}
-				}
+				SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
+				SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
+				SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
 			}
 
 			delete hItemTrigger;
