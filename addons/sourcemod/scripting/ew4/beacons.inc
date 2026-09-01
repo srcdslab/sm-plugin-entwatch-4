@@ -92,7 +92,7 @@ void StartBeaconTimer()
 	if (!g_bEnableSpawnedBeacon && !g_bEnableDroppedBeacon)
 		return;
 
-	g_hBeaconTimer = CreateTimer(1.0, OnBeacons, INVALID_HANDLE, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
+	g_hBeaconTimer = CreateTimer(1.0, OnBeacons, _, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
 }
 
 //----------------------------------------------------------------------------------------------------
