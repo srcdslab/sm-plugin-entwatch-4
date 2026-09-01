@@ -594,7 +594,12 @@ stock void CleanupConfigs()
 //----------------------------------------------------------------------------------------------------
 // Purpose:
 //----------------------------------------------------------------------------------------------------
-stock void CleanupItems()
+// bUnhookEntities: only pass `false` when the tracked entities are about to be
+// recreated anyway (round end). The engine destroys the old button/trigger
+// entities on a round restart, which drops their SDKHooks and entity-output
+// hooks automatically, so unhooking them here is redundant work. On plugin end,
+// map end and EW_LoadConfig the entities are still alive and must be unhooked.
+stock void CleanupItems(bool bUnhookEntities = true)
 {
 	if (!g_hArray_Items.Length)
 		return;
@@ -607,28 +612,25 @@ stock void CleanupItems()
 		{
 			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
 
-			if (!IsValidEntity(hItemButton.iButton))
+			if (bUnhookEntities && IsValidEntity(hItemButton.iButton))
 			{
-				delete hItemButton;
-				continue;
-			}
+				switch (hItemButton.hConfigButton.iType)
+				{
+					case EW_BUTTON_TYPE_USE:
+					{
+						SDKUnhook(hItemButton.iButton, SDKHook_Use, OnButtonPress);
+					}
+					case EW_BUTTON_TYPE_OUTPUT:
+					{
+						char sButtonOutput[32];
+						hItemButton.hConfigButton.GetOutput(sButtonOutput, sizeof(sButtonOutput));
 
-			switch (hItemButton.hConfigButton.iType)
-			{
-				case EW_BUTTON_TYPE_USE:
-				{
-					SDKUnhook(hItemButton.iButton, SDKHook_Use, OnButtonPress);
-				}
-				case EW_BUTTON_TYPE_OUTPUT:
-				{
-					char sButtonOutput[32];
-					hItemButton.hConfigButton.GetOutput(sButtonOutput, sizeof(sButtonOutput));
-
-					UnhookSingleEntityOutput(hItemButton.iButton, sButtonOutput, OnButtonOutput);
-				}
-				case EW_BUTTON_TYPE_COUNTERUP, EW_BUTTON_TYPE_COUNTERDOWN:
-				{
-					UnhookSingleEntityOutput(hItemButton.iButton, "OutValue", OnCounterOutput);
+						UnhookSingleEntityOutput(hItemButton.iButton, sButtonOutput, OnButtonOutput);
+					}
+					case EW_BUTTON_TYPE_COUNTERUP, EW_BUTTON_TYPE_COUNTERDOWN:
+					{
+						UnhookSingleEntityOutput(hItemButton.iButton, "OutValue", OnCounterOutput);
+					}
 				}
 			}
 
@@ -639,19 +641,16 @@ stock void CleanupItems()
 		{
 			CItemTrigger hItemTrigger = hItem.hTriggers.Get(iItemTriggerID);
 
-			if (!IsValidEntity(hItemTrigger.iTrigger))
+			if (bUnhookEntities && IsValidEntity(hItemTrigger.iTrigger))
 			{
-				delete hItemTrigger;
-				continue;
-			}
-
-			switch (hItemTrigger.hConfigTrigger.iType)
-			{
-				case EW_TRIGGER_TYPE_STRIP:
+				switch (hItemTrigger.hConfigTrigger.iType)
 				{
-					SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
-					SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
-					SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
+					case EW_TRIGGER_TYPE_STRIP:
+					{
+						SDKUnhook(hItemTrigger.iTrigger, SDKHook_StartTouch, OnTriggerTouch);
+						SDKUnhook(hItemTrigger.iTrigger, SDKHook_EndTouch, OnTriggerTouch);
+						SDKUnhook(hItemTrigger.iTrigger, SDKHook_Touch, OnTriggerTouch);
+					}
 				}
 			}
 
@@ -680,7 +679,9 @@ stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 //----------------------------------------------------------------------------------------------------
 stock void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
-	CleanupItems();
+	// Skip unhooking: the round restart destroys and recreates every tracked
+	// button/trigger entity, so their hooks are dropped by the engine anyway.
+	CleanupItems(false);
 
 	g_bIntermission = true;
 }
