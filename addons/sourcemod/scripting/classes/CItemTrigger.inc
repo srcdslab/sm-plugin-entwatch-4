@@ -4,34 +4,43 @@
 
 #define entWatch_class_item_trigger_included
 
-methodmap CItemTrigger < StringMap
+// ArrayList-backed: one slot per field, direct indexed cell reads instead of a
+// string hash per access. See CConfig.inc for the rationale. No string fields,
+// so the default single-cell block size is enough.
+enum
+{
+	CItemTrigger_hConfigTrigger = 0,
+	CItemTrigger_hItem,
+	CItemTrigger_iTrigger,
+	CItemTrigger_iState,
+	CItemTrigger_SLOTS
+};
+
+methodmap CItemTrigger < ArrayList
 {
 	public CItemTrigger(CConfigTrigger hConfigTrigger = null, CItem hItem = null)
 	{
-		StringMap stringMap = new StringMap();
+		ArrayList hData = new ArrayList();
+		hData.Resize(CItemTrigger_SLOTS);
 
-		stringMap.SetValue("hConfigTrigger",    hConfigTrigger);
-		stringMap.SetValue("hItem",             hItem);
+		hData.Set(CItemTrigger_hConfigTrigger, hConfigTrigger);
+		hData.Set(CItemTrigger_hItem,          hItem);
 
-		stringMap.SetValue("iTrigger",          INVALID_ENT_REFERENCE);
-		stringMap.SetValue("iState",            EW_ENTITY_STATE_INITIAL);
+		hData.Set(CItemTrigger_iTrigger,       INVALID_ENT_REFERENCE);
+		hData.Set(CItemTrigger_iState,         EW_ENTITY_STATE_INITIAL);
 
-		return view_as<CItemTrigger>(stringMap);
+		return view_as<CItemTrigger>(hData);
 	}
 
 	property CConfigTrigger hConfigTrigger
 	{
 		public get()
 		{
-			CConfigTrigger hValue;
-			if (this.GetValue("hConfigTrigger", hValue))
-				return hValue;
-
-			return null;
+			return view_as<CConfigTrigger>(this.Get(CItemTrigger_hConfigTrigger));
 		}
 		public set(CConfigTrigger hValue)
 		{
-			this.SetValue("hConfigTrigger", hValue);
+			this.Set(CItemTrigger_hConfigTrigger, hValue);
 		}
 	}
 
@@ -39,15 +48,11 @@ methodmap CItemTrigger < StringMap
 	{
 		public get()
 		{
-			CItem hValue;
-			if (this.GetValue("hItem", hValue))
-				return hValue;
-
-			return null;
+			return view_as<CItem>(this.Get(CItemTrigger_hItem));
 		}
 		public set(CItem hValue)
 		{
-			this.SetValue("hItem", hValue);
+			this.Set(CItemTrigger_hItem, hValue);
 		}
 	}
 
@@ -55,15 +60,11 @@ methodmap CItemTrigger < StringMap
 	{
 		public get()
 		{
-			int iValue;
-			if (this.GetValue("iTrigger", iValue))
-				return iValue;
-
-			return -1;
+			return this.Get(CItemTrigger_iTrigger);
 		}
 		public set(int iValue)
 		{
-			this.SetValue("iTrigger", iValue);
+			this.Set(CItemTrigger_iTrigger, iValue);
 		}
 	}
 
@@ -71,15 +72,11 @@ methodmap CItemTrigger < StringMap
 	{
 		public get()
 		{
-			int iValue;
-			if (this.GetValue("iState", iValue))
-				return iValue;
-
-			return -1;
+			return this.Get(CItemTrigger_iState);
 		}
 		public set(int iValue)
 		{
-			this.SetValue("iState", iValue);
+			this.Set(CItemTrigger_iState, iValue);
 		}
 	}
 }
