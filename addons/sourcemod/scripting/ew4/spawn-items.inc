@@ -31,6 +31,20 @@ public void Ew4_Spawn_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: Drop the spawnable-items cache when its source configs are freed.
+//
+// CleanupConfigs() frees every CConfig on every path it runs (successful reload, failed reload,
+// map end, plugin end), but only a *successful* LoadConfig() rebuilds this cache afterwards via
+// Ew4_Spawn_OnConfigLoaded(). Without this hook, a failed reload (missing config file, stale
+// configversion, ...) left the cache pointing at freed CConfig handles until the next successful
+// load - reachable through sm_espawnitem and the admin spawn menu. See #70.
+//----------------------------------------------------------------------------------------------------
+public void Ew4_Spawn_OnConfigsCleared()
+{
+	delete s_hSpawnableItems;
+}
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Called after config is loaded - build the spawnable item list from configs
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Spawn_OnConfigLoaded()

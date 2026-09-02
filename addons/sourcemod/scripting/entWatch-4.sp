@@ -643,6 +643,10 @@ void CleanupConfigs()
 	if (g_hConfigHammerIDs != null)
 		g_hConfigHammerIDs.Clear();
 
+	#if defined EW4_SPAWN_ITEMS
+	Ew4_Spawn_OnConfigsCleared();
+	#endif
+
 	if (!g_hArray_Configs.Length)
 		return;
 
