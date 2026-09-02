@@ -134,4 +134,35 @@ methodmap CItemButton < StringMap
 			this.SetValue("flReadyTime", flValue);
 		}
 	}
+
+	//------------------------------------------------------------------------------------------------
+	// Read the button's live math_counter and return its current use count, refreshing
+	// hConfigButton.iMaxUses from the counter bounds as a side effect.
+	//
+	// The counter exposes m_flMin / m_flMax / m_OutValue. iMaxUses is always the span
+	// (max - min). How m_OutValue maps to a use count depends on the counter direction and
+	// on which meaning the caller wants:
+	//
+	//   bValueSemantics = false  ("uses consumed", the default)
+	//       COUNTERDOWN: max - out        COUNTERUP: out - min
+	//   bValueSemantics = true   (raw counter value, EW_BUTTON_MODE_COUNTERVALUE)
+	//       COUNTERDOWN: out - min        COUNTERUP: max - out
+	//------------------------------------------------------------------------------------------------
+	public int ReadCounterUses(bool bValueSemantics = false)
+	{
+		int iButton = this.iButton;
+
+		int iMin = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_flMin"));
+		int iMax = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_flMax"));
+		int iOut = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_OutValue"));
+
+		this.hConfigButton.iMaxUses = iMax - iMin;
+
+		bool bCountingDown = this.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN;
+
+		if (bValueSemantics)
+			return bCountingDown ? iOut - iMin : iMax - iOut;
+
+		return bCountingDown ? iMax - iOut : iOut - iMin;
+	}
 }
