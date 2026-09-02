@@ -13,20 +13,20 @@
 		{
 			"CBaseCombatWeapon::OnPickedUp"		// Called after pickup
 			{
-				"windows"   "306"
-				"linux"     "307"
+				"windows"   "307"
+				"linux"     "308"
 			}
 
 			"CBaseCombatWeapon::GetSlot"		// Gets the slot of the weapon
 			{
-				"windows"   "326"
-				"linux"     "327"
+				"windows"   "327"
+				"linux"     "328"
 			}
 
 			"CBasePlayer::BumpWeapon"			// Checks if pickup is possible
 			{
-				"windows"   "404"
-				"linux"     "405"
+				"windows"   "405"
+				"linux"     "406"
 			}
 		}
 	}
