@@ -92,7 +92,12 @@ void StartBeaconTimer()
 	if (!g_bEnableSpawnedBeacon && !g_bEnableDroppedBeacon)
 		return;
 
-	g_hBeaconTimer = CreateTimer(1.0, OnBeacons, _, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
+	// No TIMER_FLAG_NO_MAPCHANGE: StopBeaconTimer() is the timer's single owner (called from
+	// Ew4_Beacons_OnMapEnd() / Ew4_Beacons_OnPluginEnd()). Letting SM's NO_MAPCHANGE sweep race
+	// that explicit delete meant whichever ran second either double-freed a closed handle or,
+	// worse, found g_hBeaconTimer already non-null-but-dead and left StartBeaconTimer()'s
+	// "already running" guard permanently latched. See #71.
+	g_hBeaconTimer = CreateTimer(1.0, OnBeacons, _, TIMER_REPEAT);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -101,10 +106,7 @@ void StartBeaconTimer()
 void StopBeaconTimer()
 {
 	if (g_hBeaconTimer != null)
-	{
 		delete g_hBeaconTimer;
-		g_hBeaconTimer = null;
-	}
 }
 
 //----------------------------------------------------------------------------------------------------
