@@ -1406,6 +1406,33 @@ Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, float flD
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: EW_BUTTON_MODE_COOLDOWN gate shared by ProcessButtonPress / ProcessCounterValue.
+//          If the button's cooldown has elapsed, arm the next one and report ready; otherwise
+//          leave state untouched and report not-ready.
+//----------------------------------------------------------------------------------------------------
+bool ButtonCooldownReady(CItemButton hItemButton)
+{
+	if (hItemButton.flReadyTime < g_flGameFrameTime)
+	{
+		hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
+		return true;
+	}
+
+	return false;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Common tail of ProcessButtonPress / ProcessCounterValue - arm the item-wide cooldown
+//          and fire the button-interact forward.
+//----------------------------------------------------------------------------------------------------
+void ApplyItemButtonInteract(int iClient, CItem hItem, CItemButton hItemButton)
+{
+	hItem.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flItemCooldown;
+
+	Forward_OnClientItemButtonInteract(iClient, hItemButton);
+}
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Apply the button's cooldown/max-use rules and fire the interact forward
 //----------------------------------------------------------------------------------------------------
 Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
@@ -1426,9 +1453,7 @@ Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
 	{
 		case EW_BUTTON_MODE_COOLDOWN:
 		{
-			if (hItemButton.flReadyTime < g_flGameFrameTime)
-				hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
-			else
+			if (!ButtonCooldownReady(hItemButton))
 				return Plugin_Handled;
 		}
 		case EW_BUTTON_MODE_MAXUSES:
@@ -1458,9 +1483,7 @@ Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 	}
 
-	hItem.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flItemCooldown;
-
-	Forward_OnClientItemButtonInteract(iClient, hItemButton);
+	ApplyItemButtonInteract(iClient, hItem, hItemButton);
 	return Plugin_Continue;
 }
 
@@ -1478,9 +1501,7 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 	{
 		case EW_BUTTON_MODE_COOLDOWN:
 		{
-			if (hItemButton.flReadyTime < g_flGameFrameTime)
-				hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
-			else
+			if (!ButtonCooldownReady(hItemButton))
 				return Plugin_Continue;
 		}
 		case EW_BUTTON_MODE_MAXUSES:
@@ -1519,9 +1540,7 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 	}
 
-	hItem.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flItemCooldown;
-
-	Forward_OnClientItemButtonInteract(iClient, hItemButton);
+	ApplyItemButtonInteract(iClient, hItem, hItemButton);
 	return Plugin_Continue;
 }
 
