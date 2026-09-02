@@ -44,6 +44,12 @@ int g_iPlayerFormat = 3;
 int g_iAuthIDType = 1;
 int g_iMessageMode = 1;
 
+/* FLOATS */
+// Server game time captured once per frame in OnGameFrame(). Every cooldown/
+// wait-time comparison reads this instead of calling GetGameTime() directly so
+// that all consumers share a single, frame-stable clock. See OnGameFrame().
+float g_flGameFrameTime;
+
 /* CONVARS */
 ConVar g_hCVar_PlayerFormat;
 ConVar g_hCVar_MsgsAuthID;
@@ -1297,6 +1303,34 @@ stock void OnWeaponDrop(int iClient, int iWeapon)
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: Cache the current game time once per frame
+//
+// This looks redundant - GetGameTime() is a trivial native and is frame-constant
+// in the GameFrame context - but the cache is deliberate. GetGameTime() returns
+// gpGlobals->curtime, which the engine only holds stable here. Our other time
+// consumers run in different reference frames:
+//
+//   - OnButtonPress (SDKHook_Use on the func_button) and the use-priority path
+//     (OnPlayerRunCmd) both execute during player command processing, where
+//     curtime tracks the player's m_nTickBase, not the server tick.
+//
+// While a client is healthy every clock agrees, but under choke / packet loss /
+// the server catching up on ticks, m_nTickBase drifts from the server tick and
+// commands are processed in batches. Reading GetGameTime() ad hoc in each
+// handler then yields timestamps that disagree between players and between
+// presses, which desyncs shared cooldowns and counter values - most visible
+// exactly when the server is already lagging. Funnelling every comparison
+// through this one per-frame snapshot keeps them consistent. The cost is one
+// float store per frame.
+//
+// Full discussion: https://github.com/srcdslab/sm-plugin-entwatch-4/pull/64
+//----------------------------------------------------------------------------------------------------
+public void OnGameFrame()
+{
+	g_flGameFrameTime = GetGameTime();
+}
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Handle a +use press on an item's use button
 //----------------------------------------------------------------------------------------------------
 stock Action OnButtonPress(int iButton, int iClient)
@@ -1307,8 +1341,6 @@ stock Action OnButtonPress(int iButton, int iClient)
 	if (HasEntProp(iButton, Prop_Data, "m_bLocked") &&
 		GetEntProp(iButton, Prop_Data, "m_bLocked"))
 		return Plugin_Handled;
-
-	float flNow = GetGameTime();
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
 	{
@@ -1328,8 +1360,8 @@ stock Action OnButtonPress(int iButton, int iClient)
 			{
 				if (HasEntProp(iButton, Prop_Data, "m_flWait"))
 				{
-					if (hItemButton.flWaitTime < flNow)
-						hItemButton.flWaitTime = flNow + GetEntPropFloat(iButton, Prop_Data, "m_flWait");
+					if (hItemButton.flWaitTime < g_flGameFrameTime)
+						hItemButton.flWaitTime = g_flGameFrameTime + GetEntPropFloat(iButton, Prop_Data, "m_flWait");
 					else
 						return Plugin_Handled;
 				}
@@ -1410,10 +1442,7 @@ stock Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, flo
 //----------------------------------------------------------------------------------------------------
 stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
 {
-	// Game time is constant for the duration of this call - read it once.
-	float flNow = GetGameTime();
-
-	if (hItem.flReadyTime > flNow)
+	if (hItem.flReadyTime > g_flGameFrameTime)
 		return Plugin_Handled;
 
 	bool bResult = true;
@@ -1429,16 +1458,16 @@ stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButto
 	{
 		case EW_BUTTON_MODE_COOLDOWN:
 		{
-			if (hItemButton.flReadyTime < flNow)
-				hItemButton.flReadyTime = flNow + hItemButton.hConfigButton.flButtonCooldown;
+			if (hItemButton.flReadyTime < g_flGameFrameTime)
+				hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
 			else
 				return Plugin_Handled;
 		}
 		case EW_BUTTON_MODE_MAXUSES:
 		{
-			if (hItemButton.flReadyTime < flNow && hItemButton.iCurrentUses < hItemButton.hConfigButton.iMaxUses)
+			if (hItemButton.flReadyTime < g_flGameFrameTime && hItemButton.iCurrentUses < hItemButton.hConfigButton.iMaxUses)
 			{
-				hItemButton.flReadyTime = flNow + hItemButton.hConfigButton.flButtonCooldown;
+				hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
 				hItemButton.iCurrentUses++;
 			}
 			else
@@ -1446,13 +1475,13 @@ stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButto
 		}
 		case EW_BUTTON_MODE_COOLDOWN_CHARGES:
 		{
-			if (hItemButton.flReadyTime < flNow)
+			if (hItemButton.flReadyTime < g_flGameFrameTime)
 			{
 				hItemButton.iCurrentUses++;
 
 				if (hItemButton.iCurrentUses >= hItemButton.hConfigButton.iMaxUses)
 				{
-					hItemButton.flReadyTime = flNow + hItemButton.hConfigButton.flButtonCooldown;
+					hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
 					hItemButton.iCurrentUses = 0;
 				}
 			}
@@ -1461,7 +1490,7 @@ stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButto
 		}
 	}
 
-	hItem.flReadyTime = flNow + hItemButton.hConfigButton.flItemCooldown;
+	hItem.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flItemCooldown;
 
 	Forward_OnClientItemButtonInteract(iClient, hItemButton);
 	return Plugin_Continue;
@@ -1472,10 +1501,7 @@ stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButto
 //----------------------------------------------------------------------------------------------------
 stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 {
-	// Game time is constant for the duration of this call - read it once.
-	float flNow = GetGameTime();
-
-	if (hItem.flReadyTime > flNow)
+	if (hItem.flReadyTime > g_flGameFrameTime)
 		return Plugin_Continue;
 
 	int iNewCurrentUses = 0;
@@ -1484,8 +1510,8 @@ stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButt
 	{
 		case EW_BUTTON_MODE_COOLDOWN:
 		{
-			if (hItemButton.flReadyTime < flNow)
-				hItemButton.flReadyTime = flNow + hItemButton.hConfigButton.flButtonCooldown;
+			if (hItemButton.flReadyTime < g_flGameFrameTime)
+				hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
 			else
 				return Plugin_Continue;
 		}
@@ -1507,7 +1533,7 @@ stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButt
 			}
 
 			hItemButton.iCurrentUses = iNewCurrentUses;
-			hItemButton.flReadyTime = flNow + hItemButton.hConfigButton.flButtonCooldown;
+			hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
 		}
 		case EW_BUTTON_MODE_COOLDOWN_CHARGES:
 		{
@@ -1529,7 +1555,7 @@ stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButt
 			hItemButton.iCurrentUses = iNewCurrentUses;
 
 			if (hItemButton.iCurrentUses >= hItemButton.hConfigButton.iMaxUses)
-				hItemButton.flReadyTime = flNow + hItemButton.hConfigButton.flButtonCooldown;
+				hItemButton.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flButtonCooldown;
 		}
 		case EW_BUTTON_MODE_COUNTERVALUE:
 		{
@@ -1544,7 +1570,7 @@ stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButt
 		}
 	}
 
-	hItem.flReadyTime = flNow + hItemButton.hConfigButton.flItemCooldown;
+	hItem.flReadyTime = g_flGameFrameTime + hItemButton.hConfigButton.flItemCooldown;
 
 	Forward_OnClientItemButtonInteract(iClient, hItemButton);
 	return Plugin_Continue;

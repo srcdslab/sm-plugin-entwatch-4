@@ -125,18 +125,16 @@ public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float a
 	CItem       hFoundItem       = g_hArray_Items.Get(g_iUsePriority_FoundItemIdx);
 	CItemButton hFoundItemButton = hFoundItem.hButtons.Get(g_iUsePriority_FoundBtnIdx);
 
-	float flNow = GetGameTime();
-
-	if (hFoundItem.flReadyTime > flNow)
+	if (hFoundItem.flReadyTime > g_flGameFrameTime)
 		return Plugin_Continue;
 
-	if (hFoundItemButton.flReadyTime > flNow)
+	if (hFoundItemButton.flReadyTime > g_flGameFrameTime)
 		return Plugin_Continue;
 
 	if (hFoundItemButton.hConfigButton.iMode == EW_BUTTON_MODE_MAXUSES && hFoundItemButton.iCurrentUses >= hFoundItemButton.hConfigButton.iMaxUses)
 		return Plugin_Continue;
 
-	if (HasEntProp(hFoundItemButton.iButton, Prop_Data, "m_flWait") && hFoundItemButton.flWaitTime >= flNow)
+	if (HasEntProp(hFoundItemButton.iButton, Prop_Data, "m_flWait") && hFoundItemButton.flWaitTime >= g_flGameFrameTime)
 		return Plugin_Continue;
 
 	AcceptEntityInput(hFoundItemButton.iButton, "Use", iClient, iClient);
