@@ -150,7 +150,7 @@ void EvaluateBeaconTimer()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Precache the beam/halo sprites from funcommands gamedata
 //----------------------------------------------------------------------------------------------------
-stock void LoadGameConfig()
+void LoadGameConfig()
 {
 	GameData hGameConf;
 	if ((hGameConf = new GameData("funcommands.games")) == null)
@@ -180,7 +180,7 @@ public void EW_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInterac
 //----------------------------------------------------------------------------------------------------
 // Purpose: Repeating timer - draw a ring beacon on every spawned/dropped item
 //----------------------------------------------------------------------------------------------------
-stock Action OnBeacons(Handle hTimer)
+Action OnBeacons(Handle hTimer)
 {
 	ArrayList hItems = EW_GetItemsArray();
 

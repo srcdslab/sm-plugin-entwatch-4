@@ -135,7 +135,7 @@ public Action Command_ToggleHUD(int iClient, int iArgs)
 // Purpose: Format the cooldown string for a single button.
 //          Returns true if a string was written, false if the button has no cooldown to show.
 //----------------------------------------------------------------------------------------------------
-stock bool FormatButtonCooldown(char[] sBuffer, const int iMaxLength, CItemButton hItemButton, float flNow)
+bool FormatButtonCooldown(char[] sBuffer, const int iMaxLength, CItemButton hItemButton, float flNow)
 {
 	switch (hItemButton.hConfigButton.iMode)
 	{
@@ -186,7 +186,7 @@ stock bool FormatButtonCooldown(char[] sBuffer, const int iMaxLength, CItemButto
 // Purpose: Concatenate cooldown strings for all visible buttons of an item.
 //          Returns true if at least one button produced output.
 //----------------------------------------------------------------------------------------------------
-stock bool FormatItemCooldowns(char[] sBuffer, const int iMaxLength, CItem hItem, float flNow)
+bool FormatItemCooldowns(char[] sBuffer, const int iMaxLength, CItem hItem, float flNow)
 {
 	bool bHasCooldown = false;
 
@@ -224,7 +224,7 @@ stock bool FormatItemCooldowns(char[] sBuffer, const int iMaxLength, CItem hItem
 //   [1] = T  items    (team 2)
 //   [2] = CT items    (team 3)
 //----------------------------------------------------------------------------------------------------
-stock Action OnDisplayHUD(Handle hTimer)
+Action OnDisplayHUD(Handle hTimer)
 {
 	if (!g_hArray_Items || !g_hArray_Items.Length)
 		return Plugin_Continue;

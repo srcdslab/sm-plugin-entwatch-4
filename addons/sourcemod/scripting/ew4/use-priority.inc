@@ -25,7 +25,7 @@ ConVar g_hCVar_UsePriorityRange;
 //----------------------------------------------------------------------------------------------------
 // Purpose: Create the use-priority cvars and cache their values
 //----------------------------------------------------------------------------------------------------
-stock void EW4_UsePriority_OnPluginStart()
+void EW4_UsePriority_OnPluginStart()
 {
 	g_hCVar_UsePriority      = CreateConVar("entwatch_use_priority", "1", "Enable/Disable forced pressing of the button.", _, true, 0.0, true, 1.0);
 	g_hCVar_UsePriorityRange = CreateConVar("entwatch_use_priority_range", "50.0", "Range (units) of the hull trace used to detect item buttons in front of the player.", _, true, 0.0, true, 512.0);

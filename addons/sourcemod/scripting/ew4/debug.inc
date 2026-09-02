@@ -35,7 +35,7 @@ public void Ew4_Debug_OnMapStart()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Precache the beam/halo sprites from funcommands gamedata
 //----------------------------------------------------------------------------------------------------
-stock void Ew4_Debug_LoadGameConfig()
+void Ew4_Debug_LoadGameConfig()
 {
 	GameData hGameConf;
 	if ((hGameConf = new GameData("funcommands.games")) == null)

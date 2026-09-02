@@ -545,7 +545,7 @@ public void Ew4_Restrictions_OnClientItemWeaponInteract(int iClient, CItem hItem
 //----------------------------------------------------------------------------------------------------
 // Purpose: Apply restriction to a connected client
 //----------------------------------------------------------------------------------------------------
-stock bool ClientRestrict(int admin, int target, int iDuration, const char[] reason)
+bool ClientRestrict(int admin, int target, int iDuration, const char[] reason)
 {
 	if (!IsValidClient(target) || IsRestrictedClient(target))
 		return false;
@@ -593,7 +593,7 @@ stock bool ClientRestrict(int admin, int target, int iDuration, const char[] rea
 //----------------------------------------------------------------------------------------------------
 // Purpose: Remove restriction from a connected client
 //----------------------------------------------------------------------------------------------------
-stock bool ClientUnrestrict(int admin, int target, const char[] reason)
+bool ClientUnrestrict(int admin, int target, const char[] reason)
 {
 	if (!IsValidClient(target) || !IsRestrictedClient(target))
 		return false;
@@ -628,7 +628,7 @@ stock bool ClientUnrestrict(int admin, int target, const char[] reason)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Check if client is restricted
 //----------------------------------------------------------------------------------------------------
-stock bool IsRestrictedClient(int client)
+bool IsRestrictedClient(int client)
 {
 	return IsValidClient(client) && g_RestrictClients[client].bRestricted;
 }
@@ -1862,7 +1862,7 @@ void LogBanAction(int admin, int target, int iDuration, const char[] reason, boo
 //----------------------------------------------------------------------------------------------------
 // Purpose: Format a duration in seconds into a human-readable translated string
 //----------------------------------------------------------------------------------------------------
-stock void FormatTimeLeft(int iSeconds, char[] sBuffer, int maxlen, int iTransTarget = LANG_SERVER)
+void FormatTimeLeft(int iSeconds, char[] sBuffer, int maxlen, int iTransTarget = LANG_SERVER)
 {
 	SetGlobalTransTarget(iTransTarget);
 	if (iSeconds < 60)
@@ -1875,7 +1875,7 @@ stock void FormatTimeLeft(int iSeconds, char[] sBuffer, int maxlen, int iTransTa
 		FormatEx(sBuffer, maxlen, "%d %t %d %t", iSeconds / 86400, "EW_Time_Days", (iSeconds / 3600) % 24, "EW_Time_Hours");
 }
 
-stock bool IsInvalidSteamID(int client)
+bool IsInvalidSteamID(int client)
 {
 	char sSteam[64];
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);

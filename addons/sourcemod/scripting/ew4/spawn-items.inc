@@ -271,6 +271,10 @@ public int Native_SpawnItem(Handle hPlugin, int iNumParams)
 //          configs with valid spawner entries. Used by menu interface to show spawnable items.
 //          Note that this is NOT the same as the items array returned by EW_GetItemsArray(), which
 //          contains CItem instances for currently tracked entities.
+//
+// Kept `stock`: the only caller lives in menu-interface.inc behind
+// `#if defined EW4_SPAWN_ITEMS`, so with EW4_SPAWN_ITEMS enabled but
+// EW4_INTERFACE disabled this accessor has no call site.
 //----------------------------------------------------------------------------------------------------
 stock ArrayList Ew4_Spawn_GetSpawnableItems()
 {

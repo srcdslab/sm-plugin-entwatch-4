@@ -30,7 +30,7 @@ public void Ew4_ServerCommand_OnPluginStart()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Set up the AcceptInput DynamicHook from sdktools gamedata
 //----------------------------------------------------------------------------------------------------
-stock void Ew4_ServerCommand_LoadGameConfig()
+void Ew4_ServerCommand_LoadGameConfig()
 {
 	GameData hGameConf;
 	if ((hGameConf = new GameData("sdktools.games")) == null)

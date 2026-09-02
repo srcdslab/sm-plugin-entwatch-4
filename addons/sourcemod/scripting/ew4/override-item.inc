@@ -48,7 +48,7 @@ public Action Command_LockButton(int iClient, int iArgs)
 // ----------------------------------------------------------------------------------------------------
 // Purpose: Set button cooldown by HammerID
 // ----------------------------------------------------------------------------------------------------
-stock void EW4_SetCooldown(int iClient, int iArgs)
+void EW4_SetCooldown(int iClient, int iArgs)
 {
 	if (iArgs < 2)
 	{
@@ -93,7 +93,7 @@ stock void EW4_SetCooldown(int iClient, int iArgs)
 // ----------------------------------------------------------------------------------------------------
 // Purpose: Set button max uses by HammerID
 // ----------------------------------------------------------------------------------------------------
-stock void EW4_SetMaxUses(int iClient, int iArgs)
+void EW4_SetMaxUses(int iClient, int iArgs)
 {
 	if (iArgs < 2)
 	{
@@ -126,7 +126,7 @@ stock void EW4_SetMaxUses(int iClient, int iArgs)
 // ----------------------------------------------------------------------------------------------------
 // Purpose: Set button mode by HammerID
 // ----------------------------------------------------------------------------------------------------
-stock void EW4_SetMode(int iClient, int iArgs)
+void EW4_SetMode(int iClient, int iArgs)
 {
 	if (iArgs < 5)
 	{
@@ -274,7 +274,7 @@ public Action Command_SetShortName(int iClient, int iArgs)
 // ----------------------------------------------------------------------------------------------------
 // Purpose: Lock or unlock a button by HammerID
 // ----------------------------------------------------------------------------------------------------
-stock void EW4_LockButton(int iClient, int iArgs)
+void EW4_LockButton(int iClient, int iArgs)
 {
 	if (iArgs < 2)
 	{
