@@ -991,7 +991,11 @@ bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iButton)
 	hItemButton.iState  = EW_ENTITY_STATE_SPAWNED;
 
 	if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN || hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
-		hItemButton.iCurrentUses = hItemButton.ReadCounterUses(hConfigButton.iMode == EW_BUTTON_MODE_COUNTERVALUE);
+	{
+		int iCounterUses = hItemButton.iCurrentUses;
+		hItemButton.ReadCounterUses(iCounterUses, hConfigButton.iMode == EW_BUTTON_MODE_COUNTERVALUE);
+		hItemButton.iCurrentUses = iCounterUses;
+	}
 
 	bool bShifted;
 
@@ -1498,7 +1502,7 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 		case EW_BUTTON_MODE_MAXUSES:
 		{
-			iNewCurrentUses = hItemButton.ReadCounterUses();
+			hItemButton.ReadCounterUses(iNewCurrentUses);
 
 			if (iNewCurrentUses <= hItemButton.iCurrentUses)
 			{
@@ -1511,7 +1515,7 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 		case EW_BUTTON_MODE_COOLDOWN_CHARGES:
 		{
-			iNewCurrentUses = hItemButton.ReadCounterUses();
+			hItemButton.ReadCounterUses(iNewCurrentUses);
 
 			if (iNewCurrentUses <= hItemButton.iCurrentUses)
 			{
@@ -1526,7 +1530,9 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 		case EW_BUTTON_MODE_COUNTERVALUE:
 		{
-			hItemButton.iCurrentUses = hItemButton.ReadCounterUses(true);
+			int iCounterUses = hItemButton.iCurrentUses;
+			hItemButton.ReadCounterUses(iCounterUses, true);
+			hItemButton.iCurrentUses = iCounterUses;
 		}
 	}
 
