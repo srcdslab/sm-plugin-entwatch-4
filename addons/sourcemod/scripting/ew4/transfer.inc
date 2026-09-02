@@ -207,7 +207,7 @@ public Action Command_TransferItem(int iClient, int iArgs)
 // Purpose: Equip a weapon on a client, properly replacing any existing weapon in the same slot.
 //          Uses SDK calls to correctly trigger OnPickedUp so entWatch core tracks ownership.
 //----------------------------------------------------------------------------------------------------
-stock void FixedEquipPlayerWeapon(int iClient, int iWeapon)
+void FixedEquipPlayerWeapon(int iClient, int iWeapon)
 {
 	int iWeaponSlot   = SDKCall(SDKCall_GetSlot, iWeapon);
 	int iWeaponInSlot = GetPlayerWeaponSlot(iClient, iWeaponSlot);

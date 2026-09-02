@@ -376,7 +376,7 @@ public void OnMapEnd()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Load the entWatch chat-message colour set from its config file
 //----------------------------------------------------------------------------------------------------
-stock void LoadColors()
+void LoadColors()
 {
 	g_clr.Reset();
 
@@ -408,7 +408,7 @@ stock void LoadColors()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Parse the current map's entWatch item config into the Configs array
 //----------------------------------------------------------------------------------------------------
-stock bool LoadConfig(bool bLoopEntities = false)
+bool LoadConfig(bool bLoopEntities = false)
 {
 	CleanupItems();
 	CleanupConfigs();
@@ -583,7 +583,7 @@ stock bool LoadConfig(bool bLoopEntities = false)
 //----------------------------------------------------------------------------------------------------
 // Purpose: (Re)build the HammerID lookup set from the currently loaded configs
 //----------------------------------------------------------------------------------------------------
-stock void BuildConfigHammerIDIndex()
+void BuildConfigHammerIDIndex()
 {
 	g_hConfigHammerIDs.Clear();
 
@@ -623,7 +623,7 @@ stock void BuildConfigHammerIDIndex()
 //----------------------------------------------------------------------------------------------------
 // Purpose: True if any config references this HammerID (item, button or trigger)
 //----------------------------------------------------------------------------------------------------
-stock bool IsConfigHammerID(int iHammerID)
+bool IsConfigHammerID(int iHammerID)
 {
 	if (!iHammerID)
 		return false;
@@ -638,7 +638,7 @@ stock bool IsConfigHammerID(int iHammerID)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Free every CConfig (and its buttons/triggers) and clear the Configs array
 //----------------------------------------------------------------------------------------------------
-stock void CleanupConfigs()
+void CleanupConfigs()
 {
 	if (g_hConfigHammerIDs != null)
 		g_hConfigHammerIDs.Clear();
@@ -665,7 +665,7 @@ stock void CleanupConfigs()
 // entities on a round restart, which drops their SDKHooks and entity-output
 // hooks automatically, so unhooking them here is redundant work. On plugin end,
 // map end and EW_LoadConfig the entities are still alive and must be unhooked.
-stock void CleanupItems(bool bUnhookEntities = true)
+void CleanupItems(bool bUnhookEntities = true)
 {
 	if (!g_hArray_Items.Length)
 		return;
@@ -728,7 +728,7 @@ stock void CleanupItems(bool bUnhookEntities = true)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Clear the intermission flag at the start of a round
 //----------------------------------------------------------------------------------------------------
-stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
+void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
 	g_bIntermission = false;
 }
@@ -736,7 +736,7 @@ stock void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Free tracked items on round end and set the intermission flag
 //----------------------------------------------------------------------------------------------------
-stock void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
+void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
 	// Skip unhooking: the round restart destroys and recreates every tracked
 	// button/trigger entity, so their hooks are dropped by the engine anyway.
@@ -766,7 +766,7 @@ public void OnEntityCreated(int iEntity, const char[] sClassname)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Match a spawned entity against every config and register it as an item weapon/button/trigger
 //----------------------------------------------------------------------------------------------------
-stock void OnEntitySpawnPost(int iEntity)
+void OnEntitySpawnPost(int iEntity)
 {
 	if (!IsValidEntity(iEntity) || !g_hArray_Configs.Length)
 		return;
@@ -911,7 +911,7 @@ stock void OnEntitySpawnPost(int iEntity)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Insert an item into the array keeping it ordered by config ID
 //----------------------------------------------------------------------------------------------------
-stock void InsertItemSorted(ArrayList hArray, CItem hItem)
+void InsertItemSorted(ArrayList hArray, CItem hItem)
 {
 	bool bShifted;
 
@@ -936,7 +936,7 @@ stock void InsertItemSorted(ArrayList hArray, CItem hItem)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Bind a weapon entity to an item and pick up its current owner, if any
 //----------------------------------------------------------------------------------------------------
-stock bool RegisterItemWeapon(CItem hItem, int iWeapon)
+bool RegisterItemWeapon(CItem hItem, int iWeapon)
 {
 	if (!IsValidEntity(iWeapon))
 		return false;
@@ -962,7 +962,7 @@ stock bool RegisterItemWeapon(CItem hItem, int iWeapon)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Hook a button entity for an item and seed its counter/use state
 //----------------------------------------------------------------------------------------------------
-stock bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iButton)
+bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iButton)
 {
 	if (!IsValidEntity(iButton) || HasDuplicateItemButton(hConfigButton, hItem))
 		return false;
@@ -1037,7 +1037,7 @@ stock bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iBut
 //----------------------------------------------------------------------------------------------------
 // Purpose: Return true if the item already has a button for this config
 //----------------------------------------------------------------------------------------------------
-stock bool HasDuplicateItemButton(CConfigButton hConfigButton, CItem hItem)
+bool HasDuplicateItemButton(CConfigButton hConfigButton, CItem hItem)
 {
 	if (!hItem.hButtons.Length)
 		return false;
@@ -1056,7 +1056,7 @@ stock bool HasDuplicateItemButton(CConfigButton hConfigButton, CItem hItem)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Hook a trigger entity for an item
 //----------------------------------------------------------------------------------------------------
-stock bool RegisterItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem, int iTrigger)
+bool RegisterItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem, int iTrigger)
 {
 	if (!IsValidEntity(iTrigger) || HasDuplicateItemTrigger(hConfigTrigger, hItem))
 		return false;
@@ -1100,7 +1100,7 @@ stock bool RegisterItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem, int i
 //----------------------------------------------------------------------------------------------------
 // Purpose: Return true if the item already has a trigger for this config
 //----------------------------------------------------------------------------------------------------
-stock bool HasDuplicateItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem)
+bool HasDuplicateItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem)
 {
 	if (!hItem.hTriggers.Length)
 		return false;
@@ -1223,7 +1223,7 @@ public Action OnPlayerRunCmd(int iClient, int& iButtons, int& iImpulse, float ve
 //----------------------------------------------------------------------------------------------------
 // Purpose: Release EntWatch's ownership tracking for every item a client was holding
 //----------------------------------------------------------------------------------------------------
-stock void ReleaseClientItems(int iClient, int iInteractionType)
+void ReleaseClientItems(int iClient, int iInteractionType)
 {
 	if (!g_hArray_Items.Length)
 		return;
@@ -1245,7 +1245,7 @@ stock void ReleaseClientItems(int iClient, int iInteractionType)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Drop any item the dying client was holding
 //----------------------------------------------------------------------------------------------------
-stock void OnClientDeath(Event hEvent, const char[] sEvent, bool bDontBroadcast)
+void OnClientDeath(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
 	int iClient = GetClientOfUserId(hEvent.GetInt("userid"));
 
@@ -1258,7 +1258,7 @@ stock void OnClientDeath(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Mark an item as equipped when its weapon is picked up
 //----------------------------------------------------------------------------------------------------
-stock void OnWeaponPickup(int iClient, int iWeapon)
+void OnWeaponPickup(int iClient, int iWeapon)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iWeapon) || !g_hArray_Items.Length)
 		return;
@@ -1282,7 +1282,7 @@ stock void OnWeaponPickup(int iClient, int iWeapon)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Mark an item as dropped when its weapon is dropped
 //----------------------------------------------------------------------------------------------------
-stock void OnWeaponDrop(int iClient, int iWeapon)
+void OnWeaponDrop(int iClient, int iWeapon)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iWeapon) || !g_hArray_Items.Length)
 		return;
@@ -1333,7 +1333,7 @@ public void OnGameFrame()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Handle a +use press on an item's use button
 //----------------------------------------------------------------------------------------------------
-stock Action OnButtonPress(int iButton, int iClient)
+Action OnButtonPress(int iButton, int iClient)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iButton) || !g_hArray_Items.Length)
 		return Plugin_Handled;
@@ -1377,7 +1377,7 @@ stock Action OnButtonPress(int iButton, int iClient)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Handle a hooked entity output firing on an item's output button
 //----------------------------------------------------------------------------------------------------
-stock Action OnButtonOutput(const char[] sOutput, int iButton, int iClient, float flDelay)
+Action OnButtonOutput(const char[] sOutput, int iButton, int iClient, float flDelay)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iButton) || !g_hArray_Items.Length)
 		return Plugin_Handled;
@@ -1413,7 +1413,7 @@ stock Action OnButtonOutput(const char[] sOutput, int iButton, int iClient, floa
 //----------------------------------------------------------------------------------------------------
 // Purpose: Separate output hook for math_counter hook because iClient can be invalid
 //----------------------------------------------------------------------------------------------------
-stock Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, float flDelay)
+Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, float flDelay)
 {
 	if (!IsValidEntity(iButton) || !g_hArray_Items.Length)
 		return Plugin_Continue;
@@ -1440,7 +1440,7 @@ stock Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, flo
 //----------------------------------------------------------------------------------------------------
 // Purpose: Apply the button's cooldown/max-use rules and fire the interact forward
 //----------------------------------------------------------------------------------------------------
-stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
+Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButton)
 {
 	if (hItem.flReadyTime > g_flGameFrameTime)
 		return Plugin_Handled;
@@ -1499,7 +1499,7 @@ stock Action ProcessButtonPress(int iClient, CItem hItem, CItemButton hItemButto
 //----------------------------------------------------------------------------------------------------
 // Purpose: Apply the button's cooldown/max-use rules for a math_counter output and fire the interact forward
 //----------------------------------------------------------------------------------------------------
-stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
+Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 {
 	if (hItem.flReadyTime > g_flGameFrameTime)
 		return Plugin_Continue;
@@ -1579,7 +1579,7 @@ stock Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButt
 //----------------------------------------------------------------------------------------------------
 // Purpose: Fire the trigger-interact forward when a client touches an item's strip trigger
 //----------------------------------------------------------------------------------------------------
-stock Action OnTriggerTouch(int iTrigger, int iClient)
+Action OnTriggerTouch(int iTrigger, int iClient)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iTrigger) || !g_hArray_Items.Length)
 		return Plugin_Handled;
@@ -1621,7 +1621,7 @@ stock Action OnTriggerTouch(int iTrigger, int iClient)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Ask listeners whether a client may pick up an item weapon
 //----------------------------------------------------------------------------------------------------
-stock Action OnWeaponTouch(int iClient, int iWeapon)
+Action OnWeaponTouch(int iClient, int iWeapon)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iWeapon) || !g_hArray_Items.Length)
 		return Plugin_Continue;
@@ -1654,7 +1654,7 @@ stock Action OnWeaponTouch(int iClient, int iWeapon)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Return true for a connected client index
 //----------------------------------------------------------------------------------------------------
-stock bool IsValidClient(int iClient)
+bool IsValidClient(int iClient)
 {
 	return ((1 <= iClient <= MaxClients) && IsClientConnected(iClient));
 }
@@ -1747,7 +1747,7 @@ public any Native_ClientHasItem(Handle hPlugin, int iNumParams)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Forwards
 //----------------------------------------------------------------------------------------------------
-stock void Forward_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInteractionType)
+void Forward_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInteractionType)
 {
 	Call_StartForward(g_hFwd_OnClientItemWeaponInteract);
 	Call_PushCell(iClient);
@@ -1761,7 +1761,7 @@ stock void Forward_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInt
 //----------------------------------------------------------------------------------------------------
 // Purpose: Forwards
 //----------------------------------------------------------------------------------------------------
-stock void Forward_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
+void Forward_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 {
 	Call_StartForward(g_hFwd_OnClientItemButtonInteract);
 	Call_PushCell(iClient);
@@ -1774,7 +1774,7 @@ stock void Forward_OnClientItemButtonInteract(int iClient, CItemButton hItemButt
 //----------------------------------------------------------------------------------------------------
 // Purpose: Forwards
 //----------------------------------------------------------------------------------------------------
-stock void Forward_OnClientItemTriggerInteract(int iClient, CItemTrigger hItemTrigger)
+void Forward_OnClientItemTriggerInteract(int iClient, CItemTrigger hItemTrigger)
 {
 	Call_StartForward(g_hFwd_OnClientItemTriggerInteract);
 	Call_PushCell(iClient);
@@ -1881,7 +1881,7 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Send an entWatch chat message honouring the recipient-mode cvar
 //----------------------------------------------------------------------------------------------------
-stock void PrintChatMessage(int iClient, const char[] sMessage, any ...)
+void PrintChatMessage(int iClient, const char[] sMessage, any ...)
 {
 	char sBuffer[256];
 	VFormat(sBuffer, sizeof(sBuffer), sMessage, 3);
@@ -1919,7 +1919,7 @@ stock void PrintChatMessage(int iClient, const char[] sMessage, any ...)
 //----------------------------------------------------------------------------------------------------
 // Purpose: Formats player info based on g_iPlayerFormat settings
 //----------------------------------------------------------------------------------------------------
-stock void FormatPlayerInfo(int iClient, char[] sBuffer, int iMaxLen)
+void FormatPlayerInfo(int iClient, char[] sBuffer, int iMaxLen)
 {
 	char sClientName[MAX_NAME_LENGTH];
 	GetClientName(iClient, sClientName, sizeof(sClientName));
@@ -1979,6 +1979,9 @@ stock void FormatPlayerInfo(int iClient, char[] sBuffer, int iMaxLen)
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Load all SDK calls from entWatch.games gamedata
+//
+// Kept `stock`: the only caller is guarded by `#if defined EW4_TRANSFER`
+// (here and in transfer.inc), so this is unused when that module is disabled.
 //----------------------------------------------------------------------------------------------------
 stock void EW_SDK_Load()
 {
