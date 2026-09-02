@@ -45,6 +45,9 @@ int g_iAuthIDType = 1;
 int g_iMessageMode = 1;
 
 /* FLOATS */
+// Server game time captured once per frame in OnGameFrame(). Every cooldown/
+// wait-time comparison reads this instead of calling GetGameTime() directly so
+// that all consumers share a single, frame-stable clock. See OnGameFrame().
 float g_flGameFrameTime;
 
 /* CONVARS */
@@ -1301,6 +1304,26 @@ stock void OnWeaponDrop(int iClient, int iWeapon)
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Cache the current game time once per frame
+//
+// This looks redundant - GetGameTime() is a trivial native and is frame-constant
+// in the GameFrame context - but the cache is deliberate. GetGameTime() returns
+// gpGlobals->curtime, which the engine only holds stable here. Our other time
+// consumers run in different reference frames:
+//
+//   - OnButtonPress (SDKHook_Use on the func_button) and the use-priority path
+//     (OnPlayerRunCmd) both execute during player command processing, where
+//     curtime tracks the player's m_nTickBase, not the server tick.
+//
+// While a client is healthy every clock agrees, but under choke / packet loss /
+// the server catching up on ticks, m_nTickBase drifts from the server tick and
+// commands are processed in batches. Reading GetGameTime() ad hoc in each
+// handler then yields timestamps that disagree between players and between
+// presses, which desyncs shared cooldowns and counter values - most visible
+// exactly when the server is already lagging. Funnelling every comparison
+// through this one per-frame snapshot keeps them consistent. The cost is one
+// float store per frame.
+//
+// Full discussion: https://github.com/srcdslab/sm-plugin-entwatch-4/pull/64
 //----------------------------------------------------------------------------------------------------
 public void OnGameFrame()
 {
