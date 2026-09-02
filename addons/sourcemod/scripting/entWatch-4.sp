@@ -314,6 +314,8 @@ public void OnPluginEnd()
 	CleanupConfigs();
 
 	delete g_hConfigHammerIDs;
+	delete g_hArray_Items;
+	delete g_hArray_Configs;
 
 	#if defined EW4_BEACONS
 	Ew4_Beacons_OnPluginEnd();

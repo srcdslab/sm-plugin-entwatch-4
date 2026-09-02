@@ -231,6 +231,7 @@ void OnRestrictionsCvarChanged(ConVar convar, const char[] oldValue, const char[
 public void Ew4_Restrictions_OnPluginEnd()
 {
 	Database_Disconnect();
+	delete g_OfflineArray;
 }
 
 //----------------------------------------------------------------------------------------------------
