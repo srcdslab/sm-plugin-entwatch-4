@@ -992,24 +992,9 @@ bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iButton)
 
 	if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN || hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
 	{
-		int iCounterMax = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_flMax"));
-		int iCounterMin = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_flMin"));
-		hConfigButton.iMaxUses = iCounterMax - iCounterMin;
-
-		if (hConfigButton.iMode == EW_BUTTON_MODE_COUNTERVALUE)
-		{
-			if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN)
-				hItemButton.iCurrentUses = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_OutValue")) - iCounterMin;
-			else if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
-				hItemButton.iCurrentUses = iCounterMax - RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_OutValue"));
-		}
-		else
-		{
-			if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN)
-				hItemButton.iCurrentUses = iCounterMax - RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_OutValue"));
-			else if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
-				hItemButton.iCurrentUses = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_OutValue")) - iCounterMin;
-		}
+		int iCounterUses = hItemButton.iCurrentUses;
+		hItemButton.ReadCounterUses(iCounterUses, hConfigButton.iMode == EW_BUTTON_MODE_COUNTERVALUE);
+		hItemButton.iCurrentUses = iCounterUses;
 	}
 
 	bool bShifted;
@@ -1517,14 +1502,7 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 		case EW_BUTTON_MODE_MAXUSES:
 		{
-			int iCounterMax = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_flMax"));
-			int iCounterMin = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_flMin"));
-			hItemButton.hConfigButton.iMaxUses = iCounterMax - iCounterMin;
-
-			if (hItemButton.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
-				iNewCurrentUses = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_OutValue")) - iCounterMin;
-			else if (hItemButton.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN)
-				iNewCurrentUses = iCounterMax - RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_OutValue"));
+			hItemButton.ReadCounterUses(iNewCurrentUses);
 
 			if (iNewCurrentUses <= hItemButton.iCurrentUses)
 			{
@@ -1537,14 +1515,7 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 		case EW_BUTTON_MODE_COOLDOWN_CHARGES:
 		{
-			int iCounterMax = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_flMax"));
-			int iCounterMin = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_flMin"));
-			hItemButton.hConfigButton.iMaxUses = iCounterMax - iCounterMin;
-
-			if (hItemButton.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
-				iNewCurrentUses = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_OutValue")) - iCounterMin;
-			else if (hItemButton.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN)
-				iNewCurrentUses = iCounterMax - RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_OutValue"));
+			hItemButton.ReadCounterUses(iNewCurrentUses);
 
 			if (iNewCurrentUses <= hItemButton.iCurrentUses)
 			{
@@ -1559,14 +1530,9 @@ Action ProcessCounterValue(int iClient, CItem hItem, CItemButton hItemButton)
 		}
 		case EW_BUTTON_MODE_COUNTERVALUE:
 		{
-			int iCounterMax = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_flMax"));
-			int iCounterMin = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_flMin"));
-			hItemButton.hConfigButton.iMaxUses = iCounterMax - iCounterMin;
-
-			if (hItemButton.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN)
-				hItemButton.iCurrentUses = RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_OutValue")) - iCounterMin;
-			else if (hItemButton.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
-				hItemButton.iCurrentUses = iCounterMax - RoundFloat(GetEntPropFloat(hItemButton.iButton, Prop_Data, "m_OutValue"));
+			int iCounterUses = hItemButton.iCurrentUses;
+			hItemButton.ReadCounterUses(iCounterUses, true);
+			hItemButton.iCurrentUses = iCounterUses;
 		}
 	}
 

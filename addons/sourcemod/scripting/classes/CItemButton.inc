@@ -134,4 +134,44 @@ methodmap CItemButton < StringMap
 			this.SetValue("flReadyTime", flValue);
 		}
 	}
+
+	//------------------------------------------------------------------------------------------------
+	// Read the button's live math_counter and, for a counter-typed button, write its current use
+	// count into iUses. Always refreshes hConfigButton.iMaxUses from the counter bounds.
+	//
+	// Returns true and writes iUses only when iType is COUNTERUP / COUNTERDOWN; for any other
+	// type it returns false and leaves iUses untouched (matching the original call sites, which
+	// only assigned inside an explicit `if type == UP / DOWN`).
+	//
+	// The counter exposes m_flMin / m_flMax / m_OutValue. iMaxUses is the span (max - min). How
+	// m_OutValue maps to a use count depends on the counter direction and on which meaning the
+	// caller wants:
+	//
+	//   bValueSemantics = false  ("uses consumed", the default)
+	//       COUNTERDOWN: max - out        COUNTERUP: out - min
+	//   bValueSemantics = true   (raw counter value, EW_BUTTON_MODE_COUNTERVALUE)
+	//       COUNTERDOWN: out - min        COUNTERUP: max - out
+	//------------------------------------------------------------------------------------------------
+	public bool ReadCounterUses(int &iUses, bool bValueSemantics = false)
+	{
+		int iButton = this.iButton;
+
+		int iMax = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_flMax"));
+		int iMin = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_flMin"));
+
+		this.hConfigButton.iMaxUses = iMax - iMin;
+
+		if (this.hConfigButton.iType != EW_BUTTON_TYPE_COUNTERDOWN &&
+			this.hConfigButton.iType != EW_BUTTON_TYPE_COUNTERUP)
+			return false;
+
+		int iOut = RoundFloat(GetEntPropFloat(iButton, Prop_Data, "m_OutValue"));
+
+		if (this.hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN)
+			iUses = bValueSemantics ? (iOut - iMin) : (iMax - iOut);
+		else
+			iUses = bValueSemantics ? (iMax - iOut) : (iOut - iMin);
+
+		return true;
+	}
 }
