@@ -34,25 +34,49 @@ methodmap CConfigTrigger < ArrayList
 
 	property CConfig hConfig
 	{
-		public get() { return view_as<CConfig>(this.Get(CConfigTrigger_hConfig)); }
-		public set(CConfig hValue) { this.Set(CConfigTrigger_hConfig, hValue); }
+		public get()
+		{
+			return view_as<CConfig>(this.Get(CConfigTrigger_hConfig));
+		}
+		public set(CConfig hValue)
+		{
+			this.Set(CConfigTrigger_hConfig, hValue);
+		}
 	}
 
 	property int iConfigID
 	{
-		public get() { return this.Get(CConfigTrigger_iConfigID); }
-		public set(int iValue) { this.Set(CConfigTrigger_iConfigID, iValue); }
+		public get()
+		{
+			return this.Get(CConfigTrigger_iConfigID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigTrigger_iConfigID, iValue);
+		}
 	}
 
 	property int iHammerID
 	{
-		public get() { return this.Get(CConfigTrigger_iHammerID); }
-		public set(int iValue) { this.Set(CConfigTrigger_iHammerID, iValue); }
+		public get()
+		{
+			return this.Get(CConfigTrigger_iHammerID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigTrigger_iHammerID, iValue);
+		}
 	}
 
 	property int iType
 	{
-		public get() { return this.Get(CConfigTrigger_iType); }
-		public set(int iValue) { this.Set(CConfigTrigger_iType, iValue); }
+		public get()
+		{
+			return this.Get(CConfigTrigger_iType);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigTrigger_iType, iValue);
+		}
 	}
 }

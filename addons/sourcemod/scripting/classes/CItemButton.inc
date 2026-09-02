@@ -41,44 +41,86 @@ methodmap CItemButton < ArrayList
 
 	property CConfigButton hConfigButton
 	{
-		public get() { return view_as<CConfigButton>(this.Get(CItemButton_hConfigButton)); }
-		public set(CConfigButton hValue) { this.Set(CItemButton_hConfigButton, hValue); }
+		public get()
+		{
+			return view_as<CConfigButton>(this.Get(CItemButton_hConfigButton));
+		}
+		public set(CConfigButton hValue)
+		{
+			this.Set(CItemButton_hConfigButton, hValue);
+		}
 	}
 
 	property CItem hItem
 	{
-		public get() { return view_as<CItem>(this.Get(CItemButton_hItem)); }
-		public set(CItem hValue) { this.Set(CItemButton_hItem, hValue); }
+		public get()
+		{
+			return view_as<CItem>(this.Get(CItemButton_hItem));
+		}
+		public set(CItem hValue)
+		{
+			this.Set(CItemButton_hItem, hValue);
+		}
 	}
 
 	property int iButton
 	{
-		public get() { return this.Get(CItemButton_iButton); }
-		public set(int iValue) { this.Set(CItemButton_iButton, iValue); }
+		public get()
+		{
+			return this.Get(CItemButton_iButton);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItemButton_iButton, iValue);
+		}
 	}
 
 	property int iState
 	{
-		public get() { return this.Get(CItemButton_iState); }
-		public set(int iValue) { this.Set(CItemButton_iState, iValue); }
+		public get()
+		{
+			return this.Get(CItemButton_iState);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItemButton_iState, iValue);
+		}
 	}
 
 	property int iCurrentUses
 	{
-		public get() { return this.Get(CItemButton_iCurrentUses); }
-		public set(int iValue) { this.Set(CItemButton_iCurrentUses, iValue); }
+		public get()
+		{
+			return this.Get(CItemButton_iCurrentUses);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItemButton_iCurrentUses, iValue);
+		}
 	}
 
 	property float flWaitTime
 	{
-		public get() { return view_as<float>(this.Get(CItemButton_flWaitTime)); }
-		public set(float flValue) { this.Set(CItemButton_flWaitTime, flValue); }
+		public get()
+		{
+			return view_as<float>(this.Get(CItemButton_flWaitTime));
+		}
+		public set(float flValue)
+		{
+			this.Set(CItemButton_flWaitTime, flValue);
+		}
 	}
 
 	property float flReadyTime
 	{
-		public get() { return view_as<float>(this.Get(CItemButton_flReadyTime)); }
-		public set(float flValue) { this.Set(CItemButton_flReadyTime, flValue); }
+		public get()
+		{
+			return view_as<float>(this.Get(CItemButton_flReadyTime));
+		}
+		public set(float flValue)
+		{
+			this.Set(CItemButton_flReadyTime, flValue);
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------

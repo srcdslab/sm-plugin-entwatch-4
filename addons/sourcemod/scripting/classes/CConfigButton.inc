@@ -77,61 +77,121 @@ methodmap CConfigButton < ArrayList
 
 	property CConfig hConfig
 	{
-		public get() { return view_as<CConfig>(this.Get(CConfigButton_hConfig)); }
-		public set(CConfig hValue) { this.Set(CConfigButton_hConfig, hValue); }
+		public get()
+		{
+			return view_as<CConfig>(this.Get(CConfigButton_hConfig));
+		}
+		public set(CConfig hValue)
+		{
+			this.Set(CConfigButton_hConfig, hValue);
+		}
 	}
 
 	property int iConfigID
 	{
-		public get() { return this.Get(CConfigButton_iConfigID); }
-		public set(int iValue) { this.Set(CConfigButton_iConfigID, iValue); }
+		public get()
+		{
+			return this.Get(CConfigButton_iConfigID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigButton_iConfigID, iValue);
+		}
 	}
 
 	property int iHammerID
 	{
-		public get() { return this.Get(CConfigButton_iHammerID); }
-		public set(int iValue) { this.Set(CConfigButton_iHammerID, iValue); }
+		public get()
+		{
+			return this.Get(CConfigButton_iHammerID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigButton_iHammerID, iValue);
+		}
 	}
 
 	property int iType
 	{
-		public get() { return this.Get(CConfigButton_iType); }
-		public set(int iValue) { this.Set(CConfigButton_iType, iValue); }
+		public get()
+		{
+			return this.Get(CConfigButton_iType);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigButton_iType, iValue);
+		}
 	}
 
 	property int iMode
 	{
-		public get() { return this.Get(CConfigButton_iMode); }
-		public set(int iValue) { this.Set(CConfigButton_iMode, iValue); }
+		public get()
+		{
+			return this.Get(CConfigButton_iMode);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigButton_iMode, iValue);
+		}
 	}
 
 	property int iMaxUses
 	{
-		public get() { return this.Get(CConfigButton_iMaxUses); }
-		public set(int iValue) { this.Set(CConfigButton_iMaxUses, iValue); }
+		public get()
+		{
+			return this.Get(CConfigButton_iMaxUses);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfigButton_iMaxUses, iValue);
+		}
 	}
 
 	property float flButtonCooldown
 	{
-		public get() { return view_as<float>(this.Get(CConfigButton_flButtonCooldown)); }
-		public set(float flValue) { this.Set(CConfigButton_flButtonCooldown, flValue); }
+		public get()
+		{
+			return view_as<float>(this.Get(CConfigButton_flButtonCooldown));
+		}
+		public set(float flValue)
+		{
+			this.Set(CConfigButton_flButtonCooldown, flValue);
+		}
 	}
 
 	property float flItemCooldown
 	{
-		public get() { return view_as<float>(this.Get(CConfigButton_flItemCooldown)); }
-		public set(float flValue) { this.Set(CConfigButton_flItemCooldown, flValue); }
+		public get()
+		{
+			return view_as<float>(this.Get(CConfigButton_flItemCooldown));
+		}
+		public set(float flValue)
+		{
+			this.Set(CConfigButton_flItemCooldown, flValue);
+		}
 	}
 
 	property bool bShowActivate
 	{
-		public get() { return view_as<bool>(this.Get(CConfigButton_bShowActivate)); }
-		public set(bool bValue) { this.Set(CConfigButton_bShowActivate, bValue); }
+		public get()
+		{
+			return view_as<bool>(this.Get(CConfigButton_bShowActivate));
+		}
+		public set(bool bValue)
+		{
+			this.Set(CConfigButton_bShowActivate, bValue);
+		}
 	}
 
 	property bool bShowCooldown
 	{
-		public get() { return view_as<bool>(this.Get(CConfigButton_bShowCooldown)); }
-		public set(bool bValue) { this.Set(CConfigButton_bShowCooldown, bValue); }
+		public get()
+		{
+			return view_as<bool>(this.Get(CConfigButton_bShowCooldown));
+		}
+		public set(bool bValue)
+		{
+			this.Set(CConfigButton_bShowCooldown, bValue);
+		}
 	}
 }

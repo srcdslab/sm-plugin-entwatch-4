@@ -34,25 +34,49 @@ methodmap CItemTrigger < ArrayList
 
 	property CConfigTrigger hConfigTrigger
 	{
-		public get() { return view_as<CConfigTrigger>(this.Get(CItemTrigger_hConfigTrigger)); }
-		public set(CConfigTrigger hValue) { this.Set(CItemTrigger_hConfigTrigger, hValue); }
+		public get()
+		{
+			return view_as<CConfigTrigger>(this.Get(CItemTrigger_hConfigTrigger));
+		}
+		public set(CConfigTrigger hValue)
+		{
+			this.Set(CItemTrigger_hConfigTrigger, hValue);
+		}
 	}
 
 	property CItem hItem
 	{
-		public get() { return view_as<CItem>(this.Get(CItemTrigger_hItem)); }
-		public set(CItem hValue) { this.Set(CItemTrigger_hItem, hValue); }
+		public get()
+		{
+			return view_as<CItem>(this.Get(CItemTrigger_hItem));
+		}
+		public set(CItem hValue)
+		{
+			this.Set(CItemTrigger_hItem, hValue);
+		}
 	}
 
 	property int iTrigger
 	{
-		public get() { return this.Get(CItemTrigger_iTrigger); }
-		public set(int iValue) { this.Set(CItemTrigger_iTrigger, iValue); }
+		public get()
+		{
+			return this.Get(CItemTrigger_iTrigger);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItemTrigger_iTrigger, iValue);
+		}
 	}
 
 	property int iState
 	{
-		public get() { return this.Get(CItemTrigger_iState); }
-		public set(int iValue) { this.Set(CItemTrigger_iState, iValue); }
+		public get()
+		{
+			return this.Get(CItemTrigger_iState);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItemTrigger_iState, iValue);
+		}
 	}
 }

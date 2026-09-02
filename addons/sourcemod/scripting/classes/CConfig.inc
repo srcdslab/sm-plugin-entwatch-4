@@ -111,44 +111,86 @@ methodmap CConfig < ArrayList
 
 	property int iConfigID
 	{
-		public get() { return this.Get(CConfig_iConfigID); }
-		public set(int iValue) { this.Set(CConfig_iConfigID, iValue); }
+		public get()
+		{
+			return this.Get(CConfig_iConfigID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfig_iConfigID, iValue);
+		}
 	}
 
 	property int iHammerID
 	{
-		public get() { return this.Get(CConfig_iHammerID); }
-		public set(int iValue) { this.Set(CConfig_iHammerID, iValue); }
+		public get()
+		{
+			return this.Get(CConfig_iHammerID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CConfig_iHammerID, iValue);
+		}
 	}
 
 	property bool bShowMessages
 	{
-		public get() { return view_as<bool>(this.Get(CConfig_bShowMessages)); }
-		public set(bool bValue) { this.Set(CConfig_bShowMessages, bValue); }
+		public get()
+		{
+			return view_as<bool>(this.Get(CConfig_bShowMessages));
+		}
+		public set(bool bValue)
+		{
+			this.Set(CConfig_bShowMessages, bValue);
+		}
 	}
 
 	property bool bShowInterface
 	{
-		public get() { return view_as<bool>(this.Get(CConfig_bShowInterface)); }
-		public set(bool bValue) { this.Set(CConfig_bShowInterface, bValue); }
+		public get()
+		{
+			return view_as<bool>(this.Get(CConfig_bShowInterface));
+		}
+		public set(bool bValue)
+		{
+			this.Set(CConfig_bShowInterface, bValue);
+		}
 	}
 
 	property bool bAllowTransfer
 	{
-		public get() { return view_as<bool>(this.Get(CConfig_bAllowTransfer)); }
-		public set(bool bValue) { this.Set(CConfig_bAllowTransfer, bValue); }
+		public get()
+		{
+			return view_as<bool>(this.Get(CConfig_bAllowTransfer));
+		}
+		public set(bool bValue)
+		{
+			this.Set(CConfig_bAllowTransfer, bValue);
+		}
 	}
 
 	property ArrayList hButtons
 	{
-		public get() { return view_as<ArrayList>(this.Get(CConfig_hButtons)); }
-		public set(ArrayList hValue) { this.Set(CConfig_hButtons, hValue); }
+		public get()
+		{
+			return view_as<ArrayList>(this.Get(CConfig_hButtons));
+		}
+		public set(ArrayList hValue)
+		{
+			this.Set(CConfig_hButtons, hValue);
+		}
 	}
 
 	property ArrayList hTriggers
 	{
-		public get() { return view_as<ArrayList>(this.Get(CConfig_hTriggers)); }
-		public set(ArrayList hValue) { this.Set(CConfig_hTriggers, hValue); }
+		public get()
+		{
+			return view_as<ArrayList>(this.Get(CConfig_hTriggers));
+		}
+		public set(ArrayList hValue)
+		{
+			this.Set(CConfig_hTriggers, hValue);
+		}
 	}
 
 	// Full memory teardown: frees the contained CConfigButton/CConfigTrigger

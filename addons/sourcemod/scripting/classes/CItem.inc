@@ -44,50 +44,98 @@ methodmap CItem < ArrayList
 
 	property CConfig hConfig
 	{
-		public get() { return view_as<CConfig>(this.Get(CItem_hConfig)); }
-		public set(CConfig hValue) { this.Set(CItem_hConfig, hValue); }
+		public get()
+		{
+			return view_as<CConfig>(this.Get(CItem_hConfig));
+		}
+		public set(CConfig hValue)
+		{
+			this.Set(CItem_hConfig, hValue);
+		}
 	}
 
 	property int iCreateID
 	{
-		public get() { return this.Get(CItem_iCreateID); }
-		public set(int iValue) { this.Set(CItem_iCreateID, iValue); }
+		public get()
+		{
+			return this.Get(CItem_iCreateID);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItem_iCreateID, iValue);
+		}
 	}
 
 	property int iClient
 	{
-		public get() { return this.Get(CItem_iClient); }
-		public set(int iValue) { this.Set(CItem_iClient, iValue); }
+		public get()
+		{
+			return this.Get(CItem_iClient);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItem_iClient, iValue);
+		}
 	}
 
 	property int iWeapon
 	{
-		public get() { return this.Get(CItem_iWeapon); }
-		public set(int iValue) { this.Set(CItem_iWeapon, iValue); }
+		public get()
+		{
+			return this.Get(CItem_iWeapon);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItem_iWeapon, iValue);
+		}
 	}
 
 	property int iState
 	{
-		public get() { return this.Get(CItem_iState); }
-		public set(int iValue) { this.Set(CItem_iState, iValue); }
+		public get()
+		{
+			return this.Get(CItem_iState);
+		}
+		public set(int iValue)
+		{
+			this.Set(CItem_iState, iValue);
+		}
 	}
 
 	property float flReadyTime
 	{
-		public get() { return view_as<float>(this.Get(CItem_flReadyTime)); }
-		public set(float flValue) { this.Set(CItem_flReadyTime, flValue); }
+		public get()
+		{
+			return view_as<float>(this.Get(CItem_flReadyTime));
+		}
+		public set(float flValue)
+		{
+			this.Set(CItem_flReadyTime, flValue);
+		}
 	}
 
 	property ArrayList hButtons
 	{
-		public get() { return view_as<ArrayList>(this.Get(CItem_hButtons)); }
-		public set(ArrayList hValue) { this.Set(CItem_hButtons, hValue); }
+		public get()
+		{
+			return view_as<ArrayList>(this.Get(CItem_hButtons));
+		}
+		public set(ArrayList hValue)
+		{
+			this.Set(CItem_hButtons, hValue);
+		}
 	}
 
 	property ArrayList hTriggers
 	{
-		public get() { return view_as<ArrayList>(this.Get(CItem_hTriggers)); }
-		public set(ArrayList hValue) { this.Set(CItem_hTriggers, hValue); }
+		public get()
+		{
+			return view_as<ArrayList>(this.Get(CItem_hTriggers));
+		}
+		public set(ArrayList hValue)
+		{
+			this.Set(CItem_hTriggers, hValue);
+		}
 	}
 
 	// Full memory teardown: frees the contained CItemButton/CItemTrigger entries
