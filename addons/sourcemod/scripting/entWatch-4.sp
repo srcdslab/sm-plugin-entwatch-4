@@ -764,6 +764,26 @@ public void OnEntityCreated(int iEntity, const char[] sClassname)
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: Which slot of a config a spawned entity is being matched against
+//----------------------------------------------------------------------------------------------------
+enum EntityKind
+{
+	Kind_Weapon = 0,
+	Kind_Button,
+	Kind_Trigger
+};
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Outcome of trying to attach a spawned entity to a tracked item
+//----------------------------------------------------------------------------------------------------
+enum RegisterOutcome
+{
+	Register_Failed = 0,   // nothing tracks the entity (no existing item matched, new item rejected)
+	Register_Existing,     // attached to an already-tracked item
+	Register_NewItem       // a new item was created for it
+};
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Match a spawned entity against every config and register it as an item weapon/button/trigger
 //----------------------------------------------------------------------------------------------------
 void OnEntitySpawnPost(int iEntity)
@@ -784,40 +804,17 @@ void OnEntitySpawnPost(int iEntity)
 
 		if (hConfig.iHammerID && hConfig.iHammerID == iHammerID)
 		{
-			bool bRegistered;
+			RegisterOutcome outcome = TryRegisterEntity(hConfig, iEntity, iHammerID, Kind_Weapon);
 
-			for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
-			{
-				CItem hItem = g_hArray_Items.Get(iItemID);
-
-				if (hItem.hConfig != hConfig)
-					continue;
-
-				if (!RegisterItemWeapon(hItem, iEntity))
-					continue;
-
-				bRegistered = true;
+			// A fresh item means the entity is placed - no other config can match it.
+			if (outcome == Register_NewItem)
 				break;
-			}
 
-			if (!bRegistered)
-			{
-				CItem hItem = new CItem(hConfig, g_hArray_Items.Length);
+			// Item creation was rejected - this config's buttons/triggers can't attach either.
+			if (outcome == Register_Failed)
+				continue;
 
-				if (!RegisterItemWeapon(hItem, iEntity))
-				{
-					hItem.Delete();
-					delete hItem;
-					continue;
-				}
-
-				InsertItemSorted(g_hArray_Items, hItem);
-
-				char sItemName[64];
-				hConfig.GetName(sItemName, sizeof(sItemName));
-				PrintToServer("[EntWatch] Item spawned: %s | %i", sItemName, iHammerID);
-				break;
-			}
+			// Register_Existing: fall through so this config's buttons/triggers get a look too.
 		}
 
 		for (int iConfigButtonID; iConfigButtonID < hConfig.hButtons.Length; iConfigButtonID++)
@@ -827,40 +824,8 @@ void OnEntitySpawnPost(int iEntity)
 			if (!hConfigButton.iHammerID || hConfigButton.iHammerID != iHammerID)
 				continue;
 
-			bool bRegistered;
-
-			for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
-			{
-				CItem hItem = g_hArray_Items.Get(iItemID);
-
-				if (hItem.hConfig != hConfig)
-					continue;
-
-				if (!RegisterItemButton(hConfigButton, hItem, iEntity))
-					continue;
-
-				bRegistered = true;
+			if (TryRegisterEntity(hConfig, iEntity, iHammerID, Kind_Button, hConfigButton) == Register_NewItem)
 				break;
-			}
-
-			if (!bRegistered)
-			{
-				CItem hItem = new CItem(hConfig, g_hArray_Items.Length);
-
-				if (!RegisterItemButton(hConfigButton, hItem, iEntity))
-				{
-					hItem.Delete();
-					delete hItem;
-					continue;
-				}
-
-				InsertItemSorted(g_hArray_Items, hItem);
-
-				char sItemName[64];
-				hConfig.GetName(sItemName, sizeof(sItemName));
-				PrintToServer("[EntWatch] Item spawned: %s | %i", sItemName, iHammerID);
-				break;
-			}
 		}
 
 		for (int iConfigTriggerID; iConfigTriggerID < hConfig.hTriggers.Length; iConfigTriggerID++)
@@ -870,42 +835,60 @@ void OnEntitySpawnPost(int iEntity)
 			if (!hConfigTrigger.iHammerID || hConfigTrigger.iHammerID != iHammerID)
 				continue;
 
-			bool bRegistered;
-
-			for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
-			{
-				CItem hItem = g_hArray_Items.Get(iItemID);
-
-				if (hItem.hConfig != hConfig)
-					continue;
-
-				if (!RegisterItemTrigger(hConfigTrigger, hItem, iEntity))
-					continue;
-
-				bRegistered = true;
+			if (TryRegisterEntity(hConfig, iEntity, iHammerID, Kind_Trigger, _, hConfigTrigger) == Register_NewItem)
 				break;
-			}
-
-			if (!bRegistered)
-			{
-				CItem hItem = new CItem(hConfig, g_hArray_Items.Length);
-
-				if (!RegisterItemTrigger(hConfigTrigger, hItem, iEntity))
-				{
-					hItem.Delete();
-					delete hItem;
-					continue;
-				}
-
-				InsertItemSorted(g_hArray_Items, hItem);
-
-				char sItemName[64];
-				hConfig.GetName(sItemName, sizeof(sItemName));
-				PrintToServer("[EntWatch] Item spawned: %s | %i", sItemName, iHammerID);
-				break;
-			}
 		}
 	}
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Run the kind-specific Register* call for one (item, entity) pair
+//----------------------------------------------------------------------------------------------------
+bool AttachEntityToItem(EntityKind kind, CItem hItem, int iEntity, CConfigButton hConfigButton, CConfigTrigger hConfigTrigger)
+{
+	switch (kind)
+	{
+		case Kind_Weapon:  return RegisterItemWeapon(hItem, iEntity);
+		case Kind_Button:  return RegisterItemButton(hConfigButton, hItem, iEntity);
+		case Kind_Trigger: return RegisterItemTrigger(hConfigTrigger, hItem, iEntity);
+	}
+
+	return false;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Attach a spawned entity to the matching tracked item for a config, or create a new item
+//          for it. Shared by the weapon / button / trigger blocks of OnEntitySpawnPost.
+//----------------------------------------------------------------------------------------------------
+RegisterOutcome TryRegisterEntity(CConfig hConfig, int iEntity, int iHammerID, EntityKind kind, CConfigButton hConfigButton = null, CConfigTrigger hConfigTrigger = null)
+{
+	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
+	{
+		CItem hItem = g_hArray_Items.Get(iItemID);
+
+		if (hItem.hConfig != hConfig)
+			continue;
+
+		if (AttachEntityToItem(kind, hItem, iEntity, hConfigButton, hConfigTrigger))
+			return Register_Existing;
+	}
+
+	CItem hItem = new CItem(hConfig, g_hArray_Items.Length);
+
+	if (!AttachEntityToItem(kind, hItem, iEntity, hConfigButton, hConfigTrigger))
+	{
+		hItem.Delete();
+		delete hItem;
+		return Register_Failed;
+	}
+
+	InsertItemSorted(g_hArray_Items, hItem);
+
+	char sItemName[64];
+	hConfig.GetName(sItemName, sizeof(sItemName));
+	PrintToServer("[EntWatch] Item spawned: %s | %i", sItemName, iHammerID);
+
+	return Register_NewItem;
 }
 
 //----------------------------------------------------------------------------------------------------
