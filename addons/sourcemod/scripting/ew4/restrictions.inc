@@ -22,9 +22,9 @@ enum struct ClientSettings_Restrict
 {
 	bool bVerified;
 	bool bRestricted;
-	char szAdminName[32];
-	char szAdminSteamID[64];
-	char szReason[64];
+	char szAdminName[MAX_NAME_LENGTH];
+	char szAdminSteamID[EW_MAX_STEAMID_LENGTH];
+	char szReason[EW_MAX_REASON_LENGTH];
 	int  iDuration;     // -1=session, 0=perma, >0=minutes
 	int  iIssuedAt;     // unix timestamp of ban
 	int  iExpiresAt;    // unix timestamp of expiry (0 if perma/session)
@@ -46,8 +46,8 @@ enum struct ClientSettings_Restrict
 
 enum struct OfflinePlayerData
 {
-	char szPlayerName[32];
-	char szPlayerSteamID[64];
+	char szPlayerName[MAX_NAME_LENGTH];
+	char szPlayerSteamID[EW_MAX_STEAMID_LENGTH];
 	char szLastItem[EW_MAX_NAME_LENGTH];
 	int  iUserID;
 	int  iTrackedUntil;   // unix timestamp after which we stop tracking, -1 = still connected
@@ -79,8 +79,8 @@ bool g_bEbanInvalidSteamID = true;
 bool g_bDetailedStatus = false;
 bool g_bDropItemOnEBan = true;
 bool g_bCleanedUpOnMapStart = false;
-char g_sDefaultBanReason[64];
-char g_sDefaultUnbanReason[64];
+char g_sDefaultBanReason[EW_MAX_REASON_LENGTH];
+char g_sDefaultUnbanReason[EW_MAX_REASON_LENGTH];
 int  g_iDefaultBanTime = 0;
 int  g_iAdminBanLong = 720;
 int  g_iMaxBanTime = 0;
@@ -343,7 +343,7 @@ public Action Command_ClientRestrict(int client, int args)
 		return Plugin_Handled;
 	}
 
-	char sReason[64];
+	char sReason[EW_MAX_REASON_LENGTH];
 	FormatEx(sReason, sizeof(sReason), "%s", sArguments[iReasonPos]);
 	TrimString(sReason);
 	StripQuotes(sReason);
@@ -365,7 +365,7 @@ public Action Command_ClientUnrestrict(int client, int args)
 		return Plugin_Handled;
 	}
 
-	char sArg[64], sReason[64];
+	char sArg[64], sReason[EW_MAX_REASON_LENGTH];
 	GetCmdArg(1, sArg, sizeof(sArg));
 	GetCmdArg(2, sReason, sizeof(sReason));
 
@@ -554,7 +554,7 @@ bool ClientRestrict(int admin, int target, int iDuration, const char[] reason)
 	if (!ValidateBanPermissions(admin, iDuration, false))
 		return false;
 
-	char sReason[64];
+	char sReason[EW_MAX_REASON_LENGTH];
 	FormatEx(sReason, sizeof(sReason), "%s", reason[0] ? reason : g_sDefaultBanReason);
 
 	int iNow     = GetTime();
@@ -568,7 +568,7 @@ bool ClientRestrict(int admin, int target, int iDuration, const char[] reason)
 	g_RestrictClients[target].iDuration    = iDuration;
 	strcopy(g_RestrictClients[target].szReason, sizeof(g_RestrictClients[target].szReason), sReason);
 
-	char sAdminName[32], sAdminSteam[64];
+	char sAdminName[MAX_NAME_LENGTH], sAdminSteam[EW_MAX_STEAMID_LENGTH];
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	strcopy(g_RestrictClients[target].szAdminName,    sizeof(g_RestrictClients[target].szAdminName),    sAdminName);
 	strcopy(g_RestrictClients[target].szAdminSteamID, sizeof(g_RestrictClients[target].szAdminSteamID), sAdminSteam);
@@ -599,7 +599,7 @@ bool ClientUnrestrict(int admin, int target, const char[] reason)
 	if (!IsValidClient(target) || !IsRestrictedClient(target))
 		return false;
 
-	char sReason[64];
+	char sReason[EW_MAX_REASON_LENGTH];
 	FormatEx(sReason, sizeof(sReason), "%s", reason[0] ? reason : g_sDefaultUnbanReason);
 
 	int iPrevDuration = g_RestrictClients[target].iDuration;
@@ -851,7 +851,7 @@ void Database_FetchClientBan(int client)
 		return;
 	}
 
-	char sSteam[64], sQuery[1024];
+	char sSteam[EW_MAX_STEAMID_LENGTH], sQuery[1024];
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);
 
 	g_hDB.Format(sQuery, sizeof(sQuery),
@@ -885,7 +885,7 @@ public void DB_OnFetchClientBan(Database db, DBResultSet results, const char[] e
 		return;
 	}
 
-	char adminName[32], adminSteam[64], reason[64];
+	char adminName[MAX_NAME_LENGTH], adminSteam[EW_MAX_STEAMID_LENGTH], reason[EW_MAX_REASON_LENGTH];
 	results.FetchString(0, adminName, sizeof(adminName));
 	results.FetchString(1, adminSteam, sizeof(adminSteam));
 	int iDuration   = results.FetchInt(2);
@@ -926,7 +926,7 @@ void Database_InsertBan(int target, int admin, int iDuration, int iIssuedAt, int
 	if (g_eDBState != EbanDB_Connected)
 		return;
 
-	char sAdminName[32], sAdminSteam[64], sClientName[32], sClientSteam[64];
+	char sAdminName[MAX_NAME_LENGTH], sAdminSteam[EW_MAX_STEAMID_LENGTH], sClientName[MAX_NAME_LENGTH], sClientSteam[EW_MAX_STEAMID_LENGTH];
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	GetClientName(target, sClientName, sizeof(sClientName));
 	GetClientAuthId(target, AuthId_Steam2, sClientSteam, sizeof(sClientSteam), true);
@@ -957,7 +957,7 @@ void Database_UpdateUnban(int target, int admin, const char[] reason)
 	if (g_eDBState != EbanDB_Connected)
 		return;
 
-	char sAdminName[32], sAdminSteam[64], sClientSteam[64];
+	char sAdminName[MAX_NAME_LENGTH], sAdminSteam[EW_MAX_STEAMID_LENGTH], sClientSteam[EW_MAX_STEAMID_LENGTH];
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	GetClientAuthId(target, AuthId_Steam2, sClientSteam, sizeof(sClientSteam), true);
 
@@ -1052,7 +1052,7 @@ void OfflinePlayer_TrackOrUpdate(int client, const char[] itemName, bool bIsConn
 	if (IsFakeClient(client))
 		return;
 
-	char sName[32], sSteam[64];
+	char sName[MAX_NAME_LENGTH], sSteam[EW_MAX_STEAMID_LENGTH];
 	GetClientName(client, sName, sizeof(sName));
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);
 
@@ -1090,7 +1090,7 @@ void OfflinePlayer_OnClientDisconnect(int client)
 	if (!IsValidClient(client) || IsFakeClient(client))
 		return;
 
-	char sName[32], sSteam[64];
+	char sName[MAX_NAME_LENGTH], sSteam[EW_MAX_STEAMID_LENGTH];
 	GetClientName(client, sName, sizeof(sName));
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);
 
@@ -1159,7 +1159,7 @@ public void DB_OnOfflineBanCheck(Database db, DBResultSet results, const char[] 
 	hPack.Reset();
 	int  admin     = GetClientOfUserId(hPack.ReadCell());
 	int  iDuration = hPack.ReadCell();
-	char reason[128], sPlayerName[32], sPlayerSteam[64];
+	char reason[128], sPlayerName[MAX_NAME_LENGTH], sPlayerSteam[EW_MAX_STEAMID_LENGTH];
 	hPack.ReadString(reason,       sizeof(reason));
 	hPack.ReadString(sPlayerName,  sizeof(sPlayerName));
 	hPack.ReadString(sPlayerSteam, sizeof(sPlayerSteam));
@@ -1203,7 +1203,7 @@ public void DB_OnOfflineBanCheck(Database db, DBResultSet results, const char[] 
 
 void OfflinePlayer_CommitBan(int admin, int iDuration, const char[] reason, const char[] sPlayerName, const char[] sPlayerSteam)
 {
-	char sAdminName[32], sAdminSteam[64];
+	char sAdminName[MAX_NAME_LENGTH], sAdminSteam[EW_MAX_STEAMID_LENGTH];
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 
 	int iNow     = GetTime();
@@ -1626,7 +1626,7 @@ public int Native_ClientRestrict(Handle hPlugin, int numParams)
 		return -1;
 	}
 
-	char sReason[64];
+	char sReason[EW_MAX_REASON_LENGTH];
 	GetNativeString(4, sReason, sizeof(sReason));
 	return ClientRestrict(admin, target, GetNativeCell(3), sReason);
 }
@@ -1644,7 +1644,7 @@ public int Native_ClientUnrestrict(Handle hPlugin, int numParams)
 		return -1;
 	}
 
-	char sReason[64];
+	char sReason[EW_MAX_REASON_LENGTH];
 	GetNativeString(3, sReason, sizeof(sReason));
 	return ClientUnrestrict(admin, target, sReason);
 }
@@ -1878,7 +1878,7 @@ void FormatTimeLeft(int iSeconds, char[] sBuffer, int maxlen, int iTransTarget =
 
 bool IsInvalidSteamID(int client)
 {
-	char sSteam[64];
+	char sSteam[EW_MAX_STEAMID_LENGTH];
 	GetClientAuthId(client, AuthId_Steam2, sSteam, sizeof(sSteam), true);
 	return strncmp(sSteam[6], "ID_", 3) == 0;
 }

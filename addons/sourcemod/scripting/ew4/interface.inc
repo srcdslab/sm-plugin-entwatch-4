@@ -10,6 +10,11 @@
 #include <adminmenu>
 #include <clientprefs_stocks>
 
+/* BUFFER SIZES */
+// One page of HUD text, i.e. one KeyHintText message: the network message caps
+// at 254 usable characters, plus the NUL terminator.
+#define EW_HUD_PAGE_LENGTH  255
+
 /* BOOLEANS */
 bool g_bIsAdmin[MAXPLAYERS+1];
 bool g_bInterfaceHidden[MAXPLAYERS+1];
@@ -234,7 +239,7 @@ Action OnDisplayHUD(Handle hTimer)
 	// sHUDPages[pageID][page]    = text buffer
 	int  iHUDPages[3];
 	int  iHUDLens[3][8];
-	char sHUDPages[3][8][255];
+	char sHUDPages[3][8][EW_HUD_PAGE_LENGTH];
 
 	float flNow = GetGameTime();
 

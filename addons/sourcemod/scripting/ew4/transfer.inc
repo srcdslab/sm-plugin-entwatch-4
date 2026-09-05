@@ -52,7 +52,7 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 	char sName[EW_MAX_NAME_LENGTH];
 	hItem.hConfig.GetName(sName, sizeof(sName));
 
-	char sItemColor[8];
+	char sItemColor[EW_MAX_COLOR_LENGTH];
 	hItem.hConfig.GetColor(sItemColor, sizeof(sItemColor));
 
 	if (hItem.iClient != INVALID_ENT_REFERENCE)

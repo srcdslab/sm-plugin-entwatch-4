@@ -83,15 +83,15 @@ GlobalForward g_hFwd_OnClientItemTriggerCanInteract;
 /* STRUCTS */
 enum struct ColorStruct
 {
-	char sTag[8];        // String: Hex color of entwatch tag
-	char sName[8];       // String: Hex color of player name
-	char sAuthID[8];     // String: Hex color of player steam ID
-	char sActivate[8];   // String: Hex color of item use message
-	char sPickup[8];     // String: Hex color of item pickup message
-	char sDrop[8];       // String: Hex color of item drop message
-	char sDeath[8];      // String: Hex color of player death message
-	char sDisconnect[8]; // String: Hex color of player disconnect message
-	char sWarning[8];    // String: Hex color of warning message
+	char sTag[EW_MAX_COLOR_LENGTH];        // String: Hex color of entwatch tag
+	char sName[EW_MAX_COLOR_LENGTH];       // String: Hex color of player name
+	char sAuthID[EW_MAX_COLOR_LENGTH];     // String: Hex color of player steam ID
+	char sActivate[EW_MAX_COLOR_LENGTH];   // String: Hex color of item use message
+	char sPickup[EW_MAX_COLOR_LENGTH];     // String: Hex color of item pickup message
+	char sDrop[EW_MAX_COLOR_LENGTH];       // String: Hex color of item drop message
+	char sDeath[EW_MAX_COLOR_LENGTH];      // String: Hex color of player death message
+	char sDisconnect[EW_MAX_COLOR_LENGTH]; // String: Hex color of player disconnect message
+	char sWarning[EW_MAX_COLOR_LENGTH];    // String: Hex color of warning message
 
 	void Reset()
 	{
@@ -476,7 +476,7 @@ bool LoadConfig(bool bLoopEntities = false)
 		{
 			CConfig hConfig = new CConfig();
 
-			char sName[EW_MAX_NAME_LENGTH], sShort[EW_MAX_SHORTNAME_LENGTH], sColor[8], sSpawner[EW_MAX_TEMPLATE_LENGTH];
+			char sName[EW_MAX_NAME_LENGTH], sShort[EW_MAX_SHORTNAME_LENGTH], sColor[EW_MAX_COLOR_LENGTH], sSpawner[EW_MAX_TEMPLATE_LENGTH];
 			hConfigFile.GetString("name",       sName,    sizeof(sName));
 			hConfigFile.GetString("short",      sShort,   sizeof(sShort));
 			hConfigFile.GetString("color",      sColor,   sizeof(sColor));
@@ -1778,7 +1778,7 @@ public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iIntera
 	char sPlayerInfo[128];
 	FormatPlayerInfo(iClient, sPlayerInfo, sizeof(sPlayerInfo));
 
-	char sTranslation[32], sColor[8];
+	char sTranslation[32], sColor[EW_MAX_COLOR_LENGTH];
 	switch (iInteractionType)
 	{
 		case EW_WEAPON_INTERACTION_DROP:
@@ -1806,7 +1806,7 @@ public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iIntera
 	char sItemName[EW_MAX_NAME_LENGTH];
 	hItem.hConfig.GetName(sItemName, sizeof(sItemName));
 
-	char sItemColor[8];
+	char sItemColor[EW_MAX_COLOR_LENGTH];
 	hItem.hConfig.GetColor(sItemColor, sizeof(sItemColor));
 
 	PrintChatMessage(iClient, "{#%s}%t %s {#%s}%t {#%s}%s",
@@ -1834,7 +1834,7 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 	hItemButton.hItem.hConfig.GetName(sItemName, sizeof(sItemName));
 	hItemButton.hConfigButton.GetName(sButtonName, sizeof(sButtonName));
 
-	char sItemColor[8];
+	char sItemColor[EW_MAX_COLOR_LENGTH];
 	hItemButton.hItem.hConfig.GetColor(sItemColor, sizeof(sItemColor));
 
 	if (strlen(sButtonName) != 0)

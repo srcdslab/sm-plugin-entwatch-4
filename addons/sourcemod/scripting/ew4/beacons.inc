@@ -210,7 +210,7 @@ Action OnBeacons(Handle hTimer)
 
 			flOrigin[2] += 2.0;
 
-			char sColor[8];
+			char sColor[EW_MAX_COLOR_LENGTH];
 			hItem.hConfig.GetColor(sColor, sizeof(sColor));
 
 			int iColorDecimal;
