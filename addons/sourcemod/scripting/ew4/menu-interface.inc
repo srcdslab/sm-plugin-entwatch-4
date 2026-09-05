@@ -504,7 +504,7 @@ public int EWM_Menu_PM_EUnBanList_Handler(Menu hMenu, MenuAction hAction, int iC
 //----------------------------------------------------------------------------------------------------
 void EWM_Menu_PM_EBanInfo(int iClient, int iTarget)
 {
-	char sAdminName[32], sAdminSteamID[64], sReason[64];
+	char sAdminName[MAX_NAME_LENGTH], sAdminSteamID[EW_MAX_STEAMID_LENGTH], sReason[EW_MAX_REASON_LENGTH];
 	int  iDuration, iIssuedAt, iTotal;
 
 	if (EW_GetClientBanInfo(iTarget, sAdminName, sizeof(sAdminName), sAdminSteamID, sizeof(sAdminSteamID), sReason, sizeof(sReason), iDuration, iIssuedAt, iTotal) <= 0)

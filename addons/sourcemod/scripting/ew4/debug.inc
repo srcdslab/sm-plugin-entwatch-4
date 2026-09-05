@@ -78,7 +78,7 @@ public Action Command_PrintItems(int iClient, int iArgs)
 		if (iArgConfigID != -1 && hItem.hConfig.iConfigID != iArgConfigID)
 			continue;
 
-		char sClientName[32];
+		char sClientName[MAX_NAME_LENGTH];
 		if (IsValidClient(hItem.iClient))
 			GetClientName(hItem.iClient, sClientName, sizeof(sClientName));
 
@@ -166,7 +166,7 @@ public Action Command_PrintConfigs(int iClient, int iArgs)
 		char sShort[EW_MAX_SHORTNAME_LENGTH];
 		hConfig.GetShort(sShort, sizeof(sShort));
 
-		char sColor[8];
+		char sColor[EW_MAX_COLOR_LENGTH];
 		hConfig.GetColor(sColor, sizeof(sColor));
 
 		PrintToConsole(iClient, "Config\n\tsName: %s\n\tsShort: %s\n\tsColor: %s\n\tiConfigID: %d\n\tiHammerID: %d\n\tbShowMessages: %d\n\tbShowInterface: %d",
@@ -256,7 +256,7 @@ public Action Command_TraceItems(int iClient, int iArgs)
 			flOriginStart[2] += 2;
 			flOriginEnd[2] += 2;
 
-			char sColor[8];
+			char sColor[EW_MAX_COLOR_LENGTH];
 			hItem.hConfig.GetColor(sColor, sizeof(sColor));
 
 			int iColorDecimal;

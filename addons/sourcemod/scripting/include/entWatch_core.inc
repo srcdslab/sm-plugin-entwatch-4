@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.32"
+#define EW_VERSION          "4.2.33"
 #define EW_VERSION_CONFIG   2
 
 
@@ -74,11 +74,24 @@
  * Config string buffer sizes.
  * Buffer lengths (including the null terminator) for the item config fields.
  * Use these when declaring buffers passed to CConfig.GetName() / GetShort() /
- * GetSpawner().
+ * GetSpawner() / GetColor().
  */
 #define EW_MAX_NAME_LENGTH        64
 #define EW_MAX_SHORTNAME_LENGTH   32
 #define EW_MAX_TEMPLATE_LENGTH    64
+#define EW_MAX_COLOR_LENGTH        8
+
+/**
+ * Restriction string buffer sizes.
+ * Buffer lengths (including the null terminator) for the restriction fields.
+ * Use these when declaring buffers passed to EW_ClientRestrict() /
+ * EW_ClientUnrestrict() / EW_GetClientBanInfo(), or received from the
+ * restriction broadcast forwards.
+ *
+ * Player names use SourceMod's own MAX_NAME_LENGTH.
+ */
+#define EW_MAX_REASON_LENGTH      64
+#define EW_MAX_STEAMID_LENGTH     64
 
 
 // ============================================================================
