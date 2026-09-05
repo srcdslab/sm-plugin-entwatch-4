@@ -49,7 +49,7 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 	if (hItem.iWeapon == INVALID_ENT_REFERENCE || !IsValidEntity(hItem.iWeapon))
 		return false;
 
-	char sName[32];
+	char sName[EW_MAX_NAME_LENGTH];
 	hItem.hConfig.GetName(sName, sizeof(sName));
 
 	char sItemColor[8];
@@ -150,7 +150,7 @@ public Action Command_TransferItem(int iClient, int iArgs)
 		{
 			CItem hItem = hItems.Get(iItemID);
 
-			char sName[32], sShort[32];
+			char sName[EW_MAX_NAME_LENGTH], sShort[EW_MAX_SHORTNAME_LENGTH];
 			hItem.hConfig.GetName(sName, sizeof(sName));
 			hItem.hConfig.GetShort(sShort, sizeof(sShort));
 

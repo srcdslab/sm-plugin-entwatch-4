@@ -85,7 +85,7 @@ void EW4_SetCooldown(int iClient, int iArgs)
 	if (bForce)
 		hBtn.flReadyTime = GetGameTime() + flCooldown;
 
-	char sName[32];
+	char sName[EW_MAX_NAME_LENGTH];
 	hBtn.hConfigButton.hConfig.GetName(sName, sizeof(sName));
 	CReplyToCommand(iClient, "%t", "EW_Override_SetCooldown_Done", sName, flCooldown);
 }
@@ -118,7 +118,7 @@ void EW4_SetMaxUses(int iClient, int iArgs)
 
 	hBtn.hConfigButton.iMaxUses = iMaxUses;
 
-	char sName[32];
+	char sName[EW_MAX_NAME_LENGTH];
 	hBtn.hConfigButton.hConfig.GetName(sName, sizeof(sName));
 	CReplyToCommand(iClient, "%t", "EW_Override_SetMaxUses_Done", sName, iMaxUses);
 }
@@ -176,7 +176,7 @@ void EW4_SetMode(int iClient, int iArgs)
 	hBtn.hConfigButton.flButtonCooldown = flCooldown;
 	hBtn.hConfigButton.iMaxUses         = iMaxUses;
 
-	char sName[32];
+	char sName[EW_MAX_NAME_LENGTH];
 	hBtn.hConfigButton.hConfig.GetName(sName, sizeof(sName));
 	CReplyToCommand(iClient, "%t", "EW_Override_SetMode_Done", sName, iType, iMode, flCooldown, iMaxUses);
 }
@@ -192,7 +192,7 @@ public Action Command_SetName(int iClient, int iArgs)
 		return Plugin_Handled;
 	}
 
-	char sArg1[16], sArgs[256], sNewName[32];
+	char sArg1[16], sArgs[256], sNewName[EW_MAX_NAME_LENGTH];
 	GetCmdArgString(sArgs, sizeof(sArgs));
 	int iLen = BreakString(sArgs, sArg1, sizeof(sArg1));
 	if (iLen == -1)
@@ -237,7 +237,7 @@ public Action Command_SetShortName(int iClient, int iArgs)
 		return Plugin_Handled;
 	}
 
-	char sArg1[16], sArgs[256], sNewShort[32];
+	char sArg1[16], sArgs[256], sNewShort[EW_MAX_SHORTNAME_LENGTH];
 	GetCmdArgString(sArgs, sizeof(sArgs));
 	int iLen = BreakString(sArgs, sArg1, sizeof(sArg1));
 	if (iLen == -1)
@@ -298,7 +298,7 @@ void EW4_LockButton(int iClient, int iArgs)
 
 	hBtn.flReadyTime = bLock ? (GetGameTime() + 99999.0) : 0.0;
 
-	char sName[32];
+	char sName[EW_MAX_NAME_LENGTH];
 	hBtn.hConfigButton.hConfig.GetName(sName, sizeof(sName));
 
 	char sState[32];
