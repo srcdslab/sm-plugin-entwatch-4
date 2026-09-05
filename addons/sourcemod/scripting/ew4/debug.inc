@@ -160,10 +160,10 @@ public Action Command_PrintConfigs(int iClient, int iArgs)
 		if (iArgConfigID != -1 && hConfig.iConfigID != iArgConfigID)
 			continue;
 
-		char sName[32];
+		char sName[EW_MAX_NAME_LENGTH];
 		hConfig.GetName(sName, sizeof(sName));
 
-		char sShort[16];
+		char sShort[EW_MAX_SHORTNAME_LENGTH];
 		hConfig.GetShort(sShort, sizeof(sShort));
 
 		char sColor[8];

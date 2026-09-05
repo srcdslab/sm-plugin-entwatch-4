@@ -48,7 +48,7 @@ enum struct OfflinePlayerData
 {
 	char szPlayerName[32];
 	char szPlayerSteamID[64];
-	char szLastItem[32];
+	char szLastItem[EW_MAX_NAME_LENGTH];
 	int  iUserID;
 	int  iTrackedUntil;   // unix timestamp after which we stop tracking, -1 = still connected
 	int  iDisconnectedAt; // unix timestamp of disconnect, -1 = still connected
@@ -534,7 +534,7 @@ public void Ew4_Restrictions_OnClientItemWeaponInteract(int iClient, CItem hItem
 	if (iType != EW_WEAPON_INTERACTION_PICKUP || IsFakeClient(iClient) || hItem.hConfig == null)
 		return;
 
-	char sItemName[32];
+	char sItemName[EW_MAX_NAME_LENGTH];
 	hItem.hConfig.GetName(sItemName, sizeof(sItemName));
 	OfflinePlayer_TrackOrUpdate(iClient, sItemName, false);
 }

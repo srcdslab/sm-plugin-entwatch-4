@@ -16,8 +16,9 @@
 // these, the interaction forwards still pass them by cell, and `hEntry == null` still works, so
 // no consumer (module or external plugin) has to change.
 //
-// Slots are 8 cells (32 bytes) wide so a slot can alternatively hold one of this class's char[32]
-// string fields (sName / sSpawner) through ArrayList.GetString / ArrayList.SetString.
+// Slots are 16 cells (64 bytes) wide so a slot can alternatively hold one of this class's string
+// fields (sName / sSpawner at EW_MAX_NAME_LENGTH / EW_MAX_TEMPLATE_LENGTH, sShort / sColor smaller)
+// through ArrayList.GetString / ArrayList.SetString.
 //------------------------------------------------------------------------------------------------
 enum
 {
@@ -39,7 +40,7 @@ methodmap CConfig < ArrayList
 {
 	public CConfig()
 	{
-		ArrayList hData = new ArrayList(8);
+		ArrayList hData = new ArrayList(16);
 		hData.Resize(CConfig_SLOTS);
 
 		hData.SetString(CConfig_sName,    "");

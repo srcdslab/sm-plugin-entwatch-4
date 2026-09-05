@@ -245,13 +245,17 @@ Action OnDisplayHUD(Handle hTimer)
 		if (!hItem.hConfig.bShowInterface || hItem.iClient == INVALID_ENT_REFERENCE)
 			continue;
 
-		char sShort[16];
+		char sShort[EW_MAX_SHORTNAME_LENGTH];
 		hItem.hConfig.GetShort(sShort, sizeof(sShort));
 
 		char sCooldowns[16];
 		bool bCooldowns = FormatItemCooldowns(sCooldowns, sizeof(sCooldowns), hItem, flNow);
 
-		char sLine[64];
+		// Sized so the item short name and cooldown block always fit in full
+		// (EW_MAX_SHORTNAME_LENGTH + cooldowns + " [] : " + MAX_NAME_LENGTH).
+		// The player name is formatted last, so it is the only field that can
+		// ever be truncated - never the item name.
+		char sLine[128];
 		if (bCooldowns)
 			Format(sLine, sizeof(sLine), "%s [%s]: %N", sShort, sCooldowns, hItem.iClient);
 		else

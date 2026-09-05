@@ -122,7 +122,7 @@ void EWM_Menu_PM_ItemList(int iClient)
 		if (!hItem.hConfig.bAllowTransfer)
 			continue;
 
-		char sName[32], sDisplay[64], sID[10];
+		char sName[EW_MAX_NAME_LENGTH], sDisplay[64], sID[10];
 		hItem.hConfig.GetName(sName, sizeof(sName));
 		IntToString(iItemID, sID, sizeof(sID));
 
@@ -173,7 +173,7 @@ void EWM_Menu_PM_ItemInfo(int iClient, int iItemID)
 
 	CItem hItem = hItems.Get(iItemID);
 
-	char sName[32], sTitle[64];
+	char sName[EW_MAX_NAME_LENGTH], sTitle[64];
 	hItem.hConfig.GetName(sName, sizeof(sName));
 	Format(sTitle, sizeof(sTitle), "%t %s", "EW_PM_ItemInfo_TitlePrefix", sName);
 
@@ -596,7 +596,7 @@ void EWM_Menu_PM_SpawnItemList(int iClient)
 		{
 			CConfig hConfig = hSpawnable.Get(i);
 
-			char sName[64], sID[16];
+			char sName[EW_MAX_NAME_LENGTH], sID[16];
 			hConfig.GetName(sName, sizeof(sName));
 			IntToString(i, sID, sizeof(sID));
 			hMenu.AddItem(sID, sName);

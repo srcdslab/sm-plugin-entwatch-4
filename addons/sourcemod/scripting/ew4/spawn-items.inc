@@ -58,7 +58,7 @@ public void Ew4_Spawn_OnConfigLoaded()
 	{
 		CConfig hConfig = hConfigs.Get(i);
 
-		char sSpawner[64], sName[64];
+		char sSpawner[EW_MAX_TEMPLATE_LENGTH], sName[EW_MAX_NAME_LENGTH];
 		hConfig.GetSpawner(sSpawner, sizeof(sSpawner));
 		hConfig.GetName(sName, sizeof(sName));
 
@@ -83,11 +83,11 @@ bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 
 	CConfig hConfig = s_hSpawnableItems.Get(iConfigIndex);
 
-	char sSpawner[64];
+	char sSpawner[EW_MAX_TEMPLATE_LENGTH];
 	hConfig.GetSpawner(sSpawner, sizeof(sSpawner));
 
 	int iEntity = -1, iPT = -1;
-	char sPTName[64];
+	char sPTName[EW_MAX_TEMPLATE_LENGTH];
 	while ((iEntity = FindEntityByClassname(iEntity, "point_template")) != -1)
 	{
 		GetEntPropString(iEntity, Prop_Data, "m_iName", sPTName, sizeof(sPTName));
@@ -138,7 +138,7 @@ bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 	AcceptEntityInput(iMaker, "ForceSpawn");
 	AcceptEntityInput(iMaker, "Kill");
 
-	char sName[64];
+	char sName[EW_MAX_NAME_LENGTH];
 	hConfig.GetName(sName, sizeof(sName));
 
 	CPrintToChatAll("{#%s}%t {#%s}%N {#%s}%t {#%s}%s {#%s}%t {#%s}%N", g_clr.sTag, "EW_Tag", g_clr.sName, iAdmin, g_clr.sWarning, "Item Spawn", g_clr.sName, sName, g_clr.sWarning, "EW_On", g_clr.sName, iTarget);
@@ -195,7 +195,7 @@ public Action Command_SpawnItem(int iClient, int iArgs)
 	for (int i = 0; i < s_hSpawnableItems.Length; i++)
 	{
 		CConfig hConfig = s_hSpawnableItems.Get(i);
-		char sName[64], sShort[64];
+		char sName[EW_MAX_NAME_LENGTH], sShort[EW_MAX_SHORTNAME_LENGTH];
 		hConfig.GetName(sName, sizeof(sName));
 		hConfig.GetShort(sShort, sizeof(sShort));
 
@@ -223,7 +223,7 @@ public Action Command_SpawnItem(int iClient, int iArgs)
 			int iIdx = hMatches.Get(i);
 			CConfig hConfig = s_hSpawnableItems.Get(iIdx);
 
-			char sName[64], sInfo[32];
+			char sName[EW_MAX_NAME_LENGTH], sInfo[32];
 			hConfig.GetName(sName, sizeof(sName));
 			FormatEx(sInfo, sizeof(sInfo), "%d/%d/%d", GetClientUserId(iTarget), iIdx, bStrip ? 1 : 0);
 			hMenu.AddItem(sInfo, sName);

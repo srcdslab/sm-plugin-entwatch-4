@@ -476,7 +476,7 @@ bool LoadConfig(bool bLoopEntities = false)
 		{
 			CConfig hConfig = new CConfig();
 
-			char sName[32], sShort[16], sColor[8], sSpawner[32];
+			char sName[EW_MAX_NAME_LENGTH], sShort[EW_MAX_SHORTNAME_LENGTH], sColor[8], sSpawner[EW_MAX_TEMPLATE_LENGTH];
 			hConfigFile.GetString("name",       sName,    sizeof(sName));
 			hConfigFile.GetString("short",      sShort,   sizeof(sShort));
 			hConfigFile.GetString("color",      sColor,   sizeof(sColor));
@@ -890,7 +890,7 @@ RegisterOutcome TryRegisterEntity(CConfig hConfig, int iEntity, int iHammerID, E
 
 	InsertItemSorted(g_hArray_Items, hItem);
 
-	char sItemName[64];
+	char sItemName[EW_MAX_NAME_LENGTH];
 	hConfig.GetName(sItemName, sizeof(sItemName));
 	PrintToServer("[EntWatch] Item spawned: %s | %i", sItemName, iHammerID);
 
@@ -1803,7 +1803,7 @@ public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iIntera
 		}
 	}
 
-	char sItemName[32];
+	char sItemName[EW_MAX_NAME_LENGTH];
 	hItem.hConfig.GetName(sItemName, sizeof(sItemName));
 
 	char sItemColor[8];
@@ -1830,7 +1830,7 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 	char sPlayerInfo[128];
 	FormatPlayerInfo(iClient, sPlayerInfo, sizeof(sPlayerInfo));
 
-	char sItemName[32], sButtonName[32];
+	char sItemName[EW_MAX_NAME_LENGTH], sButtonName[32];
 	hItemButton.hItem.hConfig.GetName(sItemName, sizeof(sItemName));
 	hItemButton.hConfigButton.GetName(sButtonName, sizeof(sButtonName));
 

@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.31"
+#define EW_VERSION          "4.2.32"
 #define EW_VERSION_CONFIG   2
 
 
@@ -69,6 +69,16 @@
 #define EW_TRIGGER_TYPE_STRIP   1
 #define EW_TRIGGER_TYPE_BUTTON  2
 #define EW_TRIGGER_TYPE_HURT    3
+
+/**
+ * Config string buffer sizes.
+ * Buffer lengths (including the null terminator) for the item config fields.
+ * Use these when declaring buffers passed to CConfig.GetName() / GetShort() /
+ * GetSpawner().
+ */
+#define EW_MAX_NAME_LENGTH        64
+#define EW_MAX_SHORTNAME_LENGTH   32
+#define EW_MAX_TEMPLATE_LENGTH    64
 
 
 // ============================================================================
