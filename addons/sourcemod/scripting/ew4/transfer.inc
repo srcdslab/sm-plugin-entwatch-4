@@ -22,7 +22,7 @@ public void Ew4_Transfer_AskPluginLoad2()
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Transfer_OnPluginStart()
 {
-	g_hFwd_OnAdminTransferItem = new GlobalForward("EW_OnAdminTransferItem", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
+	g_hFwd_OnAdminTransferItem = new GlobalForward("EW_OnAdminTransferItem", ET_Ignore, Param_Cell, Param_Cell, Param_Cell, Param_Cell);
 
 	RegAdminCmd("sm_etransfer", Command_TransferItem, ADMFLAG_BAN);
 
@@ -55,10 +55,14 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 	char sItemColor[EW_MAX_COLOR_LENGTH];
 	hItem.hConfig.GetColor(sItemColor, sizeof(sItemColor));
 
+	// hItem.iClient is overwritten with iReceiver by the equip below, so capture
+	// the previous holder now for the forward (0 = the item was on the ground).
+	int iSender = (hItem.iClient != INVALID_ENT_REFERENCE) ? hItem.iClient : 0;
+
 	if (hItem.iClient != INVALID_ENT_REFERENCE)
 	{
 		// ---- Item is held by a player ----
-		int iTarget = hItem.iClient;
+		int iTarget = iSender;
 
 		if (GetClientTeam(iTarget) != GetClientTeam(iReceiver))
 			return false;
@@ -110,6 +114,7 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 	Call_StartForward(g_hFwd_OnAdminTransferItem);
 	Call_PushCell(iAdmin);
 	Call_PushCell(hItem);
+	Call_PushCell(iSender);
 	Call_PushCell(iReceiver);
 	Call_Finish();
 

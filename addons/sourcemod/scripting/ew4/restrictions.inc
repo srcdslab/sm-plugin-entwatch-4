@@ -141,9 +141,9 @@ public void Ew4_Restrictions_OnPluginStart()
 
 	g_hFwd_OnClientRestricted         = new GlobalForward("EW_OnClientRestricted",         ET_Ignore, Param_Cell, Param_Cell, Param_Cell, Param_String);
 	g_hFwd_OnClientUnrestricted       = new GlobalForward("EW_OnClientUnrestricted",       ET_Ignore, Param_Cell, Param_Cell, Param_String);
-	g_hFwd_OnRestrictBroadcast        = new GlobalForward("EW_OnRestrictBroadcast",        ET_Ignore, Param_Cell, Param_Cell, Param_Cell, Param_String, Param_String, Param_String);
-	g_hFwd_OnUnrestrictBroadcast      = new GlobalForward("EW_OnUnrestrictBroadcast",      ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String, Param_String);
-	g_hFwd_OnOfflineRestrictBroadcast = new GlobalForward("EW_OnOfflineRestrictBroadcast", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String, Param_String, Param_String);
+	g_hFwd_OnRestrictBroadcast        = new GlobalForward("EW_OnRestrictBroadcast",        ET_Ignore, Param_Cell, Param_Cell, Param_Cell, Param_String, Param_String, Param_String, Param_String, Param_String);
+	g_hFwd_OnUnrestrictBroadcast      = new GlobalForward("EW_OnUnrestrictBroadcast",      ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String, Param_String, Param_String, Param_String);
+	g_hFwd_OnOfflineRestrictBroadcast = new GlobalForward("EW_OnOfflineRestrictBroadcast", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String, Param_String, Param_String, Param_String);
 
 	g_hCVar_UseReasonMenu       = CreateConVar("sm_eban_use_reason_menu",           "0",                     "Use menu to choose reason when missing",                       _, true, 0.0, true, 1.0);
 	g_hCVar_DefaultBanReason    = CreateConVar("sm_eban_default_reason",            "Item misuse",           "Default eban reason (max 64 chars)");
@@ -1251,6 +1251,7 @@ void OfflinePlayer_CommitBan(int admin, int iDuration, const char[] reason, cons
 	Call_PushCell(iDuration);
 	Call_PushString(reason);
 	Call_PushString(sAdminName);
+	Call_PushString(sAdminSteam);
 	Call_PushString(sPlayerName);
 	Call_PushString(sPlayerSteam);
 	Call_Finish();
@@ -1791,10 +1792,11 @@ void GetAdminInfo(int admin, char[] sName, int nameSize, char[] sSteam, int stea
 //----------------------------------------------------------------------------------------------------
 void LogBanAction(int admin, int target, int iDuration, const char[] reason, bool bIsUnban)
 {
-	char sAdminName[MAX_NAME_LENGTH], sTargetName[MAX_NAME_LENGTH];
-	char sDummySteam[1];
-	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sDummySteam, sizeof(sDummySteam));
+	char sAdminName[MAX_NAME_LENGTH], sAdminSteam[EW_MAX_STEAMID_LENGTH];
+	char sTargetName[MAX_NAME_LENGTH], sTargetSteam[EW_MAX_STEAMID_LENGTH];
+	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	GetClientName(target, sTargetName, sizeof(sTargetName));
+	GetClientAuthId(target, AuthId_Steam2, sTargetSteam, sizeof(sTargetSteam), true);
 
 	char sAdminInfo[128];
 	FormatPlayerInfo(admin, sAdminInfo, sizeof(sAdminInfo));
@@ -1817,7 +1819,9 @@ void LogBanAction(int admin, int target, int iDuration, const char[] reason, boo
 		Call_PushCell(target);
 		Call_PushString(reason);
 		Call_PushString(sAdminName);
+		Call_PushString(sAdminSteam);
 		Call_PushString(sTargetName);
+		Call_PushString(sTargetSteam);
 		Call_Finish();
 		return;
 	}
@@ -1856,7 +1860,9 @@ void LogBanAction(int admin, int target, int iDuration, const char[] reason, boo
 	Call_PushCell(iDuration);
 	Call_PushString(reason);
 	Call_PushString(sAdminName);
+	Call_PushString(sAdminSteam);
 	Call_PushString(sTargetName);
+	Call_PushString(sTargetSteam);
 	Call_Finish();
 }
 

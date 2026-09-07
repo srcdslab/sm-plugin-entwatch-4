@@ -25,7 +25,7 @@ public void Ew4_Spawn_AskPluginLoad2()
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Spawn_OnPluginStart()
 {
-	g_hFwd_OnAdminSpawnItem = new GlobalForward("EW_OnAdminSpawnItem", ET_Ignore, Param_Cell, Param_String, Param_Cell);
+	g_hFwd_OnAdminSpawnItem = new GlobalForward("EW_OnAdminSpawnItem", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_Cell, Param_Cell);
 
 	RegAdminCmd("sm_espawnitem", Command_SpawnItem, ADMFLAG_BAN);
 }
@@ -145,8 +145,10 @@ bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 
 	Call_StartForward(g_hFwd_OnAdminSpawnItem);
 	Call_PushCell(iAdmin);
+	Call_PushCell(hConfig);
 	Call_PushString(sName);
 	Call_PushCell(iTarget);
+	Call_PushCell(bStrip);
 	Call_Finish();
 
 	return true;
