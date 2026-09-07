@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.33"
+#define EW_VERSION          "4.2.34"
 #define EW_VERSION_CONFIG   2
 
 
@@ -250,43 +250,46 @@ forward void EW_OnClientUnrestricted(int iAdmin, int iClient, const char[] sReas
 /**
  * Called when a restriction is broadcast to all connected clients.
  *
- * @param iAdmin        Admin client index.
+ * @param iAdmin        Admin client index (0 = server).
  * @param iClient       Client index being restricted.
  * @param iDuration     Duration in minutes. -1 = session, 0 = permanent, >0 = minutes.
  * @param sReason       Restriction reason.
  * @param sAdminName    Display name of the admin.
- * @param sSteamID      SteamID of the admin.
+ * @param sClientName   Display name of the client being restricted.
  *
  * @noreturn
  */
-forward void EW_OnRestrictBroadcast(int iAdmin, int iClient, int iDuration, const char[] sReason, const char[] sAdminName, const char[] sSteamID);
+forward void EW_OnRestrictBroadcast(int iAdmin, int iClient, int iDuration, const char[] sReason, const char[] sAdminName, const char[] sClientName);
 
 /**
  * Called when an unrestriction is broadcast to all connected clients.
  *
- * @param iAdmin        Admin client index.
+ * @param iAdmin        Admin client index (0 = server).
  * @param iClient       Client index being unrestricted.
  * @param sReason       Unrestriction reason.
  * @param sAdminName    Display name of the admin.
- * @param sSteamID      SteamID of the admin.
+ * @param sClientName   Display name of the client being unrestricted.
  *
  * @noreturn
  */
-forward void EW_OnUnrestrictBroadcast(int iAdmin, int iClient, const char[] sReason, const char[] sAdminName, const char[] sSteamID);
+forward void EW_OnUnrestrictBroadcast(int iAdmin, int iClient, const char[] sReason, const char[] sAdminName, const char[] sClientName);
 
 /**
  * Called when a restriction for an offline player is broadcast to all connected clients.
  *
- * @param iAdmin        Admin client index.
- * @param iClient       Offline client index (may be invalid/disconnected).
- * @param sReason       Restriction reason.
- * @param sAdminName    Display name of the admin.
- * @param sSteamID      SteamID of the admin.
- * @param sPlayerName   Display name of the offline player.
+ * The restricted player is offline, so there is no client index - the player is
+ * identified by name and SteamID instead.
+ *
+ * @param iAdmin          Admin client index (0 = server).
+ * @param iDuration       Duration in minutes. 0 = permanent, >0 = minutes.
+ * @param sReason         Restriction reason.
+ * @param sAdminName      Display name of the admin.
+ * @param sClientName     Display name of the offline player.
+ * @param sClientSteamID  SteamID of the offline player.
  *
  * @noreturn
  */
-forward void EW_OnOfflineRestrictBroadcast(int iAdmin, int iClient, const char[] sReason, const char[] sAdminName, const char[] sSteamID, const char[] sPlayerName);
+forward void EW_OnOfflineRestrictBroadcast(int iAdmin, int iDuration, const char[] sReason, const char[] sAdminName, const char[] sClientName, const char[] sClientSteamID);
 
 
 // ============================================================================
@@ -400,7 +403,8 @@ native bool EW_ClientUnrestrict(int iAdmin, int iClient, const char[] sReason);
  *
  * @param iClient   Client index to query.
  *
- * @return          true if restricted, false if not, -1 on error.
+ * @return          true if restricted, false otherwise.
+ * @error           Invalid client index.
  */
 native bool EW_IsRestrictedClient(int iClient);
 
