@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.35"
+#define EW_VERSION          "4.2.36"
 #define EW_VERSION_CONFIG   2
 
 
@@ -98,13 +98,13 @@
 //  Class Includes
 // ============================================================================
 
-#include "../classes/CConfig.inc"
-#include "../classes/CConfigButton.inc"
-#include "../classes/CConfigTrigger.inc"
+#include "classes/CConfig.inc"
+#include "classes/CConfigButton.inc"
+#include "classes/CConfigTrigger.inc"
 
-#include "../classes/CItem.inc"
-#include "../classes/CItemButton.inc"
-#include "../classes/CItemTrigger.inc"
+#include "classes/CItem.inc"
+#include "classes/CItemButton.inc"
+#include "classes/CItemTrigger.inc"
 
 
 // ============================================================================

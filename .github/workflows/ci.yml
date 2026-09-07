@@ -34,9 +34,10 @@ jobs:
           git clone --depth=1 https://github.com/Bara/Multi-Colors.git deps/multicolors
           cp -R deps/multicolors/addons/sourcemod/scripting/include/* addons/sourcemod/scripting/include/
 
-      # Only entWatch-4.sp is a standalone plugin; the ew4/*.inc and classes/*.inc
-      # files are #include'd by it and do not compile on their own. The `::error`
-      # annotation surfaces a failure inline on the PR's Files Changed view.
+      # Only entWatch-4.sp is a standalone plugin; the ew4/*.inc and
+      # include/classes/*.inc files are #include'd by it and do not compile on
+      # their own. The `::error` annotation surfaces a failure inline on the
+      # PR's Files Changed view.
       - name: Build sourcemod plugin
         working-directory: addons/sourcemod/scripting
         run: |
