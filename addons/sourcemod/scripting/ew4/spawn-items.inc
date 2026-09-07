@@ -18,6 +18,7 @@ static ArrayList s_hSpawnableItems;
 public void Ew4_Spawn_AskPluginLoad2()
 {
 	CreateNative("EW_SpawnItem", Native_SpawnItem);
+	CreateNative("EW_GetSpawnableConfigsArray", Native_GetSpawnableConfigsArray);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -283,16 +284,21 @@ public int Native_SpawnItem(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
+// Purpose: Native - EW_GetSpawnableConfigsArray()
+//----------------------------------------------------------------------------------------------------
+public any Native_GetSpawnableConfigsArray(Handle hPlugin, int iNumParams)
+{
+	return Ew4_Spawn_GetSpawnableItems();
+}
+
+//----------------------------------------------------------------------------------------------------
 // Purpose: Accessor for spawnable items array - returns an ArrayList of CConfig handles for
-//          configs with valid spawner entries. Used by menu interface to show spawnable items.
+//          configs with valid spawner entries. Backs EW_GetSpawnableConfigsArray() and the menu
+//          interface's spawnable-item list. May be null when no config is loaded.
 //          Note that this is NOT the same as the items array returned by EW_GetItemsArray(), which
 //          contains CItem instances for currently tracked entities.
-//
-// Kept `stock`: the only caller lives in menu-interface.inc behind
-// `#if defined EW4_SPAWN_ITEMS`, so with EW4_SPAWN_ITEMS enabled but
-// EW4_INTERFACE disabled this accessor has no call site.
 //----------------------------------------------------------------------------------------------------
-stock ArrayList Ew4_Spawn_GetSpawnableItems()
+ArrayList Ew4_Spawn_GetSpawnableItems()
 {
 	return s_hSpawnableItems;
 }

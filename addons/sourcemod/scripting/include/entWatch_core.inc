@@ -366,10 +366,21 @@ native bool EW_ClientHasItem(int iClient);
 native bool EW_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage = true);
 
 /**
+ * Returns the array of item configs that can be spawned with EW_SpawnItem() -
+ * the subset of EW_GetConfigsArray() whose entries define a spawner template.
+ *
+ * @return      ArrayList of CConfig handles, or null when no config is loaded.
+ * @note        This handle is owned by entWatch-core. Do NOT close it.
+ *              Its order is the iItemID space expected by EW_SpawnItem().
+ */
+native ArrayList EW_GetSpawnableConfigsArray();
+
+/**
  * Spawns a tracked item for a client.
  *
  * @param iAdmin        Admin client index authorising the spawn (0 = server).
- * @param iItemID       Index of the item config in EW_GetConfigsArray().
+ * @param iItemID       Index of the item config in EW_GetSpawnableConfigsArray()
+ *                      (only configs with a spawner - NOT EW_GetConfigsArray()).
  * @param iReceiver     Client index who will receive the spawned item.
  * @param bStrip        If true, strips the receiver's weapons before spawning. Default: false.
  *
@@ -490,6 +501,7 @@ public void __pl_entWatch_core_SetNTVOptional()
 	MarkNativeAsOptional("EW_IsEntityItem");
 	MarkNativeAsOptional("EW_ClientHasItem");
 	MarkNativeAsOptional("EW_TransferItem");
+	MarkNativeAsOptional("EW_GetSpawnableConfigsArray");
 	MarkNativeAsOptional("EW_SpawnItem");
 	MarkNativeAsOptional("EW_ClientRestrict");
 	MarkNativeAsOptional("EW_ClientUnrestrict");
