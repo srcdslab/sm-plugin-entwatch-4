@@ -15,15 +15,22 @@
 // at 254 usable characters, plus the NUL terminator.
 #define EW_HUD_PAGE_LENGTH  255
 
+// Bytes kept free at the end of every page buffer so the "current/total" page
+// indicator line (e.g. "2/3\n") can be prepended at send time without pushing
+// the message past the network cap or truncating an item line.
+#define EW_HUD_PAGEINFO_LENGTH  8
+
 /* BOOLEANS */
 bool g_bIsAdmin[MAXPLAYERS+1];
 bool g_bInterfaceHidden[MAXPLAYERS+1];
 
 /* INTEGERS */
 int g_iInterfaceMode = 0;
+int g_iInterfacePageInterval = 5;
 
 /* CONVARS */
 ConVar g_hCVar_InterfaceMode;
+ConVar g_hCVar_InterfacePageInterval;
 
 /* COOKIES */
 Cookie_Stocks g_hCookie_InterfaceHidden;
@@ -42,8 +49,12 @@ public void Ew4_Interface_OnPluginStart()
 	g_hCVar_InterfaceMode = CreateConVar("sm_einterface_mode", "3", "Entwatch interface display mode (1 = All items, 2 = Admin all items / Team items only, 3 = Team items only)", FCVAR_NONE, true, 1.0, true, 3.0);
 	g_hCVar_InterfaceMode.AddChangeHook(OnInterfaceCvarChanged);
 
-	// Cache initial value
-	g_iInterfaceMode = g_hCVar_InterfaceMode.IntValue;
+	g_hCVar_InterfacePageInterval = CreateConVar("sm_einterface_page_interval", "5", "Seconds a multi-page HUD stays on each page before rotating to the next", FCVAR_NONE, true, 1.0, true, 60.0);
+	g_hCVar_InterfacePageInterval.AddChangeHook(OnInterfaceCvarChanged);
+
+	// Cache initial values
+	g_iInterfaceMode         = g_hCVar_InterfaceMode.IntValue;
+	g_iInterfacePageInterval = g_hCVar_InterfacePageInterval.IntValue;
 
 	g_hCookie_InterfaceHidden = new Cookie_Stocks("EW_InterfaceHidden", "", CookieAccess_Private);
 
@@ -56,11 +67,14 @@ public void Ew4_Interface_OnPluginStart()
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Cvar change hook - keep cached integer in sync
+// Purpose: Cvar change hook - keep cached integers in sync
 //----------------------------------------------------------------------------------------------------
 void OnInterfaceCvarChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
-	g_iInterfaceMode = g_hCVar_InterfaceMode.IntValue;
+	if (convar == g_hCVar_InterfaceMode)
+		g_iInterfaceMode = g_hCVar_InterfaceMode.IntValue;
+	else if (convar == g_hCVar_InterfacePageInterval)
+		g_iInterfacePageInterval = g_hCVar_InterfacePageInterval.IntValue;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -228,6 +242,10 @@ bool FormatItemCooldowns(char[] sBuffer, const int iMaxLength, CItem hItem, floa
 //   [0] = All items   (used for mode 1, or mode 2 admins)
 //   [1] = T  items    (team 2)
 //   [2] = CT items    (team 3)
+//
+// Each panel can overflow into several pages; those rotate on a fixed interval
+// (sm_einterface_page_interval) and a "current/total" line is prepended while a
+// panel spans more than one page.
 //----------------------------------------------------------------------------------------------------
 Action OnDisplayHUD(Handle hTimer)
 {
@@ -240,6 +258,10 @@ Action OnDisplayHUD(Handle hTimer)
 	int  iHUDPages[3];
 	int  iHUDLens[3][8];
 	char sHUDPages[3][8][EW_HUD_PAGE_LENGTH];
+
+	// Usable capacity of one page while filling it: the real buffer minus the
+	// room reserved for the page-indicator line prepended at send time.
+	int iPageCap = sizeof(sHUDPages[][]) - EW_HUD_PAGEINFO_LENGTH;
 
 	float flNow = GetGameTime();
 
@@ -275,12 +297,12 @@ Action OnDisplayHUD(Handle hTimer)
 		{
 			int iPageSlot = iTeam - 1; // 2 -> 1, 3 -> 2
 
-			if (iHUDLens[iPageSlot][iHUDPages[iPageSlot]] + iLineLen >= sizeof(sHUDPages[][])
+			if (iHUDLens[iPageSlot][iHUDPages[iPageSlot]] + iLineLen >= iPageCap
 				&& iHUDPages[iPageSlot] < sizeof(sHUDPages[]) - 1)
 				iHUDPages[iPageSlot]++;
 
 			int p = iHUDPages[iPageSlot];
-			if (iHUDLens[iPageSlot][p] + iLineLen < sizeof(sHUDPages[][]))
+			if (iHUDLens[iPageSlot][p] + iLineLen < iPageCap)
 			{
 				StrCat(sHUDPages[iPageSlot][p], sizeof(sHUDPages[][]), sLine);
 				StrCat(sHUDPages[iPageSlot][p], sizeof(sHUDPages[][]), "\n");
@@ -289,12 +311,12 @@ Action OnDisplayHUD(Handle hTimer)
 		}
 
 		// ---- All-items page (slot 0) ----
-		if (iHUDLens[0][iHUDPages[0]] + iLineLen >= sizeof(sHUDPages[][])
+		if (iHUDLens[0][iHUDPages[0]] + iLineLen >= iPageCap
 			&& iHUDPages[0] < sizeof(sHUDPages[]) - 1)
 			iHUDPages[0]++;
 
 		int p0 = iHUDPages[0];
-		if (iHUDLens[0][p0] + iLineLen < sizeof(sHUDPages[][]))
+		if (iHUDLens[0][p0] + iLineLen < iPageCap)
 		{
 			StrCat(sHUDPages[0][p0], sizeof(sHUDPages[][]), sLine);
 			StrCat(sHUDPages[0][p0], sizeof(sHUDPages[][]), "\n");
@@ -302,11 +324,12 @@ Action OnDisplayHUD(Handle hTimer)
 		}
 	}
 
-	// ---- Page rotation: advance every 5 ticks ----
+	// ---- Page rotation: advance once every sm_einterface_page_interval ticks ----
+	// The timer fires at 1.0s, so one tick == one second.
 	static int iPageInterval;
 	static int iPageCurrent[3];
 
-	if (iPageInterval >= 5)
+	if (iPageInterval >= g_iInterfacePageInterval)
 	{
 		for (int iPageID; iPageID < 3; iPageID++)
 		{
@@ -368,17 +391,30 @@ Action OnDisplayHUD(Handle hTimer)
 			}
 		}
 
-		if (!sHUDPages[iPagePanel][iPageCurrent[iPagePanel]][0])
+		// Item counts change between rotations, so the cached page index can point
+		// past the last filled page - fall back to the first page when it does.
+		int iPage = iPageCurrent[iPagePanel];
+		if (iPage > iHUDPages[iPagePanel])
+			iPage = 0;
+
+		if (!sHUDPages[iPagePanel][iPage][0])
 			continue;
+
+		// Prepend "current/total" only when the panel actually spans several pages.
+		char sHudText[EW_HUD_PAGE_LENGTH + EW_HUD_PAGEINFO_LENGTH];
+		if (iHUDPages[iPagePanel] > 0)
+			FormatEx(sHudText, sizeof(sHudText), "%d/%d\n%s", iPage + 1, iHUDPages[iPagePanel] + 1, sHUDPages[iPagePanel][iPage]);
+		else
+			strcopy(sHudText, sizeof(sHudText), sHUDPages[iPagePanel][iPage]);
 
 		Handle hMessage = StartMessageOne("KeyHintText", iClient);
 
 		if (bIsProto)
-			PbAddString(hMessage, "hints", sHUDPages[iPagePanel][iPageCurrent[iPagePanel]]);
+			PbAddString(hMessage, "hints", sHudText);
 		else
 		{
 			BfWriteByte(hMessage, 1);
-			BfWriteString(hMessage, sHUDPages[iPagePanel][iPageCurrent[iPagePanel]]);
+			BfWriteString(hMessage, sHudText);
 		}
 
 		EndMessage();
