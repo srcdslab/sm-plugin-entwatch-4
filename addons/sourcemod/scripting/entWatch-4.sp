@@ -194,7 +194,7 @@ public void OnPluginStart()
 	LoadTranslations("entWatch.phrases");
 
 	g_hFwd_OnClientItemWeaponInteract  = new GlobalForward("EW_OnClientItemWeaponInteract", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
-	g_hFwd_OnClientItemButtonInteract  = new GlobalForward("EW_OnClientItemButtonInteract", ET_Ignore, Param_Cell, Param_Cell);
+	g_hFwd_OnClientItemButtonInteract  = new GlobalForward("EW_OnClientItemButtonInteract", ET_Ignore, Param_Cell, Param_Cell, Param_String);
 	g_hFwd_OnClientItemTriggerInteract = new GlobalForward("EW_OnClientItemTriggerInteract", ET_Ignore, Param_Cell, Param_Cell);
 
 	g_hFwd_OnClientItemWeaponCanInteract  = new GlobalForward("EW_OnClientItemWeaponCanInteract",  ET_Hook, Param_Cell, Param_Cell);
@@ -1737,9 +1737,13 @@ void Forward_OnClientItemWeaponInteract(int iClient, CItem hItem, int iInteracti
 //----------------------------------------------------------------------------------------------------
 void Forward_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 {
+	char sButtonName[32];
+	hItemButton.hConfigButton.GetName(sButtonName, sizeof(sButtonName));
+
 	Call_StartForward(g_hFwd_OnClientItemButtonInteract);
 	Call_PushCell(iClient);
 	Call_PushCell(hItemButton);
+	Call_PushString(sButtonName);
 	Call_Finish();
 
 	API_OnClientItemButtonInteract(iClient, hItemButton);
