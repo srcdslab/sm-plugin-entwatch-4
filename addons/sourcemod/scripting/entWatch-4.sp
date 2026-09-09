@@ -1858,35 +1858,33 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 void PrintChatMessage(int iClient, const char[] sMessage, any ...)
 {
 	char sBuffer[256];
-	VFormat(sBuffer, sizeof(sBuffer), sMessage, 3);
 
 	int iTeam = GetClientTeam(iClient);
 
-	switch (g_iMessageMode)
+	for (int i = 1; i <= MaxClients; i++)
 	{
-		case 2:
-		{
-			for (int i = 1; i <= MaxClients; i++)
-			{
-				if (!IsClientInGame(i))
-					continue;
+		if (!IsClientInGame(i))
+			continue;
 
-				if (GetClientTeam(i) == iTeam || CheckCommandAccess(i, "", ADMFLAG_GENERIC))
-					CPrintToChat(i, sBuffer);
+		switch (g_iMessageMode)
+		{
+			case 2:
+			{
+				if (GetClientTeam(i) != iTeam && !CheckCommandAccess(i, "", ADMFLAG_GENERIC))
+					continue;
+			}
+			case 3:
+			{
+				if (GetClientTeam(i) != iTeam)
+					continue;
 			}
 		}
-		case 3:
-		{
-			for (int i = 1; i <= MaxClients; i++)
-			{
-				if (!IsClientInGame(i))
-					continue;
 
-				if (GetClientTeam(i) == iTeam)
-					CPrintToChat(i, sBuffer);
-			}
-		}
-		default: CPrintToChatAll(sBuffer);
+		// Resolve the message (including any %t phrase) against each recipient's
+		// own language instead of formatting once for LANG_SERVER.
+		SetGlobalTransTarget(i);
+		VFormat(sBuffer, sizeof(sBuffer), sMessage, 3);
+		CPrintToChat(i, sBuffer);
 	}
 }
 
