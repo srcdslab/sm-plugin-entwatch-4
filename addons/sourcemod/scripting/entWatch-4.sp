@@ -1893,6 +1893,12 @@ void PrintChatMessage(int iClient, const char[] sMessage, any ...)
 //----------------------------------------------------------------------------------------------------
 void FormatPlayerInfo(int iClient, char[] sBuffer, int iMaxLen)
 {
+	if (iClient <= 0 || iClient > MaxClients || !IsClientInGame(iClient))
+	{
+		Format(sBuffer, iMaxLen, "{#%s}%s", g_clr.sName, EW_CONSOLE_NAME);
+		return;
+	}
+
 	char sClientName[MAX_NAME_LENGTH];
 	GetClientName(iClient, sClientName, sizeof(sClientName));
 
