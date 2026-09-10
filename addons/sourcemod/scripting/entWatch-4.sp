@@ -10,6 +10,15 @@
 #pragma semicolon 1
 #pragma newdecls required
 
+// spcomp sizes the stack/heap from the largest single function frame it can see
+// statically (~23 KB here, driven by OnDisplayHUD's page buffers). That bound
+// ignores indirect recursion: every EW_On* forward finished with Call_Finish()
+// re-enters this plugin's own module handlers, and a deep broadcast chain fired
+// during a client connect stacks those frames plus their heap temporaries past
+// the auto-sized limit - which is the "Not enough space on the heap" exception.
+// 128 * 2048 cells = 1 MiB (the value entWatch 3 shipped), ~44x the auto-size.
+#pragma dynamic 128 * 2048
+
 #if !defined SOURCEMOD_V_MAJOR || SOURCEMOD_V_MAJOR < 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR < 12)
 	#warning entWatch-4 is developed and tested against SourceMod 1.12.0.7225 or above. Older versions may still build, but the features and performance work target 1.12+ and are not tested there.
 #endif
