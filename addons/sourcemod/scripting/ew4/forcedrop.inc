@@ -16,6 +16,10 @@ public void Ew4_Forcedrop_OnClientItemWeaponInteract(int iClient, CItem hItem, i
 	if ((iInteractionType != EW_WEAPON_INTERACTION_DEATH) && (iInteractionType != EW_WEAPON_INTERACTION_DISCONNECT))
 		return;
 
-	if (0 <= SDKCall(SDKCall_GetSlot, hItem.iWeapon) < 2)
+	if (hItem.iWeapon == INVALID_ENT_REFERENCE || !IsValidEntity(hItem.iWeapon))
+		return;
+
+	int iSlot = SDKCall(SDKCall_GetSlot, hItem.iWeapon);
+	if (iSlot >= 0 && iSlot < 2)
 		SDKHooks_DropWeapon(iClient, hItem.iWeapon, NULL_VECTOR, NULL_VECTOR, false); // Using this causes ammo to disapear on the weapon
 }

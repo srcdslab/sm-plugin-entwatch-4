@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.39"
+#define EW_VERSION          "4.2.40"
 #define EW_VERSION_CONFIG   2
 
 
@@ -40,6 +40,7 @@
 #define EW_WEAPON_INTERACTION_DEATH         2
 #define EW_WEAPON_INTERACTION_PICKUP        3
 #define EW_WEAPON_INTERACTION_DISCONNECT    4
+#define EW_WEAPON_INTERACTION_DESTROYED     5
 
 /**
  * Button activation types.
@@ -158,8 +159,12 @@ forward bool EW_OnClientItemTriggerCanInteract(int iClient, CItemTrigger hItemTr
 /**
  * Called after a client interacts with a tracked weapon entity.
  *
- * @param iClient           Client index.
- * @param hItem             CItem handle for the affected item.
+ * @param iClient           Client index, or INVALID_ENT_REFERENCE when the item
+ *                          had no holder (for example EW_WEAPON_INTERACTION_DESTROYED
+ *                          fired for an unheld weapon).
+ * @param hItem             CItem handle for the affected item. On
+ *                          EW_WEAPON_INTERACTION_DESTROYED its iClient and iWeapon
+ *                          are already reset to INVALID_ENT_REFERENCE.
  * @param iInteractionType  One of the EW_WEAPON_INTERACTION_* constants.
  *
  * @noreturn

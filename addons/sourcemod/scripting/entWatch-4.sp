@@ -942,7 +942,7 @@ bool RegisterItemWeapon(CItem hItem, int iWeapon)
 		hItem.iClient = iOwner;
 		hItem.iState  = EW_ENTITY_STATE_EQUIPPED;
 
-		Forward_OnClientItemWeaponInteract(hItem.iClient, hItem, EW_ENTITY_STATE_EQUIPPED);
+		Forward_OnClientItemWeaponInteract(hItem.iClient, hItem, EW_WEAPON_INTERACTION_PICKUP);
 	}
 
 	return true;
@@ -1109,7 +1109,7 @@ public void OnEntityDestroyed(int iEntity)
 			hItem.iWeapon = INVALID_ENT_REFERENCE;
 			hItem.iState  = EW_ENTITY_STATE_DESTROYED;
 
-			Forward_OnClientItemWeaponInteract(iPrevClient, hItem, EW_ENTITY_STATE_DESTROYED);
+			Forward_OnClientItemWeaponInteract(iPrevClient, hItem, EW_WEAPON_INTERACTION_DESTROYED);
 		}
 
 		for (int iItemButtonID; iItemButtonID < hItem.hButtons.Length; iItemButtonID++)
@@ -1768,6 +1768,11 @@ public void API_OnClientItemWeaponInteract(int iClient, CItem hItem, int iIntera
 	#if defined EW4_FORCEDROP
 	Ew4_Forcedrop_OnClientItemWeaponInteract(iClient, hItem, iInteractionType);
 	#endif
+
+	// EW_WEAPON_INTERACTION_DESTROYED is a lifecycle notification for modules
+	// only - there is no chat line for a weapon the engine removed under a holder.
+	if (iInteractionType == EW_WEAPON_INTERACTION_DESTROYED)
+		return;
 
 	if (!hItem.hConfig.bShowMessages)
 		return;
