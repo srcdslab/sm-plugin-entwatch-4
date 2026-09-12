@@ -21,8 +21,9 @@ public void Ew4_Forcedrop_OnClientItemWeaponInteract(int iClient, CItem hItem, i
 
 	// Death/disconnect processing (or another plugin) can strip the weapon without
 	// routing through SDKHook_WeaponDrop, leaving hItem.iClient stale. SDKHooks_DropWeapon
-	// throws "Weapon N is not owned by client M" when m_hOwner no longer matches.
-	if (GetEntPropEnt(hItem.iWeapon, Prop_Send, "m_hOwner") != iClient)
+	// throws "Weapon N is not owned by client M" when the weapon's m_hOwnerEntity - the
+	// property the native validates, not m_hOwner - no longer matches.
+	if (GetEntPropEnt(hItem.iWeapon, Prop_Data, "m_hOwnerEntity") != iClient)
 		return;
 
 	int iSlot = SDKCall(SDKCall_GetSlot, hItem.iWeapon);
