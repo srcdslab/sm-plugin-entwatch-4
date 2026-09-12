@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.41"
+#define EW_VERSION          "4.2.42"
 #define EW_VERSION_CONFIG   2
 
 
@@ -81,6 +81,12 @@
 #define EW_MAX_SHORTNAME_LENGTH   32
 #define EW_MAX_TEMPLATE_LENGTH    64
 #define EW_MAX_COLOR_LENGTH        8
+
+/**
+ * Digits in an item/message color.
+ * Colors are plain "RRGGBB" hex, without a leading "#".
+ */
+#define EW_HEX_COLOR_DIGITS        6
 
 /**
  * Restriction string buffer sizes.
