@@ -70,11 +70,18 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 		if (iTarget == iReceiver)
 			return false;
 
-		SDKHooks_DropWeapon(iTarget, hItem.iWeapon, NULL_VECTOR, NULL_VECTOR, false);
+		// hItem.iClient can go stale relative to the weapon's real m_hOwnerEntity if the
+		// weapon was detached without routing through SDKHook_WeaponDrop. Only force-drop
+		// and hand back a replacement if iTarget still actually holds it - otherwise
+		// SDKHooks_DropWeapon throws "Weapon N is not owned by client M".
+		if (GetEntPropEnt(hItem.iWeapon, Prop_Data, "m_hOwnerEntity") == iTarget)
+		{
+			SDKHooks_DropWeapon(iTarget, hItem.iWeapon, NULL_VECTOR, NULL_VECTOR, false);
 
-		char sWeaponClass[32];
-		GetEntityClassname(hItem.iWeapon, sWeaponClass, sizeof(sWeaponClass));
-		GivePlayerItem(iTarget, sWeaponClass);
+			char sWeaponClass[32];
+			GetEntityClassname(hItem.iWeapon, sWeaponClass, sizeof(sWeaponClass));
+			GivePlayerItem(iTarget, sWeaponClass);
+		}
 
 		FixedEquipPlayerWeapon(iReceiver, hItem.iWeapon);
 
