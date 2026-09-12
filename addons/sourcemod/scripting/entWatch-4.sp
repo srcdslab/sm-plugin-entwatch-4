@@ -30,6 +30,9 @@
 #include <multicolors>
 #include <entWatch_core>
 
+// Fallback for an item whose config carries no usable "color" value
+#define EW_DEFAULT_ITEM_COLOR "FFFFFF"
+
 //--------------------------------------------------------------------------------------------------
 // Feature flags - comment/uncomment to toggle modules
 //--------------------------------------------------------------------------------------------------
@@ -403,17 +406,77 @@ void LoadColors()
 		return;
 	}
 
-	kv.GetString("color_tag",        g_clr.sTag,        sizeof(g_clr.sTag),        g_clr.sTag);
-	kv.GetString("color_name",       g_clr.sName,       sizeof(g_clr.sName),       g_clr.sName);
-	kv.GetString("color_steamid",    g_clr.sAuthID,     sizeof(g_clr.sAuthID),     g_clr.sAuthID);
-	kv.GetString("color_use",        g_clr.sActivate,   sizeof(g_clr.sActivate),   g_clr.sActivate);
-	kv.GetString("color_pickup",     g_clr.sPickup,     sizeof(g_clr.sPickup),     g_clr.sPickup);
-	kv.GetString("color_drop",       g_clr.sDrop,       sizeof(g_clr.sDrop),       g_clr.sDrop);
-	kv.GetString("color_death",      g_clr.sDeath,      sizeof(g_clr.sDeath),      g_clr.sDeath);
-	kv.GetString("color_disconnect", g_clr.sDisconnect, sizeof(g_clr.sDisconnect), g_clr.sDisconnect);
-	kv.GetString("color_warning",    g_clr.sWarning,    sizeof(g_clr.sWarning),    g_clr.sWarning);
+	LoadColor(kv, "color_tag",        g_clr.sTag,        sizeof(g_clr.sTag));
+	LoadColor(kv, "color_name",       g_clr.sName,       sizeof(g_clr.sName));
+	LoadColor(kv, "color_steamid",    g_clr.sAuthID,     sizeof(g_clr.sAuthID));
+	LoadColor(kv, "color_use",        g_clr.sActivate,   sizeof(g_clr.sActivate));
+	LoadColor(kv, "color_pickup",     g_clr.sPickup,     sizeof(g_clr.sPickup));
+	LoadColor(kv, "color_drop",       g_clr.sDrop,       sizeof(g_clr.sDrop));
+	LoadColor(kv, "color_death",      g_clr.sDeath,      sizeof(g_clr.sDeath));
+	LoadColor(kv, "color_disconnect", g_clr.sDisconnect, sizeof(g_clr.sDisconnect));
+	LoadColor(kv, "color_warning",    g_clr.sWarning,    sizeof(g_clr.sWarning));
 
 	delete kv;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Read one chat-message color, keeping the built-in default when the config value is unusable
+//----------------------------------------------------------------------------------------------------
+void LoadColor(KeyValues kv, const char[] sKey, char[] sColor, int iLength)
+{
+	char sDefault[EW_MAX_COLOR_LENGTH];
+	strcopy(sDefault, sizeof(sDefault), sColor);
+
+	kv.GetString(sKey, sColor, iLength, sDefault);
+
+	if (!NormalizeHexColor(sColor, iLength))
+	{
+		LogError("[entWatch-messages] Invalid \"%s\" color \"%s\". Falling back on \"%s\".", sKey, sColor, sDefault);
+		strcopy(sColor, iLength, sDefault);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Validate a "RRGGBB" color read from a config, restoring the leading zeros KeyValues drops
+//
+// KeyValues types each value while parsing the file: one made up only of decimal digits is stored as
+// an integer and the literal text is thrown away, so GetString() hands "006400" back as "6400" and the
+// chat line carries a literal "{#6400}" instead of a color. Left-pad the digits that survived back to
+// six and reject anything that is not hex, so a broken value cannot leak into a message.
+//----------------------------------------------------------------------------------------------------
+bool NormalizeHexColor(char[] sColor, int iLength)
+{
+	if (iLength <= EW_HEX_COLOR_DIGITS)
+		return false;
+
+	char sBuffer[EW_MAX_COLOR_LENGTH];
+	strcopy(sBuffer, sizeof(sBuffer), sColor);
+	TrimString(sBuffer);
+
+	int iDigits = strlen(sBuffer);
+	if (iDigits == 0 || iDigits > EW_HEX_COLOR_DIGITS)
+		return false;
+
+	for (int i = 0; i < iDigits; i++)
+	{
+		if (!IsHexDigit(sBuffer[i]))
+			return false;
+	}
+
+	int iPadding = EW_HEX_COLOR_DIGITS - iDigits;
+	for (int i = 0; i < iPadding; i++)
+		sColor[i] = '0';
+
+	strcopy(sColor[iPadding], iLength - iPadding, sBuffer);
+	return true;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Return whether a character is a hexadecimal digit
+//----------------------------------------------------------------------------------------------------
+bool IsHexDigit(int iChar)
+{
+	return (iChar >= '0' && iChar <= '9') || (iChar >= 'a' && iChar <= 'f') || (iChar >= 'A' && iChar <= 'F');
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -490,6 +553,14 @@ bool LoadConfig(bool bLoopEntities = false)
 			hConfigFile.GetString("short",      sShort,   sizeof(sShort));
 			hConfigFile.GetString("color",      sColor,   sizeof(sColor));
 			hConfigFile.GetString("template", sSpawner, sizeof(sSpawner));
+
+			if (!NormalizeHexColor(sColor, sizeof(sColor)))
+			{
+				if (sColor[0] != '\0')
+					LogMessage("Invalid color \"%s\" on item \"%s\". Falling back on \"%s\".", sColor, sName, EW_DEFAULT_ITEM_COLOR);
+
+				strcopy(sColor, sizeof(sColor), EW_DEFAULT_ITEM_COLOR);
+			}
 
 			hConfig.SetName(sName);
 			hConfig.SetShort(sShort);
