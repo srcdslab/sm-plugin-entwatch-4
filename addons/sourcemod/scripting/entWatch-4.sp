@@ -1838,7 +1838,7 @@ public void API_OnClientItemButtonInteract(int iClient, CItemButton hItemButton)
 	if (!hItemButton.hConfigButton.bShowActivate)
 		return;
 
-	if (!iClient)
+	if (!IsValidClient(iClient))
 		return;
 
 	char sPlayerInfo[128];
