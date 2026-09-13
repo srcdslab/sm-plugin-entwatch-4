@@ -403,7 +403,7 @@ Action OnDisplayHUD(Handle hTimer)
 		// Prepend "current/total" only when the panel actually spans several pages.
 		char sHudText[EW_HUD_PAGE_LENGTH + EW_HUD_PAGEINFO_LENGTH];
 		if (iHUDPages[iPagePanel] > 0)
-			FormatEx(sHudText, sizeof(sHudText), "%d/%d\n%s", iPage + 1, iHUDPages[iPagePanel] + 1, sHUDPages[iPagePanel][iPage]);
+			FormatEx(sHudText, sizeof(sHudText), "%s%d/%d", sHUDPages[iPagePanel][iPage], iPage + 1, iHUDPages[iPagePanel] + 1);
 		else
 			strcopy(sHudText, sizeof(sHudText), sHUDPages[iPagePanel][iPage]);
 
