@@ -129,9 +129,6 @@ public void Ew4_Restrictions_AskPluginLoad2()
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Restrictions_OnPluginStart()
 {
-	// Restrictions is a compiled-in module of EntWatch 4 (guarded by EW4_RESTRICTIONS at
-	// its include site). Register the library so the runtime LibraryExists("entWatch-restrictions")
-	// checks in menu-interface.inc resolve correctly.
 	RegPluginLibrary("entWatch-restrictions");
 
 	if (SQL_CheckConfig(EW_DB_NAME))
@@ -317,8 +314,6 @@ public Action Command_ClientRestrict(int client, int args)
 		return Plugin_Handled;
 	}
 
-	// Token 2 is consumed as the duration ONLY if it fully parses as an integer.
-	// Otherwise it stays part of the reason, and the reason is never blanked out.
 	int iReasonPos = len;
 	if (sArguments[len])
 	{
@@ -961,9 +956,6 @@ void Database_UpdateUnban(int target, int admin, const char[] reason)
 	GetAdminInfo(admin, sAdminName, sizeof(sAdminName), sAdminSteam, sizeof(sAdminSteam));
 	GetClientAuthId(target, AuthId_Steam2, sClientSteam, sizeof(sClientSteam), true);
 
-	// Clear every still-active row for this SteamID. `UPDATE ... ORDER BY ... LIMIT`
-	// is MySQL-only (standard SQLite is not built with SQLITE_ENABLE_UPDATE_DELETE_LIMIT),
-	// and lifting the restriction should close any duplicate active rows anyway.
 	char sQuery[1024];
 	g_hDB.Format(sQuery, sizeof(sQuery),
 		"UPDATE `EntWatch_Ebans`"
@@ -1131,11 +1123,6 @@ void OfflinePlayer_BanClient(OfflinePlayerData player, int admin, int iDuration,
 	if (!ValidateBanPermissions(admin, iDuration, true))
 		return;
 
-	// Refuse the offline eban when this SteamID already has an active eban rather
-	// than inserting a second active row: eunban / cleanup only clear one row at
-	// a time, and silently overwriting a live ban is not acceptable in prod. The
-	// INSERT is deferred to DB_OnOfflineBanCheck, which runs once we know the
-	// SteamID is clear.
 	char sQuery[256];
 	g_hDB.Format(sQuery, sizeof(sQuery),
 		"SELECT `admin_name` FROM `EntWatch_Ebans`"
@@ -1176,8 +1163,6 @@ public void DB_OnOfflineBanCheck(Database db, DBResultSet results, const char[] 
 		return;
 	}
 
-	// An active eban row already exists for this SteamID - report it back to the
-	// admin who ran the command and leave the existing ban untouched.
 	if (results.FetchRow())
 	{
 		char sExistingAdmin[32];
@@ -1308,7 +1293,6 @@ void Menu_ShowBanReasonSelection(int admin, int target, int iDuration)
 	SetGlobalTransTarget(admin);
 	for (int i = 0; i < sizeof(sReasonKeys); i++)
 	{
-		// Store raw English key as value - the reason stored in DB is always English
 		FormatEx(sIndex,   sizeof(sIndex),   "%d/%d/%s", iDuration, targetUserId, sReasonKeys[i]);
 		FormatEx(sDisplay, sizeof(sDisplay), "%t", sReasonKeys[i]);
 		hMenu.AddItem(sIndex, sDisplay);

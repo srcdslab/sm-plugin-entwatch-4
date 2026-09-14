@@ -11,13 +11,9 @@
 #include <clientprefs_stocks>
 
 /* BUFFER SIZES */
-// One page of HUD text, i.e. one KeyHintText message: the network message caps
-// at 254 usable characters, plus the NUL terminator.
 #define EW_HUD_PAGE_LENGTH  255
 
-// Bytes kept free at the end of every page buffer so the "current/total" page
-// indicator line (e.g. "2/3\n") can be prepended at send time without pushing
-// the message past the network cap or truncating an item line.
+/* RESERVED BYTES AT THE END OF EVERY PAGE BUFFER */
 #define EW_HUD_PAGEINFO_LENGTH  8
 
 /* BOOLEANS */
@@ -203,7 +199,6 @@ bool FormatButtonCooldown(char[] sBuffer, const int iMaxLength, CItemButton hIte
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Concatenate cooldown strings for all visible buttons of an item.
-//          Returns true if at least one button produced output.
 //----------------------------------------------------------------------------------------------------
 bool FormatItemCooldowns(char[] sBuffer, const int iMaxLength, CItem hItem, float flNow)
 {
@@ -242,10 +237,6 @@ bool FormatItemCooldowns(char[] sBuffer, const int iMaxLength, CItem hItem, floa
 //   [0] = All items   (used for mode 1, or mode 2 admins)
 //   [1] = T  items    (team 2)
 //   [2] = CT items    (team 3)
-//
-// Each panel can overflow into several pages; those rotate on a fixed interval
-// (sm_einterface_page_interval) and a "current/total" line is prepended while a
-// panel spans more than one page.
 //----------------------------------------------------------------------------------------------------
 Action OnDisplayHUD(Handle hTimer)
 {
@@ -259,8 +250,6 @@ Action OnDisplayHUD(Handle hTimer)
 	int  iHUDLens[3][8];
 	char sHUDPages[3][8][EW_HUD_PAGE_LENGTH];
 
-	// Usable capacity of one page while filling it: the real buffer minus the
-	// room reserved for the page-indicator line prepended at send time.
 	int iPageCap = sizeof(sHUDPages[][]) - EW_HUD_PAGEINFO_LENGTH;
 
 	float flNow = GetGameTime();
@@ -278,10 +267,6 @@ Action OnDisplayHUD(Handle hTimer)
 		char sCooldowns[16];
 		bool bCooldowns = FormatItemCooldowns(sCooldowns, sizeof(sCooldowns), hItem, flNow);
 
-		// Sized so the item short name and cooldown block always fit in full
-		// (EW_MAX_SHORTNAME_LENGTH + cooldowns + " [] : " + MAX_NAME_LENGTH).
-		// The player name is formatted last, so it is the only field that can
-		// ever be truncated - never the item name.
 		char sLine[128];
 		if (bCooldowns)
 			Format(sLine, sizeof(sLine), "%s [%s]: %N", sShort, sCooldowns, hItem.iClient);
@@ -325,7 +310,6 @@ Action OnDisplayHUD(Handle hTimer)
 	}
 
 	// ---- Page rotation: advance once every sm_einterface_page_interval ticks ----
-	// The timer fires at 1.0s, so one tick == one second.
 	static int iPageInterval;
 	static int iPageCurrent[3];
 
@@ -345,11 +329,7 @@ Action OnDisplayHUD(Handle hTimer)
 		iPageInterval++;
 	}
 
-	// ---- Detect protobuf user message type once per tick ----
-	bool bIsProto = (
-		GetFeatureStatus(FeatureType_Native, "GetUserMessageType") == FeatureStatus_Available
-		&& GetUserMessageType() == UM_Protobuf
-	);
+	bool bIsProto = (GetFeatureStatus(FeatureType_Native, "GetUserMessageType") == FeatureStatus_Available && GetUserMessageType() == UM_Protobuf);
 
 	// ---- Send to each eligible client ----
 	for (int iClient = 1; iClient <= MaxClients; iClient++)

@@ -31,8 +31,6 @@ public void Ew4_Transfer_OnPluginStart()
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Core transfer logic.
-//          Handles both "item held by a player" and "item on the ground" cases.
-//          Returns true on success, false on any validation failure.
 //----------------------------------------------------------------------------------------------------
 bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage)
 {
@@ -55,8 +53,6 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 	char sItemColor[EW_MAX_COLOR_LENGTH];
 	hItem.hConfig.GetColor(sItemColor, sizeof(sItemColor));
 
-	// hItem.iClient is overwritten with iReceiver by the equip below, so capture
-	// the previous holder now for the forward (0 = the item was on the ground).
 	int iSender = (hItem.iClient != INVALID_ENT_REFERENCE) ? hItem.iClient : 0;
 
 	if (hItem.iClient != INVALID_ENT_REFERENCE)
@@ -70,10 +66,6 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 		if (iTarget == iReceiver)
 			return false;
 
-		// hItem.iClient can go stale relative to the weapon's real m_hOwnerEntity if the
-		// weapon was detached without routing through SDKHook_WeaponDrop. Only force-drop
-		// and hand back a replacement if iTarget still actually holds it - otherwise
-		// SDKHooks_DropWeapon throws "Weapon N is not owned by client M".
 		if (GetEntPropEnt(hItem.iWeapon, Prop_Data, "m_hOwnerEntity") == iTarget)
 		{
 			SDKHooks_DropWeapon(iTarget, hItem.iWeapon, NULL_VECTOR, NULL_VECTOR, false);
@@ -130,9 +122,6 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Admin command - sm_etransfer <#userid/name/$itemname> <#userid/name>
-//
-//   $itemname  -> transfer the first item whose name/short matches the pattern
-//   player arg -> transfer ALL items held by that player to the receiver
 //----------------------------------------------------------------------------------------------------
 public Action Command_TransferItem(int iClient, int iArgs)
 {
@@ -217,7 +206,6 @@ public Action Command_TransferItem(int iClient, int iArgs)
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Equip a weapon on a client, properly replacing any existing weapon in the same slot.
-//          Uses SDK calls to correctly trigger OnPickedUp so entWatch core tracks ownership.
 //----------------------------------------------------------------------------------------------------
 void FixedEquipPlayerWeapon(int iClient, int iWeapon)
 {

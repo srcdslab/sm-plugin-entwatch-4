@@ -33,12 +33,6 @@ public void Ew4_Spawn_OnPluginStart()
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Drop the spawnable-items cache when its source configs are freed.
-//
-// CleanupConfigs() frees every CConfig on every path it runs (successful reload, failed reload,
-// map end, plugin end), but only a *successful* LoadConfig() rebuilds this cache afterwards via
-// Ew4_Spawn_OnConfigLoaded(). Without this hook, a failed reload (missing config file, stale
-// configversion, ...) left the cache pointing at freed CConfig handles until the next successful
-// load - reachable through sm_espawnitem and the admin spawn menu. See #70.
 //----------------------------------------------------------------------------------------------------
 public void Ew4_Spawn_OnConfigsCleared()
 {
@@ -70,9 +64,6 @@ public void Ew4_Spawn_OnConfigLoaded()
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Core spawn logic.
-//          Finds the point_template matching the item's spawner config, optionally strips the
-//          receiver's weapons, then uses env_entity_maker to spawn the item at their feet.
-//          Returns true on success, false on any validation failure.
 //----------------------------------------------------------------------------------------------------
 bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 {
@@ -157,9 +148,6 @@ bool SpawnItemForClient(int iAdmin, int iTarget, int iConfigIndex, bool bStrip)
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Admin command - sm_espawnitem <receiver> <itemname> [<strip 0/1>]
-//
-//   Searches items by name/short, spawns directly if unambiguous,
-//   shows a disambiguation menu if multiple items match.
 //----------------------------------------------------------------------------------------------------
 public Action Command_SpawnItem(int iClient, int iArgs)
 {
@@ -292,11 +280,8 @@ public any Native_GetSpawnableConfigsArray(Handle hPlugin, int iNumParams)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Accessor for spawnable items array - returns an ArrayList of CConfig handles for
-//          configs with valid spawner entries. Backs EW_GetSpawnableConfigsArray() and the menu
-//          interface's spawnable-item list. May be null when no config is loaded.
-//          Note that this is NOT the same as the items array returned by EW_GetItemsArray(), which
-//          contains CItem instances for currently tracked entities.
+// Purpose: Returns spawnable configs (CConfig handles w/ spawner entries). May be null.
+// Not the same as EW_GetItemsArray() (tracked CItem instances).
 //----------------------------------------------------------------------------------------------------
 ArrayList Ew4_Spawn_GetSpawnableItems()
 {
