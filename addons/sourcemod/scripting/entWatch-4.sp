@@ -10,13 +10,6 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-// spcomp sizes the stack/heap from the largest single function frame it can see
-// statically (~23 KB here, driven by OnDisplayHUD's page buffers). That bound
-// ignores indirect recursion: every EW_On* forward finished with Call_Finish()
-// re-enters this plugin's own module handlers, and a deep broadcast chain fired
-// during a client connect stacks those frames plus their heap temporaries past
-// the auto-sized limit - which is the "Not enough space on the heap" exception.
-// 128 * 2048 cells = 1 MiB (the value entWatch 3 shipped), ~44x the auto-size.
 #pragma dynamic 128 * 2048
 
 #if !defined SOURCEMOD_V_MAJOR || SOURCEMOD_V_MAJOR < 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR < 12)
@@ -30,7 +23,6 @@
 #include <multicolors>
 #include <entWatch_core>
 
-// Fallback for an item whose config carries no usable "color" value
 #define EW_DEFAULT_ITEM_COLOR "FFFFFF"
 
 //--------------------------------------------------------------------------------------------------
@@ -57,9 +49,6 @@ int g_iAuthIDType = 1;
 int g_iMessageMode = 1;
 
 /* FLOATS */
-// Server game time captured once per frame in OnGameFrame(). Every cooldown/
-// wait-time comparison reads this instead of calling GetGameTime() directly so
-// that all consumers share a single, frame-stable clock. See OnGameFrame().
 float g_flGameFrameTime;
 
 /* CONVARS */
@@ -72,10 +61,6 @@ ConVar g_hCVar_MessageMode;
 ArrayList g_hArray_Items;
 ArrayList g_hArray_Configs;
 
-// Set of every HammerID referenced by a config (item, button or trigger), keyed
-// by the decimal HammerID string. Lets OnEntitySpawnPost reject the ~99% of
-// entity spawns that can never match a config in O(1) instead of walking every
-// config, button and trigger.
 StringMap g_hConfigHammerIDs;
 
 /* HANDLES */
@@ -350,10 +335,6 @@ public void OnLibraryRemoved(const char[] name)
 //----------------------------------------------------------------------------------------------------
 public void OnMapStart()
 {
-	// Only the very first load after a late plugin load needs the full world
-	// rescan inside LoadConfig(); afterwards OnEntityCreated + SpawnPost cover
-	// every spawn, so clear the flag to skip the FindEntityByClassname("*") sweep
-	// on subsequent mapchanges.
 	LoadConfig(g_bLate);
 	g_bLate = false;
 
@@ -437,12 +418,7 @@ void LoadColor(KeyValues kv, const char[] sKey, char[] sColor, int iLength)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Validate a "RRGGBB" color read from a config, restoring the leading zeros KeyValues drops
-//
-// KeyValues types each value while parsing the file: one made up only of decimal digits is stored as
-// an integer and the literal text is thrown away, so GetString() hands "006400" back as "6400" and the
-// chat line carries a literal "{#6400}" instead of a color. Left-pad the digits that survived back to
-// six and reject anything that is not hex, so a broken value cannot leak into a message.
+// Purpose: Fix invalid hex colors due to source keyvalue bug not parsing properly
 //----------------------------------------------------------------------------------------------------
 bool NormalizeHexColor(char[] sColor, int iLength)
 {
@@ -746,11 +722,6 @@ void CleanupConfigs()
 //----------------------------------------------------------------------------------------------------
 // Purpose: Free every CItem (and its buttons/triggers), optionally unhooking the live entities
 //----------------------------------------------------------------------------------------------------
-// bUnhookEntities: only pass `false` when the tracked entities are about to be
-// recreated anyway (round end). The engine destroys the old button/trigger
-// entities on a round restart, which drops their SDKHooks and entity-output
-// hooks automatically, so unhooking them here is redundant work. On plugin end,
-// map end and EW_LoadConfig the entities are still alive and must be unhooked.
 void CleanupItems(bool bUnhookEntities = true)
 {
 	if (!g_hArray_Items.Length)
@@ -824,8 +795,6 @@ void OnRoundStart(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 //----------------------------------------------------------------------------------------------------
 void OnRoundEnd(Event hEvent, const char[] sEvent, bool bDontBroadcast)
 {
-	// Skip unhooking: the round restart destroys and recreates every tracked
-	// button/trigger entity, so their hooks are dropped by the engine anyway.
 	CleanupItems(false);
 
 	g_bIntermission = true;
@@ -879,8 +848,6 @@ void OnEntitySpawnPost(int iEntity)
 
 	int iHammerID = GetEntProp(iEntity, Prop_Data, "m_iHammerID");
 
-	// Reject the overwhelming majority of spawns (particles, sprites, runtime
-	// weapons, ...) before touching the config/button/trigger loops.
 	if (!IsConfigHammerID(iHammerID))
 		return;
 
@@ -892,15 +859,11 @@ void OnEntitySpawnPost(int iEntity)
 		{
 			RegisterOutcome outcome = TryRegisterEntity(hConfig, iEntity, iHammerID, Kind_Weapon);
 
-			// A fresh item means the entity is placed - no other config can match it.
 			if (outcome == Register_NewItem)
 				break;
 
-			// Item creation was rejected - this config's buttons/triggers can't attach either.
 			if (outcome == Register_Failed)
 				continue;
-
-			// Register_Existing: fall through so this config's buttons/triggers get a look too.
 		}
 
 		for (int iConfigButtonID; iConfigButtonID < hConfig.hButtons.Length; iConfigButtonID++)
@@ -943,8 +906,7 @@ bool AttachEntityToItem(EntityKind kind, CItem hItem, int iEntity, CConfigButton
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Attach a spawned entity to the matching tracked item for a config, or create a new item
-//          for it. Shared by the weapon / button / trigger blocks of OnEntitySpawnPost.
+// Purpose: Attach a spawned entity to the matching tracked item for a config, or create a new item for it.
 //----------------------------------------------------------------------------------------------------
 RegisterOutcome TryRegisterEntity(CConfig hConfig, int iEntity, int iHammerID, EntityKind kind, CConfigButton hConfigButton = null, CConfigTrigger hConfigTrigger = null)
 {
@@ -1358,26 +1320,6 @@ void OnWeaponDrop(int iClient, int iWeapon)
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Cache the current game time once per frame
-//
-// This looks redundant - GetGameTime() is a trivial native and is frame-constant
-// in the GameFrame context - but the cache is deliberate. GetGameTime() returns
-// gpGlobals->curtime, which the engine only holds stable here. Our other time
-// consumers run in different reference frames:
-//
-//   - OnButtonPress (SDKHook_Use on the func_button) and the use-priority path
-//     (OnPlayerRunCmd) both execute during player command processing, where
-//     curtime tracks the player's m_nTickBase, not the server tick.
-//
-// While a client is healthy every clock agrees, but under choke / packet loss /
-// the server catching up on ticks, m_nTickBase drifts from the server tick and
-// commands are processed in batches. Reading GetGameTime() ad hoc in each
-// handler then yields timestamps that disagree between players and between
-// presses, which desyncs shared cooldowns and counter values - most visible
-// exactly when the server is already lagging. Funnelling every comparison
-// through this one per-frame snapshot keeps them consistent. The cost is one
-// float store per frame.
-//
-// Full discussion: https://github.com/srcdslab/sm-plugin-entwatch-4/pull/64
 //----------------------------------------------------------------------------------------------------
 public void OnGameFrame()
 {
@@ -1492,9 +1434,7 @@ Action OnCounterOutput(const char[] sOutput, int iButton, int iClient, float flD
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: EW_BUTTON_MODE_COOLDOWN gate shared by ProcessButtonPress / ProcessCounterValue.
-//          If the button's cooldown has elapsed, arm the next one and report ready; otherwise
-//          leave state untouched and report not-ready.
+// Purpose: Check if a button's cooldown has elapsed and update its ready time accordingly.
 //----------------------------------------------------------------------------------------------------
 bool ButtonCooldownReady(CItemButton hItemButton)
 {
@@ -1508,8 +1448,7 @@ bool ButtonCooldownReady(CItemButton hItemButton)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Common tail of ProcessButtonPress / ProcessCounterValue - arm the item-wide cooldown
-//          and fire the button-interact forward.
+// Purpose: Common tail of ProcessButtonPress / ProcessCounterValue
 //----------------------------------------------------------------------------------------------------
 void ApplyItemButtonInteract(int iClient, CItem hItem, CItemButton hItemButton)
 {
@@ -2042,9 +1981,6 @@ void FormatPlayerInfo(int iClient, char[] sBuffer, int iMaxLen)
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Load all SDK calls from entWatch.games gamedata
-//
-// Kept `stock`: the only caller is guarded by `#if defined EW4_TRANSFER`
-// (here and in transfer.inc), so this is unused when that module is disabled.
 //----------------------------------------------------------------------------------------------------
 stock void EW_SDK_Load()
 {

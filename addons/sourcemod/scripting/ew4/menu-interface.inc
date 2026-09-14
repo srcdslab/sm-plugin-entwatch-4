@@ -10,7 +10,6 @@
 
 //----------------------------------------------------------------------------------------------------
 // Purpose: Register the entWatch category and its items in the SourceMod admin top-menu.
-//          Called from OnAdminMenuReady() in the main plugin.
 //----------------------------------------------------------------------------------------------------
 void EWM_RegisterAdminMenu(TopMenu hTopMenu)
 {
