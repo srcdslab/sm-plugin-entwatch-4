@@ -207,7 +207,9 @@ public Action Command_SpawnItem(int iClient, int iArgs)
 	else
 	{
 		Menu hMenu = new Menu(Menu_SpawnItemAmbiguity_Handler);
-		hMenu.SetTitle("Select item to spawn:");
+		char sTitle[64];
+		FormatEx(sTitle, sizeof(sTitle), "%T", "EW_PM_SpawnItemList_Title", iClient);
+		hMenu.SetTitle(sTitle);
 
 		for (int i = 0; i < hMatches.Length; i++)
 		{

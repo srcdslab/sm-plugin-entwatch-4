@@ -302,7 +302,7 @@ void EW4_LockButton(int iClient, int iArgs)
 	hBtn.hConfigButton.hConfig.GetName(sName, sizeof(sName));
 
 	char sState[32];
-	FormatEx(sState, sizeof(sState), "%t", bLock ? "EW_Override_Locked" : "EW_Override_Unlocked");
+	FormatEx(sState, sizeof(sState), "%T", bLock ? "EW_Override_Locked" : "EW_Override_Unlocked", iClient);
 	CReplyToCommand(iClient, "%t", "EW_Override_LockButton_Done", sName, sState);
 }
 
