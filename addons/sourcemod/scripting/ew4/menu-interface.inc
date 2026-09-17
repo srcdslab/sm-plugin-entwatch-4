@@ -40,9 +40,9 @@ void EWM_RegisterAdminMenu(TopMenu hTopMenu)
 public void EWM_Menu_AM_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObject hObj, int iClient, char[] sBuffer, int iMaxLen)
 {
 	if (hAction == TopMenuAction_DisplayTitle)
-		Format(sBuffer, iMaxLen, "%t", "EW_AdminMenu_Category_Title");
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_Category_Title", iClient);
 	else if (hAction == TopMenuAction_DisplayOption)
-		Format(sBuffer, iMaxLen, "%t", "EW_AdminMenu_Category_Title");
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_Category_Title", iClient);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public void EWM_Menu_AM_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObj
 public void EWM_Menu_AM_ItemList_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObject hObj, int iClient, char[] sBuffer, int iMaxLen)
 {
 	if (hAction == TopMenuAction_DisplayOption)
-		Format(sBuffer, iMaxLen, "%t", "EW_AdminMenu_ItemList");
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_ItemList", iClient);
 	else if (hAction == TopMenuAction_SelectOption)
 		EWM_Menu_PM_ItemList(iClient);
 }
@@ -62,7 +62,7 @@ public void EWM_Menu_AM_ItemList_Handler(TopMenu hMenu, TopMenuAction hAction, T
 public void EWM_Menu_AM_EBanList_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObject hObj, int iClient, char[] sBuffer, int iMaxLen)
 {
 	if (hAction == TopMenuAction_DisplayOption)
-		Format(sBuffer, iMaxLen, "%t", "EW_AdminMenu_EBanList");
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_EBanList", iClient);
 	else if (hAction == TopMenuAction_SelectOption)
 		EWM_Menu_PM_EBanList(iClient);
 }
@@ -73,7 +73,7 @@ public void EWM_Menu_AM_EBanList_Handler(TopMenu hMenu, TopMenuAction hAction, T
 public void EWM_Menu_AM_EUnBanList_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObject hObj, int iClient, char[] sBuffer, int iMaxLen)
 {
 	if (hAction == TopMenuAction_DisplayOption)
-		Format(sBuffer, iMaxLen, "%t", "EW_AdminMenu_EUnBanList");
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_EUnBanList", iClient);
 	else if (hAction == TopMenuAction_SelectOption)
 		EWM_Menu_PM_EUnBanList(iClient);
 }
@@ -84,7 +84,7 @@ public void EWM_Menu_AM_EUnBanList_Handler(TopMenu hMenu, TopMenuAction hAction,
 public void EWM_Menu_AM_SpawnItemList_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObject hObj, int iClient, char[] sBuffer, int iMaxLen)
 {
 	if (hAction == TopMenuAction_DisplayOption)
-		Format(sBuffer, iMaxLen, "%t", "EW_AdminMenu_SpawnItem");
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_SpawnItem", iClient);
 	else if (hAction == TopMenuAction_SelectOption)
 		EWM_Menu_PM_SpawnItemList(iClient);
 }
@@ -108,7 +108,7 @@ void EWM_Menu_PM_ItemList(int iClient)
 
 	Menu hMenu = new Menu(EWM_Menu_PM_ItemList_Handler);
 	char sTitle_ItemList[64];
-	Format(sTitle_ItemList, sizeof(sTitle_ItemList), "%t", "EW_PM_ItemList_Title");
+	Format(sTitle_ItemList, sizeof(sTitle_ItemList), "%T", "EW_PM_ItemList_Title", iClient);
 	hMenu.SetTitle(sTitle_ItemList);
 	hMenu.ExitBackButton = true;
 
@@ -121,14 +121,14 @@ void EWM_Menu_PM_ItemList(int iClient)
 		if (!hItem.hConfig.bAllowTransfer)
 			continue;
 
-		char sName[EW_MAX_NAME_LENGTH], sDisplay[64], sID[10];
+		char sName[EW_MAX_NAME_LENGTH], sDisplay[128], sID[10];
 		hItem.hConfig.GetName(sName, sizeof(sName));
 		IntToString(iItemID, sID, sizeof(sID));
 
 		if (hItem.iClient != INVALID_ENT_REFERENCE)
 			Format(sDisplay, sizeof(sDisplay), "%s (%N)", sName, hItem.iClient);
 		else
-			Format(sDisplay, sizeof(sDisplay), "%s (%t)", sName, "EW_PM_ItemList_NoOwner");
+			Format(sDisplay, sizeof(sDisplay), "%s (%T)", sName, "EW_PM_ItemList_NoOwner", iClient);
 
 		hMenu.AddItem(sID, sDisplay);
 		bFound = true;
@@ -172,9 +172,9 @@ void EWM_Menu_PM_ItemInfo(int iClient, int iItemID)
 
 	CItem hItem = hItems.Get(iItemID);
 
-	char sName[EW_MAX_NAME_LENGTH], sTitle[64];
+	char sName[EW_MAX_NAME_LENGTH], sTitle[128];
 	hItem.hConfig.GetName(sName, sizeof(sName));
-	Format(sTitle, sizeof(sTitle), "%t %s", "EW_PM_ItemInfo_TitlePrefix", sName);
+	Format(sTitle, sizeof(sTitle), "%T %s", "EW_PM_ItemInfo_TitlePrefix", iClient, sName);
 
 	Menu hMenu = new Menu(EWM_Menu_PM_ItemInfo_Handler);
 	hMenu.SetTitle(sTitle);
@@ -187,7 +187,7 @@ void EWM_Menu_PM_ItemInfo(int iClient, int iItemID)
 		Format(sEbanInfo, sizeof(sEbanInfo), "eban;%d", GetClientUserId(hItem.iClient));
 
 		char sRestrictLabel[64];
-		Format(sRestrictLabel, sizeof(sRestrictLabel), "%t", "EW_PM_ItemInfo_RestrictPlayer");
+		Format(sRestrictLabel, sizeof(sRestrictLabel), "%T", "EW_PM_ItemInfo_RestrictPlayer", iClient);
 		hMenu.AddItem(sEbanInfo, sRestrictLabel);
 	}
 
@@ -195,7 +195,7 @@ void EWM_Menu_PM_ItemInfo(int iClient, int iItemID)
 	Format(sTransferInfo, sizeof(sTransferInfo), "transfer;%d", iItemID);
 
 	char sTransferLabel[64];
-	Format(sTransferLabel, sizeof(sTransferLabel), "%t", "EW_PM_ItemInfo_TransferItem");
+	Format(sTransferLabel, sizeof(sTransferLabel), "%T", "EW_PM_ItemInfo_TransferItem", iClient);
 	hMenu.AddItem(sTransferInfo, sTransferLabel);
 
 	hMenu.Display(iClient, MENU_TIME_FOREVER);
@@ -245,7 +245,7 @@ void EWM_Menu_PM_ItemTransfer(int iClient, int iItemID)
 
 	Menu hMenu = new Menu(EWM_Menu_PM_ItemTransfer_Handler);
 	char sNoPlayers_Transfer[64];
-	Format(sNoPlayers_Transfer, sizeof(sNoPlayers_Transfer), "%t", "EW_PM_Transfer_NoValidPlayers");
+	Format(sNoPlayers_Transfer, sizeof(sNoPlayers_Transfer), "%T", "EW_PM_Transfer_NoValidPlayers", iClient);
 	hMenu.AddItem("", sNoPlayers_Transfer, ITEMDRAW_DISABLED);
 	hMenu.ExitBackButton = true;
 
@@ -272,7 +272,7 @@ void EWM_Menu_PM_ItemTransfer(int iClient, int iItemID)
 	if (!bFound)
 	{
 		char sNoPlayers_SpawnTarget[64];
-		Format(sNoPlayers_SpawnTarget, sizeof(sNoPlayers_SpawnTarget), "%t", "EW_PM_SpawnTarget_NoPlayers");
+		Format(sNoPlayers_SpawnTarget, sizeof(sNoPlayers_SpawnTarget), "%T", "EW_PM_SpawnTarget_NoPlayers", iClient);
 		hMenu.AddItem("", sNoPlayers_SpawnTarget, ITEMDRAW_DISABLED);
 	}
 
@@ -317,7 +317,7 @@ void EWM_Menu_PM_EBanList(int iClient)
 {
 	Menu hMenu = new Menu(EWM_Menu_PM_EBanList_Handler);
 	char sTitle_EBanList[64];
-	Format(sTitle_EBanList, sizeof(sTitle_EBanList), "%t", "EW_PM_EBanList_Title");
+	Format(sTitle_EBanList, sizeof(sTitle_EBanList), "%T", "EW_PM_EBanList_Title", iClient);
 	hMenu.SetTitle(sTitle_EBanList);
 	hMenu.ExitBackButton = true;
 
@@ -338,7 +338,7 @@ void EWM_Menu_PM_EBanList(int iClient)
 	if (!bFound)
 	{
 		char sNoPlayers_EBan[64];
-		Format(sNoPlayers_EBan, sizeof(sNoPlayers_EBan), "%t", "EW_PM_EBanList_NoPlayers");
+		Format(sNoPlayers_EBan, sizeof(sNoPlayers_EBan), "%T", "EW_PM_EBanList_NoPlayers", iClient);
 		hMenu.AddItem("", sNoPlayers_EBan, ITEMDRAW_DISABLED);
 	}
 
@@ -373,8 +373,8 @@ void EWM_Menu_PM_EBanDuration(int iClient, int iTarget)
 {
 	Menu hMenu = new Menu(EWM_Menu_PM_EBanDuration_Handler);
 
-	char sTitle_Dur[64];
-	Format(sTitle_Dur, sizeof(sTitle_Dur), "%t", "EW_PM_EBanDuration_Title", iTarget);
+	char sTitle_Dur[128];
+	Format(sTitle_Dur, sizeof(sTitle_Dur), "%T", "EW_PM_EBanDuration_Title", iClient, iTarget);
 	hMenu.SetTitle(sTitle_Dur);
 	hMenu.ExitBackButton = true;
 
@@ -384,19 +384,19 @@ void EWM_Menu_PM_EBanDuration(int iClient, int iTarget)
 	// Format: "<duration_minutes>;<userid>"
 	// -1 = session, 0 = permanent
 	char sDurSession[64];
-	Format(sDurSession, sizeof(sDurSession), "%t", "EW_PM_EBanDuration_Session");
+	Format(sDurSession, sizeof(sDurSession), "%T", "EW_PM_EBanDuration_Session", iClient);
 
 	char sInfo[64];
 	Format(sInfo, sizeof(sInfo), "-1;%s", sTargetId);
 	hMenu.AddItem(sInfo, sDurSession);
 
 	char sDur10m[32], sDur1h[32], sDur1d[32], sDur1w[32], sDur1mo[32], sDurPerm[32];
-	Format(sDur10m,  sizeof(sDur10m),  "%t", "EW_Menu_OfflineDuration_10min");
-	Format(sDur1h,   sizeof(sDur1h),   "%t", "EW_Menu_OfflineDuration_1Hour");
-	Format(sDur1d,   sizeof(sDur1d),   "%t", "EW_Menu_OfflineDuration_1Day");
-	Format(sDur1w,   sizeof(sDur1w),   "%t", "EW_Menu_OfflineDuration_1Week");
-	Format(sDur1mo,  sizeof(sDur1mo),  "%t", "EW_Menu_OfflineDuration_1Month");
-	Format(sDurPerm, sizeof(sDurPerm), "%t", "EW_Menu_OfflineDuration_Permanent");
+	Format(sDur10m,  sizeof(sDur10m),  "%T", "EW_Menu_OfflineDuration_10min", iClient);
+	Format(sDur1h,   sizeof(sDur1h),   "%T", "EW_Menu_OfflineDuration_1Hour", iClient);
+	Format(sDur1d,   sizeof(sDur1d),   "%T", "EW_Menu_OfflineDuration_1Day", iClient);
+	Format(sDur1w,   sizeof(sDur1w),   "%T", "EW_Menu_OfflineDuration_1Week", iClient);
+	Format(sDur1mo,  sizeof(sDur1mo),  "%T", "EW_Menu_OfflineDuration_1Month", iClient);
+	Format(sDurPerm, sizeof(sDurPerm), "%T", "EW_Menu_OfflineDuration_Permanent", iClient);
 
 	Format(sInfo, sizeof(sInfo), "10;%s", sTargetId);
 	hMenu.AddItem(sInfo, sDur10m);
@@ -449,7 +449,7 @@ void EWM_Menu_PM_EUnBanList(int iClient)
 {
 	Menu hMenu = new Menu(EWM_Menu_PM_EUnBanList_Handler);
 	char sTitle_EUnBanList[64];
-	Format(sTitle_EUnBanList, sizeof(sTitle_EUnBanList), "%t", "EW_PM_EUnBanList_Title");
+	Format(sTitle_EUnBanList, sizeof(sTitle_EUnBanList), "%T", "EW_PM_EUnBanList_Title", iClient);
 	hMenu.SetTitle(sTitle_EUnBanList);
 	hMenu.ExitBackButton = true;
 
@@ -470,7 +470,7 @@ void EWM_Menu_PM_EUnBanList(int iClient)
 	if (!bFound)
 	{
 		char sNoPlayers_EUnBan[64];
-		Format(sNoPlayers_EUnBan, sizeof(sNoPlayers_EUnBan), "%t", "EW_PM_EUnBanList_NoPlayers");
+		Format(sNoPlayers_EUnBan, sizeof(sNoPlayers_EUnBan), "%T", "EW_PM_EUnBanList_NoPlayers", iClient);
 		hMenu.AddItem("", sNoPlayers_EUnBan, ITEMDRAW_DISABLED);
 	}
 
@@ -514,35 +514,35 @@ void EWM_Menu_PM_EBanInfo(int iClient, int iTarget)
 
 	Menu hMenu = new Menu(EWM_Menu_PM_EBanInfo_Handler);
 
-	char sTitle_BanInfo[64];
-	Format(sTitle_BanInfo, sizeof(sTitle_BanInfo), "%t", "EW_PM_EBanInfo_Title", iTarget);
+	char sTitle_BanInfo[128];
+	Format(sTitle_BanInfo, sizeof(sTitle_BanInfo), "%T", "EW_PM_EBanInfo_Title", iClient, iTarget);
 	hMenu.SetTitle(sTitle_BanInfo);
 	hMenu.ExitBackButton = true;
 
 	char sLine[128];
 
-	Format(sLine, sizeof(sLine), "%t", "EW_PM_EBanInfo_Admin", sAdminName);
+	Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Admin", iClient, sAdminName);
 	hMenu.AddItem("", sLine, ITEMDRAW_DISABLED);
 
 	if (iDuration == -1)
-		Format(sLine, sizeof(sLine), "%t", "EW_PM_EBanInfo_Duration_Session");
+		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Session", iClient);
 	else if (iDuration == 0)
-		Format(sLine, sizeof(sLine), "%t", "EW_PM_EBanInfo_Duration_Permanent");
+		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Permanent", iClient);
 	else
-		Format(sLine, sizeof(sLine), "%t", "EW_PM_EBanInfo_Duration_Timed", iDuration);
+		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Timed", iClient, iDuration);
 	hMenu.AddItem("", sLine, ITEMDRAW_DISABLED);
 
-	Format(sLine, sizeof(sLine), "%t", "EW_PM_EBanInfo_Reason", sReason);
+	Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Reason", iClient, sReason);
 	hMenu.AddItem("", sLine, ITEMDRAW_DISABLED);
 
-	Format(sLine, sizeof(sLine), "%t", "EW_PM_EBanInfo_TotalEbans", iTotal);
+	Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_TotalEbans", iClient, iTotal);
 	hMenu.AddItem("", sLine, ITEMDRAW_DISABLED);
 
 	char sTargetId[16];
 	IntToString(GetClientUserId(iTarget), sTargetId, sizeof(sTargetId));
 
 	char sUnrestrict[64];
-	Format(sUnrestrict, sizeof(sUnrestrict), "%t", "EW_PM_EBanInfo_UnrestrictButton");
+	Format(sUnrestrict, sizeof(sUnrestrict), "%T", "EW_PM_EBanInfo_UnrestrictButton", iClient);
 	hMenu.AddItem(sTargetId, sUnrestrict);
 
 	hMenu.Display(iClient, MENU_TIME_FOREVER);
@@ -580,7 +580,7 @@ void EWM_Menu_PM_SpawnItemList(int iClient)
 {
 	Menu hMenu = new Menu(EWM_Menu_PM_SpawnItemList_Handler);
 	char sTitle_SpawnList[64];
-	Format(sTitle_SpawnList, sizeof(sTitle_SpawnList), "%t", "EW_PM_SpawnItemList_Title");
+	Format(sTitle_SpawnList, sizeof(sTitle_SpawnList), "%T", "EW_PM_SpawnItemList_Title", iClient);
 	hMenu.SetTitle(sTitle_SpawnList);
 	hMenu.ExitBackButton = true;
 
@@ -607,7 +607,7 @@ void EWM_Menu_PM_SpawnItemList(int iClient)
 	if (!bFound)
 	{
 		char sNoItems_Spawn[64];
-		Format(sNoItems_Spawn, sizeof(sNoItems_Spawn), "%t", "EW_PM_SpawnItemList_NoItems");
+		Format(sNoItems_Spawn, sizeof(sNoItems_Spawn), "%T", "EW_PM_SpawnItemList_NoItems", iClient);
 		hMenu.AddItem("", sNoItems_Spawn, ITEMDRAW_DISABLED);
 	}
 
@@ -637,13 +637,13 @@ void EWM_Menu_PM_SpawnItemStrip(int iClient, int iItemIndex)
 {
 	Menu hMenu = new Menu(EWM_Menu_PM_SpawnItemStrip_Handler);
 	char sTitle_Strip[64];
-	Format(sTitle_Strip, sizeof(sTitle_Strip), "%t", "EW_PM_SpawnStrip_Title");
+	Format(sTitle_Strip, sizeof(sTitle_Strip), "%T", "EW_PM_SpawnStrip_Title", iClient);
 	hMenu.SetTitle(sTitle_Strip);
 	hMenu.ExitBackButton = true;
 
 	char sInfo[64], sStripYes[64], sStripNo[64];
-	Format(sStripYes, sizeof(sStripYes), "%t", "EW_PM_SpawnStrip_Yes");
-	Format(sStripNo,  sizeof(sStripNo),  "%t", "EW_PM_SpawnStrip_No");
+	Format(sStripYes, sizeof(sStripYes), "%T", "EW_PM_SpawnStrip_Yes", iClient);
+	Format(sStripNo,  sizeof(sStripNo),  "%T", "EW_PM_SpawnStrip_No", iClient);
 	Format(sInfo, sizeof(sInfo), "%d/1", iItemIndex);
 	hMenu.AddItem(sInfo, sStripYes);
 	Format(sInfo, sizeof(sInfo), "%d/0", iItemIndex);
@@ -680,7 +680,7 @@ void EWM_Menu_PM_SpawnItemTarget(int iClient, int iItemIndex, int iStrip)
 {
 	Menu hMenu = new Menu(EWM_Menu_PM_SpawnItemTarget_Handler);
 	char sTitle_SpawnTarget[64];
-	Format(sTitle_SpawnTarget, sizeof(sTitle_SpawnTarget), "%t", "EW_PM_SpawnTarget_Title");
+	Format(sTitle_SpawnTarget, sizeof(sTitle_SpawnTarget), "%T", "EW_PM_SpawnTarget_Title", iClient);
 	hMenu.SetTitle(sTitle_SpawnTarget);
 	hMenu.ExitBackButton = true;
 
@@ -707,7 +707,7 @@ void EWM_Menu_PM_SpawnItemTarget(int iClient, int iItemIndex, int iStrip)
 	if (!bFound)
 	{
 		char sNoPlayers_SpawnTarget[64];
-		Format(sNoPlayers_SpawnTarget, sizeof(sNoPlayers_SpawnTarget), "%t", "EW_PM_SpawnTarget_NoPlayers");
+		Format(sNoPlayers_SpawnTarget, sizeof(sNoPlayers_SpawnTarget), "%T", "EW_PM_SpawnTarget_NoPlayers", iClient);
 		hMenu.AddItem("", sNoPlayers_SpawnTarget, ITEMDRAW_DISABLED);
 	}
 

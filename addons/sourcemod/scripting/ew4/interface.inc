@@ -140,7 +140,7 @@ public Action Command_ToggleHUD(int iClient, int iArgs)
 	g_hCookie_InterfaceHidden.SetBool(iClient, g_bInterfaceHidden[iClient]);
 
 	char sMessage[256];
-	FormatEx(sMessage, sizeof(sMessage), "%t", g_bInterfaceHidden[iClient] ? "EW_Chat_HUD_Hidden" : "EW_Chat_HUD_Visible");
+	FormatEx(sMessage, sizeof(sMessage), "%T", g_bInterfaceHidden[iClient] ? "EW_Chat_HUD_Hidden" : "EW_Chat_HUD_Visible", iClient);
 	CPrintToChat(iClient, "{#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, sMessage);
 
 	return Plugin_Handled;
