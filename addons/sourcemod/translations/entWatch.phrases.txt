@@ -566,6 +566,24 @@
 		"es"		"restante"
 	}
 
+	"EW_Status_Duration_Temporary"
+	{
+		"en"		"Temporary (unverified SteamID)"
+		"ru"		"Временно (SteamID не подтверждён)"
+		"fr"		"Temporaire (SteamID non vérifié)"
+		"chi"		"临时（SteamID 未验证）"
+		"es"		"Temporal (SteamID no verificado)"
+	}
+
+	"EW_Status_Expires_UntilVerified"
+	{
+		"en"		"Until SteamID is verified or client disconnects"
+		"ru"		"До подтверждения SteamID или отключения клиента"
+		"fr"		"Jusqu'à la vérification du SteamID ou la déconnexion"
+		"chi"		"直到 SteamID 验证或客户端断开连接"
+		"es"		"Hasta que el SteamID se verifique o el cliente se desconecte"
+	}
+
 	// =========================================================================
 	// Restrictions — Permission errors
 	// Used via CReplyToCommand — plain text, no color tags

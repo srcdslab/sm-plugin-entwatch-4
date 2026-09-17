@@ -466,9 +466,15 @@ public Action Command_DisplayStatus(int client, int args)
 	FormatTime(sIssuedBuf, sizeof(sIssuedBuf), NULL_STRING, g_RestrictClients[target].iIssuedAt);
 	CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_IssuedAt", g_clr.sAuthID, sIssuedBuf);
 
-	// <= 0 covers both a real permanent restriction (0) and the non-persisted "SteamID not
-	// verified" restriction / any leftover legacy session row (-1), all of which have no expiry.
-	if (g_RestrictClients[target].iDuration <= 0)
+	// -1 is the plugin-internal, non-persisted "SteamID not verified" restriction: it has no
+	// fixed expiry timer, it ends when the client's SteamID verifies or they disconnect, so it
+	// must be reported distinctly from a real admin-issued permanent (0) restriction.
+	if (g_RestrictClients[target].iDuration == -1)
+	{
+		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Duration_Temporary");
+		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_UntilVerified");
+	}
+	else if (g_RestrictClients[target].iDuration == 0)
 	{
 		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Permanent");
 		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_Never");
