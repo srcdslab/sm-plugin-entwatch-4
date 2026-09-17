@@ -11,7 +11,7 @@
 #define EW_DB_NAME             "EntWatch4"
 #define EW_DB_CHARSET          "utf8mb4"
 #define EW_DB_COLLATION        "utf8mb4_unicode_ci"
-#define EW_SESSION_BAN_TIMEOUT 90        // seconds after disconnect before a session ban is cleaned up
+#define EW_SESSION_BAN_TIMEOUT 90        // seconds after disconnect before a legacy session-duration row (duration_minutes = -1) is force-closed; no longer produced by this plugin, kept only to sweep out any rows left over from before "Session" was removed
 #define EW_CONSOLE_NAME        "Console"
 #define EW_SERVER_STEAMID      "SERVER"
 
@@ -25,9 +25,11 @@ enum struct ClientSettings_Restrict
 	char szAdminName[MAX_NAME_LENGTH];
 	char szAdminSteamID[EW_MAX_STEAMID_LENGTH];
 	char szReason[EW_MAX_REASON_LENGTH];
-	int  iDuration;     // -1=session, 0=perma, >0=minutes
+	int  iDuration;     // 0=perma, >0=minutes. -1 is reserved internally for the non-persisted
+	                    // "SteamID not verified" restriction (see Database_FetchClientBan) and is
+	                    // never selectable by admins/natives - the "Session" eban duration was removed.
 	int  iIssuedAt;     // unix timestamp of ban
-	int  iExpiresAt;    // unix timestamp of expiry (0 if perma/session)
+	int  iExpiresAt;    // unix timestamp of expiry (0 if perma/unverified-steamid)
 	int  intTotalEbans;
 
 	void Reset()
@@ -145,7 +147,7 @@ public void Ew4_Restrictions_OnPluginStart()
 	g_hCVar_UseReasonMenu       = CreateConVar("sm_eban_use_reason_menu",           "0",                     "Use menu to choose reason when missing",                       _, true, 0.0, true, 1.0);
 	g_hCVar_DefaultBanReason    = CreateConVar("sm_eban_default_reason",            "Item misuse",           "Default eban reason (max 64 chars)");
 	g_hCVar_DefaultUnbanReason  = CreateConVar("sm_eban_default_unban_reason",      "Giving another chance", "Default e-unban reason (max 64 chars)");
-	g_hCVar_DefaultBanTime      = CreateConVar("sm_eban_default_time",              "0",                     "Default eban time in minutes (-1=session, 0=permanent)",       _, true, -1.0, true, 43200.0);
+	g_hCVar_DefaultBanTime      = CreateConVar("sm_eban_default_time",              "0",                     "Default eban time in minutes (0=permanent)",                   _, true, 0.0, true, 43200.0);
 	g_hCVar_AdminBanLong        = CreateConVar("sm_eban_admin_max_minutes",         "720",                   "Max eban duration (minutes) for non-root admins",              _, true, 1.0);
 	g_hCVar_EbanInvalidSteamID  = CreateConVar("sm_eban_invalid_steamid_temp",      "1",                     "Temporarily eban clients with invalid SteamID",               _, true, 0.0, true, 1.0);
 	g_hCVar_MaxBanTime          = CreateConVar("sm_eban_max_minutes_cmd",           "0",                     "Max minutes via console command (0=disabled)",                _, true, 0.0);
@@ -326,7 +328,7 @@ public Action Command_ClientRestrict(int client, int args)
 		}
 	}
 
-	if (iDuration < -1 || (g_iMaxBanTime != 0 && iDuration > g_iMaxBanTime))
+	if (iDuration < 0 || (g_iMaxBanTime != 0 && iDuration > g_iMaxBanTime))
 	{
 		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrict_InvalidDuration", g_clr.sAuthID, g_iMaxBanTime, g_clr.sWarning, "EW_Minutes");
 		return Plugin_Handled;
@@ -464,30 +466,24 @@ public Action Command_DisplayStatus(int client, int args)
 	FormatTime(sIssuedBuf, sizeof(sIssuedBuf), NULL_STRING, g_RestrictClients[target].iIssuedAt);
 	CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_IssuedAt", g_clr.sAuthID, sIssuedBuf);
 
-	switch (g_RestrictClients[target].iDuration)
+	// <= 0 covers both a real permanent restriction (0) and the non-persisted "SteamID not
+	// verified" restriction / any leftover legacy session row (-1), all of which have no expiry.
+	if (g_RestrictClients[target].iDuration <= 0)
 	{
-		case -1:
+		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Permanent");
+		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_Never");
+	}
+	else
+	{
+		int iTimeLeft = g_RestrictClients[target].iExpiresAt - GetTime();
+		if (iTimeLeft > 0)
 		{
-			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Session");
-			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_Session");
-		}
-		case 0:
-		{
-			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Permanent");
-			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, "EW_Status_Expires_Never");
-		}
-		default:
-		{
-			int iTimeLeft = g_RestrictClients[target].iExpiresAt - GetTime();
-			if (iTimeLeft > 0)
-			{
-				char sTimeLeft[64], sExpireBuf[64];
-				FormatTimeLeft(iTimeLeft, sTimeLeft, sizeof(sTimeLeft), client);
-				FormatTime(sExpireBuf, sizeof(sExpireBuf), NULL_STRING, g_RestrictClients[target].iExpiresAt);
+			char sTimeLeft[64], sExpireBuf[64];
+			FormatTimeLeft(iTimeLeft, sTimeLeft, sizeof(sTimeLeft), client);
+			FormatTime(sExpireBuf, sizeof(sExpireBuf), NULL_STRING, g_RestrictClients[target].iExpiresAt);
 
-				CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, g_RestrictClients[target].iDuration, g_clr.sWarning, "EW_Minutes");
-				CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s {#%s}(%s {#%s}%t)", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, sExpireBuf, g_clr.sAuthID, sTimeLeft, g_clr.sWarning, "EW_Status_Expires_Remaining");
-			}
+			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, g_RestrictClients[target].iDuration, g_clr.sWarning, "EW_Minutes");
+			CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s {#%s}(%s {#%s}%t)", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Expires", g_clr.sAuthID, sExpireBuf, g_clr.sAuthID, sTimeLeft, g_clr.sWarning, "EW_Status_Expires_Remaining");
 		}
 	}
 
@@ -580,6 +576,8 @@ bool ClientRestrict(int admin, int target, int iDuration, const char[] reason)
 	if (g_bDropItemOnEBan)
 		DropClientItems(target);
 
+	// iDuration == -1 only happens for the internal, non-admin-selectable "SteamID not verified"
+	// restriction (see Database_FetchClientBan); it is never persisted to EntWatch_Ebans.
 	if (iDuration != -1)
 		Database_InsertBan(target, admin, iDuration, iNow, iExpires, sReason);
 
@@ -615,6 +613,8 @@ bool ClientUnrestrict(int admin, int target, const char[] reason)
 	Call_PushString(sReason);
 	Call_Finish();
 
+	// Mirrors the skip in ClientRestrict(): a -1 "SteamID not verified" restriction never got a
+	// row inserted, so there is nothing to mark as unbanned in the DB.
 	if (iPrevDuration != -1)
 		Database_UpdateUnban(target, admin, sReason);
 
@@ -842,6 +842,10 @@ void Database_FetchClientBan(int client)
 
 	if (g_bEbanInvalidSteamID && IsInvalidSteamID(client))
 	{
+		// -1 here is an internal-only sentinel: restrict for this connection only, never persisted
+		// to EntWatch_Ebans, cleared on disconnect (g_RestrictClients[].Reset()). It intentionally
+		// bypasses the removed "Session" eban duration path/validation - it is not admin-selectable
+		// and is unrelated to the EntWatch_Ebans web panel.
 		ClientRestrict(0, client, -1, "SteamID not verified");
 		return;
 	}
@@ -976,6 +980,10 @@ void Database_CleanupExpiredBans()
 	int  iNow = GetTime();
 	char sQuery[512];
 
+	// The `duration_minutes` = -1 branch no longer matches anything this plugin creates (the
+	// "Session" eban duration was removed - see restrictions.inc history), but is kept so any
+	// row left over from before that removal still gets force-closed instead of lingering as
+	// an apparently-active restriction.
 	FormatEx(sQuery, sizeof(sQuery),
 		"UPDATE `EntWatch_Ebans`"
 		... " SET `unbanned_at`=%d, `unban_reason`='Expired', `unban_admin_name`='%s', `unban_admin_steamid`='%s'"
@@ -1265,9 +1273,7 @@ void Menu_ShowBanReasonSelection(int admin, int target, int iDuration)
 	GetClientName(target, sName, sizeof(sName));
 
 	SetGlobalTransTarget(admin);
-	if (iDuration == -1)
-		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_BanReason_Title_Session",  sName);
-	else if (iDuration == 0)
+	if (iDuration == 0)
 		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_BanReason_Title_Permanent", sName);
 	else
 		FormatEx(sTitle, sizeof(sTitle), "%t", "EW_Menu_BanReason_Title_Duration",  sName, iDuration);
@@ -1611,9 +1617,16 @@ public int Native_ClientRestrict(Handle hPlugin, int numParams)
 		return -1;
 	}
 
+	int iDuration = GetNativeCell(3);
+	if (iDuration < 0)
+	{
+		ThrowNativeError(SP_ERROR_PARAM, "Invalid duration (must be >= 0)");
+		return -1;
+	}
+
 	char sReason[EW_MAX_REASON_LENGTH];
 	GetNativeString(4, sReason, sizeof(sReason));
-	return ClientRestrict(admin, target, GetNativeCell(3), sReason);
+	return ClientRestrict(admin, target, iDuration, sReason);
 }
 
 public int Native_ClientUnrestrict(Handle hPlugin, int numParams)
@@ -1695,9 +1708,9 @@ public int Native_ShowBanReasonMenu(Handle hPlugin, int numParams)
 	}
 
 	int iDuration = GetNativeCell(3);
-	if (iDuration < -1)
+	if (iDuration < 0)
 	{
-		ThrowNativeError(SP_ERROR_PARAM, "Invalid duration (must be >= -1)");
+		ThrowNativeError(SP_ERROR_PARAM, "Invalid duration (must be >= 0)");
 		return 0;
 	}
 
