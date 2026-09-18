@@ -147,7 +147,7 @@ public void Ew4_Restrictions_OnPluginStart()
 	g_hCVar_UseReasonMenu       = CreateConVar("sm_eban_use_reason_menu",           "0",                     "Use menu to choose reason when missing",                       _, true, 0.0, true, 1.0);
 	g_hCVar_DefaultBanReason    = CreateConVar("sm_eban_default_reason",            "Item misuse",           "Default eban reason (max 64 chars)");
 	g_hCVar_DefaultUnbanReason  = CreateConVar("sm_eban_default_unban_reason",      "Giving another chance", "Default e-unban reason (max 64 chars)");
-	g_hCVar_DefaultBanTime      = CreateConVar("sm_eban_default_time",              "0",                     "Default eban time in minutes (0=permanent)",                   _, true, 0.0, true, 43200.0);
+	g_hCVar_DefaultBanTime      = CreateConVar("sm_eban_default_time",              "90",                     "Default eban time in minutes (0=permanent)",                   _, true, 0.0, true, 43200.0);
 	g_hCVar_AdminBanLong        = CreateConVar("sm_eban_admin_max_minutes",         "720",                   "Max eban duration (minutes) for non-root admins",              _, true, 1.0);
 	g_hCVar_EbanInvalidSteamID  = CreateConVar("sm_eban_invalid_steamid_temp",      "1",                     "Temporarily eban clients with invalid SteamID",               _, true, 0.0, true, 1.0);
 	g_hCVar_MaxBanTime          = CreateConVar("sm_eban_max_minutes_cmd",           "0",                     "Max minutes via console command (0=disabled)",                _, true, 0.0);
