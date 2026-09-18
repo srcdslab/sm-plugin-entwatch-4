@@ -14,7 +14,7 @@
 //  Versioning
 // ============================================================================
 
-#define EW_VERSION          "4.2.47"
+#define EW_VERSION          "4.2.48"
 #define EW_VERSION_CONFIG   2
 
 
@@ -235,7 +235,8 @@ forward void EW_OnAdminSpawnItem(int iAdmin, CConfig hConfig, const char[] sItem
  *
  * @param iAdmin        Admin client index (0 = server).
  * @param iClient       Client index who was restricted.
- * @param iDuration     Duration in minutes. -1 = session, 0 = permanent, >0 = minutes.
+ * @param iDuration     Duration in minutes. 0 = permanent, >0 = minutes, -1 = internal
+ *                      "SteamID not verified" restriction (not persisted to the ban database).
  * @param sReason       Reason string supplied by the admin.
  *
  * @noreturn
@@ -266,7 +267,8 @@ forward void EW_OnClientUnrestricted(int iAdmin, int iClient, const char[] sReas
  *
  * @param iAdmin          Admin client index (0 = server).
  * @param iClient         Client index being restricted.
- * @param iDuration       Duration in minutes. -1 = session, 0 = permanent, >0 = minutes.
+ * @param iDuration       Duration in minutes. 0 = permanent, >0 = minutes, -1 = internal
+ *                        "SteamID not verified" restriction (not persisted to the ban database).
  * @param sReason         Restriction reason.
  * @param sAdminName      Display name of the admin.
  * @param sAdminSteamID   SteamID of the admin ("SERVER" when server-issued).
@@ -410,8 +412,11 @@ native bool EW_SpawnItem(int iAdmin, int iItemID, int iReceiver, bool bStrip = f
  *
  * @param iAdmin        Admin client index issuing the restriction (0 = server).
  * @param iClient       Client index to restrict.
- * @param iDuration     Duration in minutes. -1 = session, 0 = permanent, >0 = minutes.
+ * @param iDuration     Duration in minutes. 0 = permanent, >0 = minutes. Must be >= 0;
+ *                      the "Session" (-1) duration is no longer supported and throws.
  * @param sReason       Reason string to store and display (max 64 chars).
+ *
+ * @error               iDuration is negative.
  *
  * @return              true on success, false on error.
  */
@@ -470,7 +475,10 @@ native int EW_GetClientBanInfo(int iClient, char[] sAdminName, int iAdminNameLen
  *
  * @param iAdmin        Admin client index (must be connected).
  * @param iClient       Client index to restrict.
- * @param iDuration     Duration in minutes (>= -1).
+ * @param iDuration     Duration in minutes. Must be >= 0; the "Session" (-1) duration is no
+ *                      longer supported and throws.
+ *
+ * @error               iDuration is negative.
  *
  * @return              true if menu was shown, false if already restricted or error.
  */

@@ -382,13 +382,8 @@ void EWM_Menu_PM_EBanDuration(int iClient, int iTarget)
 	IntToString(GetClientUserId(iTarget), sTargetId, sizeof(sTargetId));
 
 	// Format: "<duration_minutes>;<userid>"
-	// -1 = session, 0 = permanent
-	char sDurSession[64];
-	Format(sDurSession, sizeof(sDurSession), "%T", "EW_PM_EBanDuration_Session", iClient);
-
+	// 0 = permanent
 	char sInfo[64];
-	Format(sInfo, sizeof(sInfo), "-1;%s", sTargetId);
-	hMenu.AddItem(sInfo, sDurSession);
 
 	char sDur10m[32], sDur1h[32], sDur1d[32], sDur1w[32], sDur1mo[32], sDurPerm[32];
 	Format(sDur10m,  sizeof(sDur10m),  "%T", "EW_Menu_OfflineDuration_10min", iClient);
@@ -524,9 +519,8 @@ void EWM_Menu_PM_EBanInfo(int iClient, int iTarget)
 	Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Admin", iClient, sAdminName);
 	hMenu.AddItem("", sLine, ITEMDRAW_DISABLED);
 
-	if (iDuration == -1)
-		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Session", iClient);
-	else if (iDuration == 0)
+	// <= 0 covers permanent (0) and any leftover legacy session row (-1)
+	if (iDuration <= 0)
 		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Permanent", iClient);
 	else
 		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Timed", iClient, iDuration);
