@@ -1309,10 +1309,6 @@ void OnWeaponDrop(int iClient, int iWeapon)
 
 		if (hItem.iWeapon != INVALID_ENT_REFERENCE && hItem.iWeapon == iWeapon)
 		{
-			// ReleaseClientItems (death/disconnect) already released this item and force-drops
-			// the corpse's weapon (forcedrop module), which re-enters this hook for the same
-			// weapon. Skip it so we don't report a spurious drop on top of the death/disconnect
-			// message.
 			if (hItem.iClient != iClient)
 				return;
 
