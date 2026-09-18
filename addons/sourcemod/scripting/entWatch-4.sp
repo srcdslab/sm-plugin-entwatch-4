@@ -1309,6 +1309,9 @@ void OnWeaponDrop(int iClient, int iWeapon)
 
 		if (hItem.iWeapon != INVALID_ENT_REFERENCE && hItem.iWeapon == iWeapon)
 		{
+			if (hItem.iClient != iClient)
+				return;
+
 			hItem.iClient = INVALID_ENT_REFERENCE;
 			hItem.iState = EW_ENTITY_STATE_DROPPED;
 
