@@ -519,10 +519,7 @@ void EWM_Menu_PM_EBanInfo(int iClient, int iTarget)
 	Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Admin", iClient, sAdminName);
 	hMenu.AddItem("", sLine, ITEMDRAW_DISABLED);
 
-	// <= 0 covers both a real permanent restriction (0) and any leftover legacy DB row from
-	// before "Session" was removed (-1, now treated as already expired); the internal,
-	// non-admin-selectable "SteamID not verified" restriction never reaches this menu since it
-	// is never persisted to EntWatch_Ebans.
+	// <= 0 covers permanent (0) and any leftover legacy session row (-1)
 	if (iDuration <= 0)
 		Format(sLine, sizeof(sLine), "%T", "EW_PM_EBanInfo_Duration_Permanent", iClient);
 	else

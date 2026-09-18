@@ -11,7 +11,7 @@
 #define EW_DB_NAME             "EntWatch4"
 #define EW_DB_CHARSET          "utf8mb4"
 #define EW_DB_COLLATION        "utf8mb4_unicode_ci"
-#define EW_SESSION_BAN_TIMEOUT 90        // seconds after disconnect before a legacy session-duration row (duration_minutes = -1) is force-closed; no longer produced by this plugin, kept only to sweep out any rows left over from before "Session" was removed
+#define EW_SESSION_BAN_TIMEOUT 90        // seconds before a legacy duration_minutes=-1 row is force-closed
 #define EW_CONSOLE_NAME        "Console"
 #define EW_SERVER_STEAMID      "SERVER"
 
@@ -25,9 +25,7 @@ enum struct ClientSettings_Restrict
 	char szAdminName[MAX_NAME_LENGTH];
 	char szAdminSteamID[EW_MAX_STEAMID_LENGTH];
 	char szReason[EW_MAX_REASON_LENGTH];
-	int  iDuration;     // 0=perma, >0=minutes. -1 is reserved internally for the non-persisted
-	                    // "SteamID not verified" restriction (see Database_FetchClientBan) and is
-	                    // never selectable by admins/natives - the "Session" eban duration was removed.
+	int  iDuration;     // 0=perma, >0=minutes, -1=internal "SteamID not verified" restriction
 	int  iIssuedAt;     // unix timestamp of ban
 	int  iExpiresAt;    // unix timestamp of expiry (0 if perma/unverified-steamid)
 	int  intTotalEbans;
@@ -466,9 +464,7 @@ public Action Command_DisplayStatus(int client, int args)
 	FormatTime(sIssuedBuf, sizeof(sIssuedBuf), NULL_STRING, g_RestrictClients[target].iIssuedAt);
 	CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%s", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_IssuedAt", g_clr.sAuthID, sIssuedBuf);
 
-	// -1 is the plugin-internal, non-persisted "SteamID not verified" restriction: it has no
-	// fixed expiry timer, it ends when the client's SteamID verifies or they disconnect, so it
-	// must be reported distinctly from a real admin-issued permanent (0) restriction.
+	// -1 = internal "SteamID not verified" restriction, report distinctly from permanent (0)
 	if (g_RestrictClients[target].iDuration == -1)
 	{
 		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Status_Duration", g_clr.sAuthID, "EW_Status_Duration_Temporary");
@@ -619,8 +615,7 @@ bool ClientUnrestrict(int admin, int target, const char[] reason)
 	Call_PushString(sReason);
 	Call_Finish();
 
-	// Mirrors the skip in ClientRestrict(): a -1 "SteamID not verified" restriction never got a
-	// row inserted, so there is nothing to mark as unbanned in the DB.
+	// -1 "SteamID not verified" restrictions were never inserted, nothing to unban in DB
 	if (iPrevDuration != -1)
 		Database_UpdateUnban(target, admin, sReason);
 
@@ -848,10 +843,7 @@ void Database_FetchClientBan(int client)
 
 	if (g_bEbanInvalidSteamID && IsInvalidSteamID(client))
 	{
-		// -1 here is an internal-only sentinel: restrict for this connection only, never persisted
-		// to EntWatch_Ebans, cleared on disconnect (g_RestrictClients[].Reset()). It intentionally
-		// bypasses the removed "Session" eban duration path/validation - it is not admin-selectable
-		// and is unrelated to the EntWatch_Ebans web panel.
+		// -1: internal sentinel, restrict this connection only, never persisted to EntWatch_Ebans
 		ClientRestrict(0, client, -1, "SteamID not verified");
 		return;
 	}
@@ -986,10 +978,7 @@ void Database_CleanupExpiredBans()
 	int  iNow = GetTime();
 	char sQuery[512];
 
-	// The `duration_minutes` = -1 branch no longer matches anything this plugin creates (the
-	// "Session" eban duration was removed - see restrictions.inc history), but is kept so any
-	// row left over from before that removal still gets force-closed instead of lingering as
-	// an apparently-active restriction.
+	// duration_minutes = -1: legacy rows no longer produced, force-close any leftover ones
 	FormatEx(sQuery, sizeof(sQuery),
 		"UPDATE `EntWatch_Ebans`"
 		... " SET `unbanned_at`=%d, `unban_reason`='Expired', `unban_admin_name`='%s', `unban_admin_steamid`='%s'"

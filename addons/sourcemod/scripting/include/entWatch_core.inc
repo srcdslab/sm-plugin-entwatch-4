@@ -235,10 +235,8 @@ forward void EW_OnAdminSpawnItem(int iAdmin, CConfig hConfig, const char[] sItem
  *
  * @param iAdmin        Admin client index (0 = server).
  * @param iClient       Client index who was restricted.
- * @param iDuration     Duration in minutes. 0 = permanent, >0 = minutes. -1 can still be seen
- *                      here, but only for the plugin's internal, non-admin-selectable
- *                      "SteamID not verified" restriction - it is never persisted to the ban
- *                      database and is unrelated to the (removed) "Session" eban duration.
+ * @param iDuration     Duration in minutes. 0 = permanent, >0 = minutes, -1 = internal
+ *                      "SteamID not verified" restriction (not persisted to the ban database).
  * @param sReason       Reason string supplied by the admin.
  *
  * @noreturn
@@ -269,10 +267,8 @@ forward void EW_OnClientUnrestricted(int iAdmin, int iClient, const char[] sReas
  *
  * @param iAdmin          Admin client index (0 = server).
  * @param iClient         Client index being restricted.
- * @param iDuration       Duration in minutes. 0 = permanent, >0 = minutes. -1 can still be seen
- *                        here, but only for the plugin's internal, non-admin-selectable
- *                        "SteamID not verified" restriction - it is never persisted to the ban
- *                        database and is unrelated to the (removed) "Session" eban duration.
+ * @param iDuration       Duration in minutes. 0 = permanent, >0 = minutes, -1 = internal
+ *                        "SteamID not verified" restriction (not persisted to the ban database).
  * @param sReason         Restriction reason.
  * @param sAdminName      Display name of the admin.
  * @param sAdminSteamID   SteamID of the admin ("SERVER" when server-issued).
