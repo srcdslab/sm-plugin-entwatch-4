@@ -530,15 +530,6 @@
 		"es"		"Duración:"
 	}
 
-	"EW_Status_Session"
-	{
-		"en"		"Temporary (current session only)"
-		"ru"		"Временное (только текущая сессия)"
-		"fr"		"Temporaire (session en cours uniquement)"
-		"chi"		"临时（仅本局）"
-		"es"		"Temporal (solo sesión actual)"
-	}
-
 	"EW_Status_Permanent"
 	{
 		"en"		"Permanent"
@@ -557,15 +548,6 @@
 		"es"		"Vence:"
 	}
 
-	"EW_Status_Expires_Session"
-	{
-		"en"		"At end of session"
-		"ru"		"По окончании сессии"
-		"fr"		"En fin de session"
-		"chi"		"本局结束时"
-		"es"		"Al final de la sesión"
-	}
-
 	"EW_Status_Expires_Never"
 	{
 		"en"		"Never"
@@ -582,6 +564,24 @@
 		"fr"		"restant"
 		"chi"		"剩余"
 		"es"		"restante"
+	}
+
+	"EW_Status_Duration_Temporary"
+	{
+		"en"		"Temporary (unverified SteamID)"
+		"ru"		"Временно (SteamID не подтверждён)"
+		"fr"		"Temporaire (SteamID non vérifié)"
+		"chi"		"临时（SteamID 未验证）"
+		"es"		"Temporal (SteamID no verificado)"
+	}
+
+	"EW_Status_Expires_UntilVerified"
+	{
+		"en"		"Until SteamID is verified or client disconnects"
+		"ru"		"До подтверждения SteamID или отключения клиента"
+		"fr"		"Jusqu'à la vérification du SteamID ou la déconnexion"
+		"chi"		"直到 SteamID 验证或客户端断开连接"
+		"es"		"Hasta que el SteamID se verifique o el cliente se desconecte"
 	}
 
 	// =========================================================================
@@ -633,15 +633,6 @@
 	// Menus — EBan reason selection (online ban)
 	// Used in Menu_ShowBanReasonSelection (restrictions.inc)
 	// =========================================================================
-
-	"EW_Menu_BanReason_Title_Session"
-	{
-		"en"		"Restriction Reason — Temporary"
-		"ru"		"Причина ограничения — Временно"
-		"fr"		"Raison de restriction — Temporaire"
-		"chi"		"限制原因 — 临时"
-		"es"		"Motivo de restricción — Temporal"
-	}
 
 	"EW_Menu_BanReason_Title_Permanent"
 	{
@@ -1382,15 +1373,6 @@
 		"es"    "Duración para {1}:"
 	}
 
-	"EW_PM_EBanDuration_Session"
-	{
-		"en"    "Temporary (Session)"
-		"ru"    "Временно (сессия)"
-		"fr"    "Temporaire (session)"
-		"chi"   "临时（本局）"
-		"es"    "Temporal (sesión)"
-	}
-
 	// =========================================================================
 	// Menu Interface — EUnBan list menu
 	// Used in EWM_Menu_PM_EUnBanList
@@ -1437,15 +1419,6 @@
 		"fr"    "Admin : {1}"
 		"chi"   "管理员：{1}"
 		"es"    "Admin: {1}"
-	}
-
-	"EW_PM_EBanInfo_Duration_Session"
-	{
-		"en"    "Duration: Session"
-		"ru"    "Длительность: Сессия"
-		"fr"    "Durée : Session"
-		"chi"   "时长：本局"
-		"es"    "Duración: Sesión"
 	}
 
 	"EW_PM_EBanInfo_Duration_Permanent"
