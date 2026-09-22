@@ -24,6 +24,7 @@
 #include <entWatch_core>
 
 #define EW_DEFAULT_ITEM_COLOR "FFFFFF"
+#define EW_CONSOLE_NAME        "Console"
 
 //--------------------------------------------------------------------------------------------------
 // Feature flags - comment/uncomment to toggle modules
