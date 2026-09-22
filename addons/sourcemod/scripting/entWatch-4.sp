@@ -24,7 +24,7 @@
 #include <entWatch_core>
 
 #define EW_DEFAULT_ITEM_COLOR "FFFFFF"
-#define EW_CONSOLE_NAME        "Console" // Display name for the server console, used in chat/log formatting regardless of which modules are enabled
+#define EW_CONSOLE_NAME        "Console"
 
 //--------------------------------------------------------------------------------------------------
 // Feature flags - comment/uncomment to toggle modules
