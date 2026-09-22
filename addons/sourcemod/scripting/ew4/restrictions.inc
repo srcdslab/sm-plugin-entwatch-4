@@ -12,7 +12,6 @@
 #define EW_DB_CHARSET          "utf8mb4"
 #define EW_DB_COLLATION        "utf8mb4_unicode_ci"
 #define EW_SESSION_BAN_TIMEOUT 90        // seconds before a legacy duration_minutes=-1 row is force-closed
-#define EW_CONSOLE_NAME        "Console"
 #define EW_SERVER_STEAMID      "SERVER"
 
 //----------------------------------------------------------------------------------------------------
