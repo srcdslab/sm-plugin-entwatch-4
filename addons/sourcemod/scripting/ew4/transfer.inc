@@ -136,7 +136,7 @@ public Action Command_TransferItem(int iClient, int iArgs)
 	GetCmdArg(2, sArguments[1], sizeof(sArguments[]));
 
 	int iReceiver;
-	if ((iReceiver = FindTarget(iClient, sArguments[1], true)) == -1)
+	if ((iReceiver = FindTarget(iClient, sArguments[1], true, false)) == -1)
 		return Plugin_Handled;
 
 	// ---- Transfer by item name/short ($itemname) ----
