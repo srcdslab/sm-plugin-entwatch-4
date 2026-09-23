@@ -18,8 +18,7 @@
 
 #include <sourcemod>
 #include <sdkhooks>
-#include <sdktools_entoutput>
-#include <sdktools_functions>
+#include <sdktools>
 #include <multicolors>
 #include <entWatch_core>
 
