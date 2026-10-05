@@ -401,11 +401,21 @@
 
 	"EW_Restrict_InvalidDuration"
 	{
-		"en"		"Invalid duration. Must be between -1 and the configured maximum (0 = permanent, -1 = session)."
-		"ru"		"Некорректная длительность. Допустимо от -1 до настроенного максимума (0 = навсегда, -1 = сессия)."
-		"fr"		"Durée invalide. Doit être comprise entre -1 et le maximum configuré (0 = permanent, -1 = session)."
-		"chi"		"无效时长。必须在 -1 到配置上限之间（0 = 永久，-1 = 本局）。"
-		"es"		"Duración inválida. Debe estar entre -1 y el máximo configurado (0 = permanente, -1 = sesión)."
+		"en"		"Invalid duration. Must be 0 (permanent) or a positive number of minutes."
+		"ru"		"Некорректная длительность. Допустимо 0 (навсегда) или положительное число минут."
+		"fr"		"Durée invalide. Doit être 0 (permanent) ou un nombre de minutes positif."
+		"chi"		"无效时长。必须为 0（永久）或正整数分钟数。"
+		"es"		"Duración inválida. Debe ser 0 (permanente) o un número positivo de minutos."
+	}
+
+	"EW_Restrict_InvalidDuration_Max"
+	{
+		"#format"	"{1:d}"
+		"en"		"Invalid duration. Must be between 0 (permanent) and {1} minute(s)."
+		"ru"		"Некорректная длительность. Допустимо от 0 (навсегда) до {1} минут(ы)."
+		"fr"		"Durée invalide. Doit être comprise entre 0 (permanent) et {1} minute(s)."
+		"chi"		"无效时长。必须在 0（永久）到 {1} 分钟之间。"
+		"es"		"Duración inválida. Debe estar entre 0 (permanente) y {1} minuto(s)."
 	}
 
 	"EW_Unrestrict_Usage"
