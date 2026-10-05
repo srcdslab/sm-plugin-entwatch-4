@@ -327,7 +327,10 @@ public Action Command_ClientRestrict(int client, int args)
 
 	if (iDuration < 0 || (g_iMaxBanTime != 0 && iDuration > g_iMaxBanTime))
 	{
-		CReplyToCommand(client, "{#%s}%t {#%s}%t {#%s}%d {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrict_InvalidDuration", g_clr.sAuthID, g_iMaxBanTime, g_clr.sWarning, "EW_Minutes");
+		if (g_iMaxBanTime > 0)
+			CReplyToCommand(client, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrict_InvalidDuration_Max", g_iMaxBanTime);
+		else
+			CReplyToCommand(client, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Restrict_InvalidDuration");
 		return Plugin_Handled;
 	}
 
