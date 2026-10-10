@@ -2,7 +2,7 @@
 //
 // Name: [entWatch] Use Priority
 // Author: .Rushaway
-// Description: Player cannot press the button while in the crowd. Forcefully press the button
+// Description: Pressing +use fires the player's item button, even while in the crowd.
 //
 //====================================================================================================
 
@@ -10,10 +10,7 @@
 bool g_bUsePriority = true;
 
 /* INTEGERS */
-int g_iUsePriority_Client        = -1;
-int g_iUsePriority_FoundButton   = INVALID_ENT_REFERENCE;
-int g_iUsePriority_FoundItemIdx  = -1;
-int g_iUsePriority_FoundBtnIdx   = -1;
+int g_iUsePriority_LastButtons[MAXPLAYERS + 1];
 
 /* FLOATS */
 float g_flRange = 50.0;
@@ -28,7 +25,7 @@ ConVar g_hCVar_UsePriorityRange;
 void EW4_UsePriority_OnPluginStart()
 {
 	g_hCVar_UsePriority      = CreateConVar("entwatch_use_priority", "1", "Enable/Disable forced pressing of the button.", _, true, 0.0, true, 1.0);
-	g_hCVar_UsePriorityRange = CreateConVar("entwatch_use_priority_range", "50.0", "Range (units) of the hull trace used to detect item buttons in front of the player.", _, true, 0.0, true, 512.0);
+	g_hCVar_UsePriorityRange = CreateConVar("entwatch_use_priority_range", "50.0", "Range (units) of the hull trace used to pick a button on items that have more than one use button.", _, true, 0.0, true, 512.0);
 
 	g_hCVar_UsePriority.AddChangeHook(Cvar_UsePriority_Changed);
 	g_hCVar_UsePriorityRange.AddChangeHook(Cvar_UsePriority_Changed);
@@ -49,58 +46,32 @@ public void Cvar_UsePriority_Changed(ConVar convar, const char[] oldValue, const
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Hull enumeration callback.
+// Purpose: Forget the previous button state so the next player in this slot starts clean
 //----------------------------------------------------------------------------------------------------
-public bool UsePriority_HullCallback(int iEntity, int iContentsMask)
+void EW4_UsePriority_OnClientDisconnect(int iClient)
 {
-	if (iEntity >= 0 && iEntity <= MaxClients)
-		return true;
-
-	for (int iItemID = 0; iItemID < g_hArray_Items.Length; iItemID++)
-	{
-		CItem hItem = g_hArray_Items.Get(iItemID);
-
-		if (hItem.iClient == INVALID_ENT_REFERENCE || hItem.iClient != g_iUsePriority_Client)
-			continue;
-
-		int iButtonCount = hItem.hButtons.Length;
-		for (int iItemButtonID = 0; iItemButtonID < iButtonCount; iItemButtonID++)
-		{
-			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
-
-			if (hItemButton.iButton != iEntity)
-				continue;
-
-			if (hItemButton.hConfigButton.iType != EW_BUTTON_TYPE_USE)
-				continue;
-
-			if (hItemButton.hConfigButton.iMode == EW_BUTTON_MODE_NONE || hItemButton.hConfigButton.iMode == EW_BUTTON_MODE_COUNTERVALUE)
-				continue;
-
-			if (!IsValidEntity(iEntity))
-				continue;
-
-			g_iUsePriority_FoundButton  = iEntity;
-			g_iUsePriority_FoundItemIdx = iItemID;
-			g_iUsePriority_FoundBtnIdx  = iItemButtonID;
-			return false;
-		}
-	}
-
-	return true;
+	g_iUsePriority_LastButtons[iClient] = 0;
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Intercepts IN_USE button presses and forces use on tracked item buttons.
+// Purpose: True if this item button can be forced through +use
 //----------------------------------------------------------------------------------------------------
-public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float angles[3])
+bool UsePriority_IsUseButton(CItemButton hItemButton)
 {
-	if (!g_bUsePriority || !(iButtons & IN_USE))
-		return Plugin_Continue;
+	if (hItemButton.hConfigButton.iType != EW_BUTTON_TYPE_USE)
+		return false;
 
-	if (!EW_ClientHasItem(iClient))
-		return Plugin_Continue;
+	if (hItemButton.hConfigButton.iMode == EW_BUTTON_MODE_NONE || hItemButton.hConfigButton.iMode == EW_BUTTON_MODE_COUNTERVALUE)
+		return false;
 
+	return hItemButton.iButton != INVALID_ENT_REFERENCE && IsValidEntity(hItemButton.iButton);
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: True if a hull swept from the player's eyes along their view hits the button
+//----------------------------------------------------------------------------------------------------
+bool UsePriority_IsAimingAt(int iClient, const float angles[3], int iButton)
+{
 	float vEye[3], vForward[3], vEnd[3];
 	GetClientEyePosition(iClient, vEye);
 	GetAngleVectors(angles, vForward, NULL_VECTOR, NULL_VECTOR);
@@ -112,31 +83,62 @@ public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float a
 	float vMins[3] = {-16.0, -16.0, -16.0};
 	float vMaxs[3] = { 16.0,  16.0,  16.0};
 
-	g_iUsePriority_Client        = iClient;
-	g_iUsePriority_FoundButton   = INVALID_ENT_REFERENCE;
-	g_iUsePriority_FoundItemIdx  = -1;
-	g_iUsePriority_FoundBtnIdx   = -1;
+	TR_ClipRayHullToEntity(vEye, vEnd, vMins, vMaxs, MASK_ALL, iButton);
+	return TR_DidHit();
+}
 
-	TR_EnumerateEntitiesHull(vEye, vEnd, vMins, vMaxs, PARTITION_NON_STATIC_EDICTS, UsePriority_HullCallback);
+//----------------------------------------------------------------------------------------------------
+// Purpose: On the tick +use is pressed, fire Use on the player's item button. An item with a single
+//          use button fires wherever the player looks; an item with several fires the one aimed at.
+//          Cooldowns, max uses and m_flWait are enforced by OnButtonPress.
+//----------------------------------------------------------------------------------------------------
+public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float angles[3])
+{
+	bool bPressed = (iButtons & IN_USE) && !(g_iUsePriority_LastButtons[iClient] & IN_USE);
+	g_iUsePriority_LastButtons[iClient] = iButtons;
 
-	if (g_iUsePriority_FoundButton == INVALID_ENT_REFERENCE || g_iUsePriority_FoundItemIdx == -1 || g_iUsePriority_FoundBtnIdx == -1)
+	if (!g_bUsePriority || !bPressed || !g_hArray_Items.Length)
 		return Plugin_Continue;
 
-	CItem       hFoundItem       = g_hArray_Items.Get(g_iUsePriority_FoundItemIdx);
-	CItemButton hFoundItemButton = hFoundItem.hButtons.Get(g_iUsePriority_FoundBtnIdx);
+	for (int iItemID = 0; iItemID < g_hArray_Items.Length; iItemID++)
+	{
+		CItem hItem = g_hArray_Items.Get(iItemID);
 
-	if (hFoundItem.flReadyTime > g_flGameFrameTime)
-		return Plugin_Continue;
+		if (hItem.iClient == INVALID_ENT_REFERENCE || hItem.iClient != iClient)
+			continue;
 
-	if (hFoundItemButton.flReadyTime > g_flGameFrameTime)
-		return Plugin_Continue;
+		int iUseButtons = 0;
+		int iSingleButton = INVALID_ENT_REFERENCE;
+		int iButtonCount = hItem.hButtons.Length;
 
-	if (hFoundItemButton.hConfigButton.iMode == EW_BUTTON_MODE_MAXUSES && hFoundItemButton.iCurrentUses >= hFoundItemButton.hConfigButton.iMaxUses)
-		return Plugin_Continue;
+		for (int iItemButtonID = 0; iItemButtonID < iButtonCount; iItemButtonID++)
+		{
+			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
 
-	if (HasEntProp(hFoundItemButton.iButton, Prop_Data, "m_flWait") && hFoundItemButton.flWaitTime >= g_flGameFrameTime)
-		return Plugin_Continue;
+			if (!UsePriority_IsUseButton(hItemButton))
+				continue;
 
-	AcceptEntityInput(hFoundItemButton.iButton, "Use", iClient, iClient);
+			iUseButtons++;
+			iSingleButton = hItemButton.iButton;
+		}
+
+		if (iUseButtons == 1)
+		{
+			AcceptEntityInput(iSingleButton, "Use", iClient, iClient);
+			continue;
+		}
+
+		for (int iItemButtonID = 0; iUseButtons > 1 && iItemButtonID < iButtonCount; iItemButtonID++)
+		{
+			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
+
+			if (!UsePriority_IsUseButton(hItemButton) || !UsePriority_IsAimingAt(iClient, angles, hItemButton.iButton))
+				continue;
+
+			AcceptEntityInput(hItemButton.iButton, "Use", iClient, iClient);
+			break;
+		}
+	}
+
 	return Plugin_Continue;
 }
