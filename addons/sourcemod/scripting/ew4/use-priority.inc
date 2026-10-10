@@ -1,8 +1,8 @@
 //====================================================================================================
 //
 // Name: [entWatch] Use Priority
-// Author: .Rushaway
-// Description: Pressing +use fires the player's item button, even while in the crowd.
+// Author: .Rushaway, koen
+// Description: Pressing +use fires the player's item button
 //
 //====================================================================================================
 
@@ -15,28 +15,20 @@ int g_iUsePriority_LastButtons[MAXPLAYERS + 1];
 /* CONVARS */
 ConVar g_hCVar_UsePriority;
 
-//----------------------------------------------------------------------------------------------------
-// Purpose: Create the use-priority cvar and cache its value
-//----------------------------------------------------------------------------------------------------
 void EW4_UsePriority_OnPluginStart()
 {
 	g_hCVar_UsePriority      = CreateConVar("entwatch_use_priority", "1", "Enable/Disable forced pressing of the button.", _, true, 0.0, true, 1.0);
-
 	g_hCVar_UsePriority.AddChangeHook(Cvar_UsePriority_Changed);
-
 	g_bUsePriority = g_hCVar_UsePriority.BoolValue;
 }
 
-//----------------------------------------------------------------------------------------------------
-// Purpose: Keep the cached use-priority toggle in sync with its cvar
-//----------------------------------------------------------------------------------------------------
 public void Cvar_UsePriority_Changed(ConVar convar, const char[] oldValue, const char[] newValue)
 {
 	g_bUsePriority = convar.BoolValue;
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Forget the previous button state so the next player in this slot starts clean
+// Purpose: Reset player slot button state on disconnect
 //----------------------------------------------------------------------------------------------------
 void EW4_UsePriority_OnClientDisconnect(int iClient)
 {
@@ -44,7 +36,7 @@ void EW4_UsePriority_OnClientDisconnect(int iClient)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: True if this item button can be forced through +use
+// Purpose: Check if item button can be pressed
 //----------------------------------------------------------------------------------------------------
 bool UsePriority_IsUseButton(CItemButton hItemButton)
 {
