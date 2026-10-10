@@ -17,7 +17,7 @@ ConVar g_hCVar_UsePriority;
 
 void EW4_UsePriority_OnPluginStart()
 {
-	g_hCVar_UsePriority      = CreateConVar("entwatch_use_priority", "1", "Enable/Disable forced pressing of the button.", _, true, 0.0, true, 1.0);
+	g_hCVar_UsePriority = CreateConVar("entwatch_use_priority", "1", "Enable/Disable forced pressing of the button.", _, true, 0.0, true, 1.0);
 	g_hCVar_UsePriority.AddChangeHook(Cvar_UsePriority_Changed);
 	g_bUsePriority = g_hCVar_UsePriority.BoolValue;
 }
