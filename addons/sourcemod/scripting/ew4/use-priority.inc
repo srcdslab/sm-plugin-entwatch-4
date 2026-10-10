@@ -12,37 +12,27 @@ bool g_bUsePriority = true;
 /* INTEGERS */
 int g_iUsePriority_LastButtons[MAXPLAYERS + 1];
 
-/* FLOATS */
-float g_flRange = 50.0;
-
 /* CONVARS */
 ConVar g_hCVar_UsePriority;
-ConVar g_hCVar_UsePriorityRange;
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Create the use-priority cvars and cache their values
+// Purpose: Create the use-priority cvar and cache its value
 //----------------------------------------------------------------------------------------------------
 void EW4_UsePriority_OnPluginStart()
 {
 	g_hCVar_UsePriority      = CreateConVar("entwatch_use_priority", "1", "Enable/Disable forced pressing of the button.", _, true, 0.0, true, 1.0);
-	g_hCVar_UsePriorityRange = CreateConVar("entwatch_use_priority_range", "50.0", "Range (units) of the hull trace used to pick a button on items that have more than one use button.", _, true, 0.0, true, 512.0);
 
 	g_hCVar_UsePriority.AddChangeHook(Cvar_UsePriority_Changed);
-	g_hCVar_UsePriorityRange.AddChangeHook(Cvar_UsePriority_Changed);
 
 	g_bUsePriority = g_hCVar_UsePriority.BoolValue;
-	g_flRange = g_hCVar_UsePriorityRange.FloatValue;
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: Keep the cached use-priority toggle and range in sync with their cvars
+// Purpose: Keep the cached use-priority toggle in sync with its cvar
 //----------------------------------------------------------------------------------------------------
 public void Cvar_UsePriority_Changed(ConVar convar, const char[] oldValue, const char[] newValue)
 {
-	if (convar == g_hCVar_UsePriority)
-		g_bUsePriority = convar.BoolValue;
-	else if (convar == g_hCVar_UsePriorityRange)
-		g_flRange = convar.FloatValue;
+	g_bUsePriority = convar.BoolValue;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -68,23 +58,50 @@ bool UsePriority_IsUseButton(CItemButton hItemButton)
 }
 
 //----------------------------------------------------------------------------------------------------
-// Purpose: True if a hull swept from the player's eyes along their view hits the button
+// Purpose: Returns the item's use button whose centre is closest to the player's view direction.
+//          The buttons are parented to the carried item, so no range check is needed. Works from
+//          entity origins and bounds only, so non-solid parented buttons count.
 //----------------------------------------------------------------------------------------------------
-bool UsePriority_IsAimingAt(int iClient, const float angles[3], int iButton)
+int UsePriority_FindAimedButton(int iClient, const float angles[3], CItem hItem)
 {
-	float vEye[3], vForward[3], vEnd[3];
+	float vEye[3], vForward[3];
 	GetClientEyePosition(iClient, vEye);
 	GetAngleVectors(angles, vForward, NULL_VECTOR, NULL_VECTOR);
 
-	vEnd[0] = vEye[0] + vForward[0] * g_flRange;
-	vEnd[1] = vEye[1] + vForward[1] * g_flRange;
-	vEnd[2] = vEye[2] + vForward[2] * g_flRange;
+	int iBestButton = INVALID_ENT_REFERENCE;
+	float flBestDot = -2.0;
 
-	float vMins[3] = {-16.0, -16.0, -16.0};
-	float vMaxs[3] = { 16.0,  16.0,  16.0};
+	int iButtonCount = hItem.hButtons.Length;
+	for (int iItemButtonID = 0; iItemButtonID < iButtonCount; iItemButtonID++)
+	{
+		CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
 
-	TR_ClipRayHullToEntity(vEye, vEnd, vMins, vMaxs, MASK_ALL, iButton);
-	return TR_DidHit();
+		if (!UsePriority_IsUseButton(hItemButton))
+			continue;
+
+		int iButton = hItemButton.iButton;
+
+		float vOrigin[3], vMins[3], vMaxs[3];
+		GetEntPropVector(iButton, Prop_Data, "m_vecAbsOrigin", vOrigin);
+		GetEntPropVector(iButton, Prop_Send, "m_vecMins", vMins);
+		GetEntPropVector(iButton, Prop_Send, "m_vecMaxs", vMaxs);
+
+		float vCenter[3], vDir[3];
+		for (int i = 0; i < 3; i++)
+			vCenter[i] = vOrigin[i] + (vMins[i] + vMaxs[i]) * 0.5;
+
+		MakeVectorFromPoints(vEye, vCenter, vDir);
+		NormalizeVector(vDir, vDir);
+		float flDot = GetVectorDotProduct(vForward, vDir);
+
+		if (flDot <= flBestDot)
+			continue;
+
+		iBestButton = iButton;
+		flBestDot = flDot;
+	}
+
+	return iBestButton;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -128,15 +145,11 @@ public Action EW4_UsePriority_OnPlayerRunCmd(int iClient, int& iButtons, float a
 			continue;
 		}
 
-		for (int iItemButtonID = 0; iUseButtons > 1 && iItemButtonID < iButtonCount; iItemButtonID++)
+		if (iUseButtons > 1)
 		{
-			CItemButton hItemButton = hItem.hButtons.Get(iItemButtonID);
-
-			if (!UsePriority_IsUseButton(hItemButton) || !UsePriority_IsAimingAt(iClient, angles, hItemButton.iButton))
-				continue;
-
-			AcceptEntityInput(hItemButton.iButton, "Use", iClient, iClient);
-			break;
+			int iAimedButton = UsePriority_FindAimedButton(iClient, angles, hItem);
+			if (iAimedButton != INVALID_ENT_REFERENCE)
+				AcceptEntityInput(iAimedButton, "Use", iClient, iClient);
 		}
 	}
 
