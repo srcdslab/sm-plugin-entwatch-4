@@ -1225,6 +1225,10 @@ public void OnClientDisconnect(int iClient)
 	Ew4_Restrictions_OnClientDisconnect(iClient);
 	#endif
 
+	#if defined EW4_USE_PRIORITY
+	EW4_UsePriority_OnClientDisconnect(iClient);
+	#endif
+
 	ReleaseClientItems(iClient, EW_WEAPON_INTERACTION_DISCONNECT);
 }
 
