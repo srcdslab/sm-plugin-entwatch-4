@@ -1,7 +1,7 @@
 //====================================================================================================
 //
 // Name: [entWatch] Server Command
-// Author: zaCade & Prometheum
+// Author: zaCade, Prometheum, & koen
 // Description: Handle the filtering of servercommand messages for [entWatch]
 //
 //====================================================================================================
@@ -13,25 +13,20 @@
 /* DYNAMICHOOKS */
 DynamicHook g_hAcceptInput;
 
-//----------------------------------------------------------------------------------------------------
-// Purpose: Load the gamedata and hook every point_servercommand entity already on the map
-//----------------------------------------------------------------------------------------------------
+/* CONVARS */
+ConVar g_hCVar_BlockServerCommand;
+
+/* BOOLEANS */
+bool g_bBlockServerCommand;
+
 public void Ew4_ServerCommand_OnPluginStart()
 {
-	Ew4_ServerCommand_LoadGameConfig();
+	/* Load convars */
+	g_hCVar_BlockServerCommand = CreateConVar("entwatch_block_servercommand", "1", "Block \'Command\' outputs on point_servercommand.", _, true, 0.0, true, 1.0);
+	g_hCVar_BlockServerCommand.AddChangeHook(Cvar_BlockServerCommand_Changed);
+	g_bBlockServerCommand = g_hCVar_BlockServerCommand.BoolValue;
 
-	int iEntity = INVALID_ENT_REFERENCE;
-	while ((iEntity = FindEntityByClassname(iEntity, "point_servercommand")) != INVALID_ENT_REFERENCE)
-	{
-		Ew4_ServerCommand_OnEntityCreated(iEntity, "point_servercommand");
-	}
-}
-
-//----------------------------------------------------------------------------------------------------
-// Purpose: Set up the AcceptInput DynamicHook from sdktools gamedata
-//----------------------------------------------------------------------------------------------------
-void Ew4_ServerCommand_LoadGameConfig()
-{
+	/* Load gamedata */
 	GameData hGameConf;
 	if ((hGameConf = new GameData("sdktools.games")) == null)
 	{
@@ -62,6 +57,18 @@ void Ew4_ServerCommand_LoadGameConfig()
 	g_hAcceptInput.AddParam(HookParamType_Int);
 
 	delete hGameConf;
+
+	/* Hook point_servercommand */
+	int iEntity = INVALID_ENT_REFERENCE;
+	while ((iEntity = FindEntityByClassname(iEntity, "point_servercommand")) != INVALID_ENT_REFERENCE)
+	{
+		Ew4_ServerCommand_OnEntityCreated(iEntity, "point_servercommand");
+	}
+}
+
+public void Cvar_BlockServerCommand_Changed(ConVar convar, const char[] oldValue, const char[] newValue)
+{
+	g_bBlockServerCommand = convar.BoolValue;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -80,6 +87,9 @@ public void Ew4_ServerCommand_OnEntityCreated(int iEntity, const char[] sClassna
 //----------------------------------------------------------------------------------------------------
 public MRESReturn Ew4_ServerCommand_OnAcceptInput(int iEntity, DHookReturn hReturn, DHookParam hParams)
 {
+	if (!g_bBlockServerCommand)
+		return MRES_Ignored;
+
 	char sInputName[128];
 	hParams.GetString(1, sInputName, sizeof(sInputName));
 
