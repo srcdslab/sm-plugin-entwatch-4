@@ -1382,8 +1382,9 @@ Action OnButtonPress(int iButton, int iClient)
 //----------------------------------------------------------------------------------------------------
 Action OnButtonOutput(const char[] sOutput, int iButton, int iClient, float flDelay)
 {
+	// A non-player activator is map logic, not an item use: let it through so the map can re-arm the item
 	if (!IsValidClient(iClient) || !IsValidEntity(iButton) || !g_hArray_Items.Length)
-		return Plugin_Handled;
+		return Plugin_Continue;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
 	{
