@@ -1341,10 +1341,6 @@ Action OnButtonPress(int iButton, int iClient)
 	if (!IsValidClient(iClient) || !IsValidEntity(iButton) || !g_hArray_Items.Length)
 		return Plugin_Handled;
 
-	if (HasEntProp(iButton, Prop_Data, "m_bLocked") &&
-		GetEntProp(iButton, Prop_Data, "m_bLocked"))
-		return Plugin_Handled;
-
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
 	{
 		CItem hItem = g_hArray_Items.Get(iItemID);
