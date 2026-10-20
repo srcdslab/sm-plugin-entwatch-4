@@ -15,18 +15,21 @@
 			{
 				"windows"   "307"
 				"linux"     "308"
+				"linux64"     "308"
 			}
 
 			"CBaseCombatWeapon::GetSlot"		// Gets the slot of the weapon
 			{
 				"windows"   "327"
 				"linux"     "328"
+				"linux64"     "328"
 			}
 
 			"CBasePlayer::BumpWeapon"			// Checks if pickup is possible
 			{
 				"windows"   "405"
 				"linux"     "406"
+				"linux64"     "406"
 			}
 		}
 	}
