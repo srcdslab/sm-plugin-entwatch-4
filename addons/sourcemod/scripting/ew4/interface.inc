@@ -390,11 +390,12 @@ Action OnDisplayHUD(Handle hTimer)
 		Handle hMessage = StartMessageOne("KeyHintText", iClient);
 
 		if (bIsProto)
-			PbAddString(hMessage, "hints", sHudText);
+			UserMessageToProtobuf(hMessage).AddString("hints", sHudText);
 		else
 		{
-			BfWriteByte(hMessage, 1);
-			BfWriteString(hMessage, sHudText);
+			BfWrite bf = UserMessageToBfWrite(hMessage);
+			bf.WriteByte(1);
+			bf.WriteString(sHudText);
 		}
 
 		EndMessage();

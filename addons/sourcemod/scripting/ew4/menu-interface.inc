@@ -13,20 +13,20 @@
 //----------------------------------------------------------------------------------------------------
 void EWM_RegisterAdminMenu(TopMenu hTopMenu)
 {
-	TopMenuObject hMenuObj = AddToTopMenu(hTopMenu, "EntWatch_Commands", TopMenuObject_Category, EWM_Menu_AM_Handler, INVALID_TOPMENUOBJECT);
+	TopMenuObject hMenuObj = hTopMenu.AddCategory("EntWatch_Commands", EWM_Menu_AM_Handler);
 
 	if (hMenuObj == INVALID_TOPMENUOBJECT)
 		return;
 
-	AddToTopMenu(hTopMenu, "EntWatch_ItemList", TopMenuObject_Item, EWM_Menu_AM_ItemList_Handler, hMenuObj, "sm_eitemlist", ADMFLAG_BAN);
+	hTopMenu.AddItem("EntWatch_ItemList", EWM_Menu_AM_ItemList_Handler, hMenuObj, "sm_eitemlist", ADMFLAG_BAN);
 
 	#if defined EW4_RESTRICTIONS
-	AddToTopMenu(hTopMenu, "EntWatch_EBanList",   TopMenuObject_Item, EWM_Menu_AM_EBanList_Handler,   hMenuObj, "sm_eban",   ADMFLAG_BAN);
-	AddToTopMenu(hTopMenu, "EntWatch_EUnBanList", TopMenuObject_Item, EWM_Menu_AM_EUnBanList_Handler, hMenuObj, "sm_eunban", ADMFLAG_BAN);
+	hTopMenu.AddItem("EntWatch_EBanList", EWM_Menu_AM_EBanList_Handler, hMenuObj, "sm_eban", ADMFLAG_BAN);
+	hTopMenu.AddItem("EntWatch_EUnBanList", EWM_Menu_AM_EUnBanList_Handler, hMenuObj, "sm_eunban", ADMFLAG_BAN);
 	#endif
 
 	#if defined EW4_SPAWN_ITEMS
-	AddToTopMenu(hTopMenu, "EntWatch_SpawnItemList", TopMenuObject_Item, EWM_Menu_AM_SpawnItemList_Handler, hMenuObj, "sm_espawnitem", ADMFLAG_BAN);
+	hTopMenu.AddItem("EntWatch_SpawnItemList", EWM_Menu_AM_SpawnItemList_Handler, hMenuObj, "sm_espawnitem", ADMFLAG_BAN);
 	#endif
 }
 
