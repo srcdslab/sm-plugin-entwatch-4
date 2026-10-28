@@ -664,7 +664,15 @@ public Action Timer_Refresh(Handle timer)
 {
 	if (g_eDBState == EbanDB_Wait)
 	{
-		Database_Connect();
+		// Still connected, but the table creation failed: try it again
+		if (g_hDB != null)
+		{
+			g_eDBState = EbanDB_Connected;
+			Database_CreateTable();
+		}
+		else
+			Database_Connect();
+
 		return Plugin_Continue;
 	}
 
@@ -1032,6 +1040,9 @@ public void DB_OnSuccess(Database db, any data, int numQueries, Handle[] results
 public void DB_OnError(Database db, any data, int numQueries, const char[] error, int failIndex, any[] qd)
 {
 	LogError("Transaction failed at query %d: %s", failIndex, error);
+
+	// Only used for the table creation: stop using the database until Timer_Refresh retries it
+	g_eDBState = EbanDB_Wait;
 }
 
 public void DB_OnGenericError(Database db, DBResultSet results, const char[] error, any data)
