@@ -19,7 +19,7 @@ jobs:
     name: Translations
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: srcdslab/smtranslate@v1
         with:
           # Set the TRANSLATIONS_FAIL_ON repository variable to "warning" to make warnings blocking
@@ -29,7 +29,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup SourcePawn compiler
         uses: rumblefrog/setup-sp@v1.3.1
@@ -81,7 +81,7 @@ jobs:
           cp -R addons/sourcemod/translations /tmp/package/addons/sourcemod/
 
       - name: Upload build archive for test runners
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ runner.os }}
           path: /tmp/package
@@ -92,7 +92,7 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Delete existing "latest" release and tag
         run: |
@@ -119,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ runner.os }}
           path: artifacts
