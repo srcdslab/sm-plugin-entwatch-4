@@ -84,7 +84,7 @@ bool Internal_TransferItem(int iAdmin, int iItemID, int iReceiver, bool bMessage
 				g_clr.sName,    iAdmin,
 				g_clr.sWarning, "Item Transfer",
 				sItemColor,     sName,
-				g_clr.sWarning, "EW_For",
+				g_clr.sWarning, "EW_From",
 				g_clr.sName,    iTarget,
 				g_clr.sWarning, "EW_To",
 				g_clr.sName,    iReceiver);

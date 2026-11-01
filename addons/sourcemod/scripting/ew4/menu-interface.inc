@@ -42,7 +42,7 @@ public void EWM_Menu_AM_Handler(TopMenu hMenu, TopMenuAction hAction, TopMenuObj
 	if (hAction == TopMenuAction_DisplayTitle)
 		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_Category_Title", iClient);
 	else if (hAction == TopMenuAction_DisplayOption)
-		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_Category_Title", iClient);
+		Format(sBuffer, iMaxLen, "%T", "EW_AdminMenu_Category_Option", iClient);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -244,9 +244,9 @@ void EWM_Menu_PM_ItemTransfer(int iClient, int iItemID)
 	CItem hItem = hItems.Get(iItemID);
 
 	Menu hMenu = new Menu(EWM_Menu_PM_ItemTransfer_Handler);
-	char sNoPlayers_Transfer[64];
-	Format(sNoPlayers_Transfer, sizeof(sNoPlayers_Transfer), "%T", "EW_PM_Transfer_NoValidPlayers", iClient);
-	hMenu.AddItem("", sNoPlayers_Transfer, ITEMDRAW_DISABLED);
+	char sTitle_Transfer[64];
+	Format(sTitle_Transfer, sizeof(sTitle_Transfer), "%T", "EW_PM_Transfer_Title", iClient);
+	hMenu.SetTitle(sTitle_Transfer);
 	hMenu.ExitBackButton = true;
 
 	bool bFound = false;
@@ -271,9 +271,9 @@ void EWM_Menu_PM_ItemTransfer(int iClient, int iItemID)
 
 	if (!bFound)
 	{
-		char sNoPlayers_SpawnTarget[64];
-		Format(sNoPlayers_SpawnTarget, sizeof(sNoPlayers_SpawnTarget), "%T", "EW_PM_SpawnTarget_NoPlayers", iClient);
-		hMenu.AddItem("", sNoPlayers_SpawnTarget, ITEMDRAW_DISABLED);
+		char sNoPlayers_Transfer[64];
+		Format(sNoPlayers_Transfer, sizeof(sNoPlayers_Transfer), "%T", "EW_PM_Transfer_NoValidPlayers", iClient);
+		hMenu.AddItem("", sNoPlayers_Transfer, ITEMDRAW_DISABLED);
 	}
 
 	hMenu.Display(iClient, MENU_TIME_FOREVER);
