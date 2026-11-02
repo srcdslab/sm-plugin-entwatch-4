@@ -11,6 +11,8 @@
 		"fr"		"[entWatch]"
 		"chi"		"[entWatch]"
 		"es"		"[entWatch]"
+		"de"		"[entWatch]"
+		"pt"		"[entWatch]"
 	}
 
 	// =========================================================================
@@ -26,6 +28,8 @@
 		"fr"		"a jeté"
 		"chi"		"丢弃了"
 		"es"		"ha dejado caer"
+		"de"		"hat fallen gelassen:"
+		"pt"		"largou"
 	}
 
 	"Item Death"
@@ -35,6 +39,8 @@
 		"fr"		"est mort avec"
 		"chi"		"死亡时持有"
 		"es"		"murió con"
+		"de"		"starb mit"
+		"pt"		"morreu com"
 	}
 
 	"Item Pickup"
@@ -44,6 +50,8 @@
 		"fr"		"a ramassé"
 		"chi"		"捡起了"
 		"es"		"recogió"
+		"de"		"hat aufgehoben:"
+		"pt"		"pegou"
 	}
 
 	"Item Disconnect"
@@ -53,6 +61,8 @@
 		"fr"		"s'est déconnecté avec"
 		"chi"		"断线时持有"
 		"es"		"se desconectó con"
+		"de"		"verließ den Server mit"
+		"pt"		"desconectou com"
 	}
 
 	"Item Activate"
@@ -62,6 +72,8 @@
 		"fr"		"a utilisé"
 		"chi"		"使用了"
 		"es"		"usó"
+		"de"		"benutzte"
+		"pt"		"usou"
 	}
 
 	// =========================================================================
@@ -76,6 +88,8 @@
 		"fr"		"a transféré"
 		"chi"		"转移了"
 		"es"		"transfirió"
+		"de"		"übertrug"
+		"pt"		"transferiu"
 	}
 
 	"Item Transfer All From"
@@ -85,6 +99,8 @@
 		"fr"		"a transféré tous les objets de"
 		"chi"		"转移了所有道具，来自"
 		"es"		"transfirió todos los objetos de"
+		"de"		"übertrug alle Items von"
+		"pt"		"transferiu todos os itens de"
 	}
 
 	// =========================================================================
@@ -99,6 +115,8 @@
 		"fr"		"Configuration PT introuvable."
 		"chi"		"未找到 PT 配置。"
 		"es"		"Configuración PT no encontrada."
+		"de"		"PT-Konfiguration nicht gefunden."
+		"pt"		"Configuração PT não encontrada."
 	}
 
 	"EW_Spawn_PTConfigError"
@@ -108,6 +126,8 @@
 		"fr"		"Erreur de configuration PT."
 		"chi"		"PT 配置错误。"
 		"es"		"Error de configuración PT."
+		"de"		"Fehler in der PT-Konfiguration."
+		"pt"		"Erro na configuração PT."
 	}
 
 	"EW_Spawn_MakerError"
@@ -117,6 +137,8 @@
 		"fr"		"Échec de la création de l'entity maker."
 		"chi"		"创建实体生成器失败。"
 		"es"		"No se pudo crear el entity maker."
+		"de"		"Entity Maker konnte nicht erstellt werden."
+		"pt"		"Falha ao criar o entity maker."
 	}
 
 	"EW_Spawn_Usage"
@@ -126,6 +148,19 @@
 		"fr"		"Utilisation : sm_espawnitem <destinataire> <objet> [<strip 0/1>]"
 		"chi"		"用法: sm_espawnitem <接收者> <道具名> [<strip 0/1>]"
 		"es"		"Uso: sm_espawnitem <receptor> <objeto> [<strip 0/1>]"
+		"de"		"Verwendung: sm_espawnitem <Empfänger> <Itemname> [<strip 0/1>]"
+		"pt"		"Uso: sm_espawnitem <destinatário> <item> [<strip 0/1>]"
+	}
+
+	"EW_Spawn_NoSpawnableItems"
+	{
+		"en"		"No spawnable items on this map."
+		"ru"		"На этой карте нет предметов для спавна."
+		"fr"		"Aucun objet à faire apparaître sur cette map."
+		"chi"		"当前地图没有可生成的道具。"
+		"es"		"No hay objetos generables en este mapa."
+		"de"		"Auf dieser Map gibt es keine spawnbaren Items."
+		"pt"		"Não há itens para gerar neste mapa."
 	}
 
 	"EW_Spawn_NoMatchingItems"
@@ -135,6 +170,8 @@
 		"fr"		"Erreur : aucun objet correspondant trouvé."
 		"chi"		"错误：未找到匹配道具。"
 		"es"		"Error: no se encontraron objetos coincidentes."
+		"de"		"Fehler: keine passenden Items gefunden."
+		"pt"		"Erro: nenhum item correspondente encontrado."
 	}
 
 	"EW_Spawn_PlayerNoLongerValid"
@@ -144,6 +181,8 @@
 		"fr"		"Le joueur n'est plus valide."
 		"chi"		"玩家已失效。"
 		"es"		"El jugador ya no es válido."
+		"de"		"Spieler ist nicht mehr gültig."
+		"pt"		"O jogador não é mais válido."
 	}
 
 	"Item Spawn"
@@ -153,6 +192,8 @@
 		"fr"		"a fait apparaître"
 		"chi"		"生成了"
 		"es"		"generó"
+		"de"		"spawnte"
+		"pt"		"gerou"
 	}
 
 	// =========================================================================
@@ -166,6 +207,8 @@
 		"fr"		"à"
 		"chi"		"→"
 		"es"		"a"
+		"de"		"an"
+		"pt"		"para"
 	}
 
 	"EW_On"
@@ -175,6 +218,8 @@
 		"fr"		"sur"
 		"chi"		"给"
 		"es"		"en"
+		"de"		"bei"
+		"pt"		"para"
 	}
 
 	"EW_For"
@@ -184,15 +229,19 @@
 		"fr"		"pour"
 		"chi"		"为期"
 		"es"		"por"
+		"de"		"für"
+		"pt"		"por"
 	}
 
 	"EW_Minutes"
 	{
 		"en"		"minute(s)"
-		"ru"		"минут(а)"
+		"ru"		"мин."
 		"fr"		"minute(s)"
 		"chi"		"分钟"
 		"es"		"minuto(s)"
+		"de"		"Minute(n)"
+		"pt"		"minuto(s)"
 	}
 
 	"EW_Temporarily"
@@ -202,6 +251,8 @@
 		"fr"		"temporairement"
 		"chi"		"临时"
 		"es"		"temporalmente"
+		"de"		"vorübergehend"
+		"pt"		"temporariamente"
 	}
 
 	"EW_Permanently"
@@ -211,6 +262,8 @@
 		"fr"		"définitivement"
 		"chi"		"永久"
 		"es"		"permanentemente"
+		"de"		"dauerhaft"
+		"pt"		"permanentemente"
 	}
 
 	"EW_Offline"
@@ -219,7 +272,9 @@
 		"ru"		"оффлайн"
 		"fr"		"hors ligne"
 		"chi"		"离线"
-		"es"		"sin conexión"
+		"es"		"(sin conexión)"
+		"de"		"offline"
+		"pt"		"offline"
 	}
 
 	"EW_Reason"
@@ -229,6 +284,8 @@
 		"fr"		"Raison :"
 		"chi"		"原因："
 		"es"		"Motivo:"
+		"de"		"Grund:"
+		"pt"		"Motivo:"
 	}
 
 	"EW_Restricted"
@@ -238,6 +295,8 @@
 		"fr"		"a restreint"
 		"chi"		"限制了"
 		"es"		"restringió a"
+		"de"		"sperrte"
+		"pt"		"restringiu"
 	}
 
 	"EW_Unrestricted"
@@ -245,8 +304,10 @@
 		"en"		"lifted the restriction on"
 		"ru"		"снял ограничение с"
 		"fr"		"a levé la restriction de"
-		"chi"		"解除了对"
+		"chi"		"解除了限制："
 		"es"		"levantó la restricción de"
+		"de"		"entsperrte"
+		"pt"		"removeu a restrição de"
 	}
 
 	"EW_Player"
@@ -256,6 +317,8 @@
 		"fr"		"joueur"
 		"chi"		"玩家"
 		"es"		"jugador"
+		"de"		"Spieler"
+		"pt"		"jogador"
 	}
 
 	// =========================================================================
@@ -270,6 +333,8 @@
 		"fr"		"Le HUD est maintenant masqué."
 		"chi"		"HUD 已隐藏。"
 		"es"		"El HUD ahora está oculto."
+		"de"		"Das HUD ist jetzt ausgeblendet."
+		"pt"		"O HUD agora está oculto."
 	}
 
 	"EW_Chat_HUD_Visible"
@@ -279,6 +344,8 @@
 		"fr"		"Le HUD est maintenant visible."
 		"chi"		"HUD 已显示。"
 		"es"		"El HUD ahora está visible."
+		"de"		"Das HUD ist jetzt sichtbar."
+		"pt"		"O HUD agora está visível."
 	}
 
 	// =========================================================================
@@ -293,6 +360,8 @@
 		"fr"		"Aucun objet trouvé."
 		"chi"		"未找到任何道具。"
 		"es"		"No se encontraron objetos."
+		"de"		"Keine Items gefunden."
+		"pt"		"Nenhum item encontrado."
 	}
 
 	"EW_Menu_PlayerNoLongerValid"
@@ -302,6 +371,8 @@
 		"fr"		"Le joueur n'est plus valide."
 		"chi"		"玩家已失效。"
 		"es"		"El jugador ya no es válido."
+		"de"		"Spieler ist nicht mehr gültig."
+		"pt"		"O jogador não é mais válido."
 	}
 
 	"EW_Menu_ReceiverDisconnected"
@@ -311,6 +382,8 @@
 		"fr"		"Le destinataire s'est déconnecté."
 		"chi"		"接收者已断线。"
 		"es"		"El receptor se desconectó."
+		"de"		"Der Empfänger hat die Verbindung getrennt."
+		"pt"		"O destinatário se desconectou."
 	}
 
 	"EW_Menu_TransferFailed"
@@ -320,6 +393,8 @@
 		"fr"		"Le transfert a échoué."
 		"chi"		"转移失败。"
 		"es"		"La transferencia falló."
+		"de"		"Übertragung fehlgeschlagen."
+		"pt"		"A transferência falhou."
 	}
 
 	"EW_Menu_BanInfoFailed"
@@ -329,6 +404,8 @@
 		"fr"		"Impossible de récupérer les informations de restriction."
 		"chi"		"无法获取封禁信息。"
 		"es"		"No se pudo obtener la información de restricción."
+		"de"		"Sperrinformationen konnten nicht abgerufen werden."
+		"pt"		"Não foi possível obter as informações da restrição."
 	}
 
 	"EW_Menu_SpawnFailed"
@@ -338,6 +415,8 @@
 		"fr"		"L'apparition a échoué."
 		"chi"		"生成失败。"
 		"es"		"La generación falló."
+		"de"		"Spawnen fehlgeschlagen."
+		"pt"		"Falha ao gerar o item."
 	}
 
 	"EW_Transfer_Usage"
@@ -347,6 +426,8 @@
 		"fr"		"Utilisation : sm_etransfer <#userid/nom/$objet> <#userid/nom>"
 		"chi"		"用法: sm_etransfer <#userid/名称/$道具> <#userid/名称>"
 		"es"		"Uso: sm_etransfer <#userid/nombre/$objeto> <#userid/nombre>"
+		"de"		"Verwendung: sm_etransfer <#userid/Name/$Item> <#userid/Name>"
+		"pt"		"Uso: sm_etransfer <#userid/nome/$item> <#userid/nome>"
 	}
 
 	"EW_Transfer_NoTransferableItems"
@@ -356,6 +437,8 @@
 		"fr"		"Erreur : aucun objet transférable trouvé !"
 		"chi"		"错误：未找到可转移道具！"
 		"es"		"¡Error: no se encontraron objetos transferibles!"
+		"de"		"Fehler: keine übertragbaren Items gefunden!"
+		"pt"		"Erro: nenhum item transferível encontrado!"
 	}
 
 	"EW_Transfer_TargetNoTransferableItems"
@@ -365,6 +448,8 @@
 		"fr"		"Erreur : la cible n'a aucun objet transférable !"
 		"chi"		"错误：目标没有可转移道具！"
 		"es"		"¡Error: el objetivo no tiene objetos transferibles!"
+		"de"		"Fehler: Das Ziel hat keine übertragbaren Items!"
+		"pt"		"Erro: o alvo não tem itens transferíveis!"
 	}
 
 	// =========================================================================
@@ -379,6 +464,8 @@
 		"fr"		"Utilisation : sm_eban <#userid/nom> [durée] [raison]"
 		"chi"		"用法: sm_eban <#userid/名称> [时长] [原因]"
 		"es"		"Uso: sm_eban <#userid/nombre> [duración] [motivo]"
+		"de"		"Verwendung: sm_eban <#userid/Name> [Dauer] [Grund]"
+		"pt"		"Uso: sm_eban <#userid/nome> [duração] [motivo]"
 	}
 
 	"EW_Restrict_AlreadyRestricted"
@@ -388,6 +475,8 @@
 		"fr"		"est déjà restreint."
 		"chi"		"已被限制。"
 		"es"		"ya está restringido."
+		"de"		"ist bereits gesperrt."
+		"pt"		"já está restrito."
 	}
 
 	"EW_Offline_AlreadyBanned"
@@ -397,6 +486,8 @@
 		"fr"		"a déjà un eban actif émis par"
 		"chi"		"已有一个由以下管理员发起的有效 eban："
 		"es"		"ya tiene un eban activo emitido por"
+		"de"		"hat bereits einen aktiven Eban von"
+		"pt"		"já tem um eban ativo aplicado por"
 	}
 
 	"EW_Restrict_InvalidDuration"
@@ -406,6 +497,8 @@
 		"fr"		"Durée invalide. Doit être 0 (permanent) ou un nombre de minutes positif."
 		"chi"		"无效时长。必须为 0（永久）或正整数分钟数。"
 		"es"		"Duración inválida. Debe ser 0 (permanente) o un número positivo de minutos."
+		"de"		"Ungültige Dauer. Muss 0 (dauerhaft) oder eine positive Anzahl an Minuten sein."
+		"pt"		"Duração inválida. Deve ser 0 (permanente) ou um número positivo de minutos."
 	}
 
 	"EW_Restrict_InvalidDuration_Max"
@@ -416,6 +509,8 @@
 		"fr"		"Durée invalide. Doit être comprise entre 0 (permanent) et {1} minute(s)."
 		"chi"		"无效时长。必须在 0（永久）到 {1} 分钟之间。"
 		"es"		"Duración inválida. Debe estar entre 0 (permanente) y {1} minuto(s)."
+		"de"		"Ungültige Dauer. Muss zwischen 0 (dauerhaft) und {1} Minute(n) liegen."
+		"pt"		"Duração inválida. Deve estar entre 0 (permanente) e {1} minuto(s)."
 	}
 
 	"EW_Unrestrict_Usage"
@@ -425,6 +520,8 @@
 		"fr"		"Utilisation : sm_eunban <#userid/nom> [raison]"
 		"chi"		"用法: sm_eunban <#userid/名称> [原因]"
 		"es"		"Uso: sm_eunban <#userid/nombre> [motivo]"
+		"de"		"Verwendung: sm_eunban <#userid/Name> [Grund]"
+		"pt"		"Uso: sm_eunban <#userid/nome> [motivo]"
 	}
 
 	"EW_Unrestrict_NotRestricted"
@@ -434,6 +531,8 @@
 		"fr"		"n'est actuellement pas restreint."
 		"chi"		"当前未被限制。"
 		"es"		"no está restringido actualmente."
+		"de"		"ist derzeit nicht gesperrt."
+		"pt"		"não está restrito no momento."
 	}
 
 	// =========================================================================
@@ -448,6 +547,8 @@
 		"fr"		"Actuellement restreints :"
 		"chi"		"当前受限玩家："
 		"es"		"Actualmente restringidos:"
+		"de"		"Derzeit gesperrt:"
+		"pt"		"Atualmente restritos:"
 	}
 
 	"EW_Restrictions_None"
@@ -457,6 +558,8 @@
 		"fr"		"Aucun joueur n'est actuellement restreint."
 		"chi"		"当前没有玩家被限制。"
 		"es"		"Actualmente no hay jugadores restringidos."
+		"de"		"Derzeit ist kein Spieler gesperrt."
+		"pt"		"Nenhum jogador está restrito no momento."
 	}
 
 	"EW_Status_InvalidPlayer"
@@ -466,15 +569,19 @@
 		"fr"		"Le joueur est invalide."
 		"chi"		"玩家无效。"
 		"es"		"El jugador no es válido."
+		"de"		"Spieler ist ungültig."
+		"pt"		"Jogador inválido."
 	}
 
 	"EW_Status_TotalEbans"
 	{
 		"en"		"has accumulated a total of"
-		"ru"		"получал eban всего"
+		"ru"		"получил всего"
 		"fr"		"a accumulé au total"
 		"chi"		"共累计"
 		"es"		"ha acumulado un total de"
+		"de"		"hat insgesamt"
+		"pt"		"acumulou um total de"
 	}
 
 	"EW_Status_TotalEbans_Suffix"
@@ -484,6 +591,8 @@
 		"fr"		"eban(s)."
 		"chi"		"次 eban。"
 		"es"		"eban(es)."
+		"de"		"Eban(s) erhalten."
+		"pt"		"eban(s)."
 	}
 
 	"EW_Status_NotRestricted"
@@ -493,6 +602,8 @@
 		"fr"		"n'est actuellement pas restreint."
 		"chi"		"当前未被限制。"
 		"es"		"no está restringido actualmente."
+		"de"		"ist derzeit nicht gesperrt."
+		"pt"		"não está restrito no momento."
 	}
 
 	"EW_Status_IsRestricted"
@@ -502,6 +613,8 @@
 		"fr"		"est actuellement restreint."
 		"chi"		"当前已被限制。"
 		"es"		"está actualmente restringido."
+		"de"		"ist derzeit gesperrt."
+		"pt"		"está restrito no momento."
 	}
 
 	"EW_Status_Reason"
@@ -511,6 +624,8 @@
 		"fr"		"Raison :"
 		"chi"		"原因："
 		"es"		"Motivo:"
+		"de"		"Grund:"
+		"pt"		"Motivo:"
 	}
 
 	"EW_Status_RestrictedBy"
@@ -520,6 +635,8 @@
 		"fr"		"Restreint par :"
 		"chi"		"限制者："
 		"es"		"Restringido por:"
+		"de"		"Gesperrt von:"
+		"pt"		"Restrito por:"
 	}
 
 	"EW_Status_IssuedAt"
@@ -529,6 +646,8 @@
 		"fr"		"Émis le :"
 		"chi"		"发起时间："
 		"es"		"Emitido:"
+		"de"		"Ausgestellt am:"
+		"pt"		"Emitido em:"
 	}
 
 	"EW_Status_Duration"
@@ -538,6 +657,8 @@
 		"fr"		"Durée :"
 		"chi"		"时长："
 		"es"		"Duración:"
+		"de"		"Dauer:"
+		"pt"		"Duração:"
 	}
 
 	"EW_Status_Permanent"
@@ -547,6 +668,8 @@
 		"fr"		"Permanent"
 		"chi"		"永久"
 		"es"		"Permanente"
+		"de"		"Dauerhaft"
+		"pt"		"Permanente"
 	}
 
 	"EW_Status_Expires"
@@ -556,6 +679,8 @@
 		"fr"		"Expiration :"
 		"chi"		"到期："
 		"es"		"Vence:"
+		"de"		"Läuft ab:"
+		"pt"		"Expira:"
 	}
 
 	"EW_Status_Expires_Never"
@@ -565,6 +690,8 @@
 		"fr"		"Jamais"
 		"chi"		"永不"
 		"es"		"Nunca"
+		"de"		"Nie"
+		"pt"		"Nunca"
 	}
 
 	"EW_Status_Expires_Remaining"
@@ -574,6 +701,8 @@
 		"fr"		"restant"
 		"chi"		"剩余"
 		"es"		"restante"
+		"de"		"verbleibend"
+		"pt"		"restantes"
 	}
 
 	"EW_Status_Duration_Temporary"
@@ -583,6 +712,8 @@
 		"fr"		"Temporaire (SteamID non vérifié)"
 		"chi"		"临时（SteamID 未验证）"
 		"es"		"Temporal (SteamID no verificado)"
+		"de"		"Vorübergehend (SteamID nicht verifiziert)"
+		"pt"		"Temporária (SteamID não verificado)"
 	}
 
 	"EW_Status_Expires_UntilVerified"
@@ -592,6 +723,8 @@
 		"fr"		"Jusqu'à la vérification du SteamID ou la déconnexion"
 		"chi"		"直到 SteamID 验证或客户端断开连接"
 		"es"		"Hasta que el SteamID se verifique o el cliente se desconecte"
+		"de"		"Bis die SteamID verifiziert ist oder der Client die Verbindung trennt"
+		"pt"		"Até o SteamID ser verificado ou o cliente se desconectar"
 	}
 
 	// =========================================================================
@@ -606,6 +739,8 @@
 		"fr"		"Vous n'êtes pas autorisé à émettre une restriction de cette durée ou plus."
 		"chi"		"你无权发起该时长或以上的限制。"
 		"es"		"No estás autorizado a emitir una restricción de esta duración o más."
+		"de"		"Du bist nicht berechtigt, eine Sperre dieser Dauer oder länger zu verhängen."
+		"pt"		"Você não tem permissão para aplicar uma restrição desta duração ou mais."
 	}
 
 	"EW_Perm_MaxDuration_Max"
@@ -615,6 +750,8 @@
 		"fr"		"Maximum autorisé :"
 		"chi"		"最大允许："
 		"es"		"Máximo permitido:"
+		"de"		"Maximal erlaubt:"
+		"pt"		"Máximo permitido:"
 	}
 
 	"EW_Perm_NoPermanent"
@@ -624,6 +761,8 @@
 		"fr"		"Vous n'êtes pas autorisé à émettre des restrictions permanentes."
 		"chi"		"你无权发起永久限制。"
 		"es"		"No estás autorizado a emitir restricciones permanentes."
+		"de"		"Du bist nicht berechtigt, dauerhafte Sperren zu verhängen."
+		"pt"		"Você não tem permissão para aplicar restrições permanentes."
 	}
 
 	// =========================================================================
@@ -637,6 +776,8 @@
 		"fr"		"La base de données est actuellement indisponible. Veuillez réessayer plus tard."
 		"chi"		"数据库当前不可用，请稍后再试。"
 		"es"		"La base de datos no está disponible en este momento. Por favor, inténtalo más tarde."
+		"de"		"Die Datenbank ist derzeit nicht verfügbar. Bitte versuche es später erneut."
+		"pt"		"O banco de dados está indisponível no momento. Tente novamente mais tarde."
 	}
 
 	// =========================================================================
@@ -651,6 +792,8 @@
 		"fr"		"Raison de restriction — Permanent"
 		"chi"		"限制原因 — 永久"
 		"es"		"Motivo de restricción — Permanente"
+		"de"		"Sperrgrund — Dauerhaft"
+		"pt"		"Motivo da restrição — Permanente"
 	}
 
 	"EW_Menu_BanReason_Title_Duration"
@@ -660,6 +803,8 @@
 		"fr"		"Raison de restriction — Durée limitée"
 		"chi"		"限制原因 — 限时"
 		"es"		"Motivo de restricción — Limitado"
+		"de"		"Sperrgrund — Befristet"
+		"pt"		"Motivo da restrição — Temporária"
 	}
 
 	// =========================================================================
@@ -675,6 +820,8 @@
 		"fr"		"Mauvaise utilisation de l'objet"
 		"chi"		"道具滥用"
 		"es"		"Mal uso del objeto"
+		"de"		"Item-Missbrauch"
+		"pt"		"Mau uso do item"
 	}
 
 	"Trolling on purpose"
@@ -684,6 +831,8 @@
 		"fr"		"Trolling délibéré"
 		"chi"		"故意捣乱"
 		"es"		"Trolleo intencional"
+		"de"		"Absichtliches Trollen"
+		"pt"		"Trollagem intencional"
 	}
 
 	"Throwing item away"
@@ -693,6 +842,8 @@
 		"fr"		"Jeter l'objet délibérément"
 		"chi"		"故意丢弃道具"
 		"es"		"Tirar el objeto intencionalmente"
+		"de"		"Item absichtlich wegwerfen"
+		"pt"		"Jogar o item fora de propósito"
 	}
 
 	"Not using an item"
@@ -702,6 +853,8 @@
 		"fr"		"Refus d'utiliser l'objet"
 		"chi"		"不使用道具"
 		"es"		"No usar el objeto"
+		"de"		"Item nicht benutzen"
+		"pt"		"Não usar o item"
 	}
 
 	"Trimming team"
@@ -711,6 +864,8 @@
 		"fr"		"Sabotage de l'équipe"
 		"chi"		"故意减损队伍"
 		"es"		"Sabotaje al equipo"
+		"de"		"Sabotage am Team"
+		"pt"		"Sabotagem da equipe"
 	}
 
 	"Not listening to leader"
@@ -720,6 +875,8 @@
 		"fr"		"Ne pas écouter le leader"
 		"chi"		"不听从队长指令"
 		"es"		"No escuchar al líder"
+		"de"		"Nicht auf den Leader hören"
+		"pt"		"Não ouvir o líder"
 	}
 
 	"Spamming an item"
@@ -729,6 +886,8 @@
 		"fr"		"Utilisation abusive répétée de l'objet"
 		"chi"		"滥用道具"
 		"es"		"Abuso repetido del objeto"
+		"de"		"Item-Spam"
+		"pt"		"Spam do item"
 	}
 
 	"Other"
@@ -738,6 +897,8 @@
 		"fr"		"Autre"
 		"chi"		"其他"
 		"es"		"Otro"
+		"de"		"Sonstiges"
+		"pt"		"Outro"
 	}
 
 	// =========================================================================
@@ -752,6 +913,8 @@
 		"fr"		"Raison de levée de restriction"
 		"chi"		"解除限制的原因"
 		"es"		"Motivo para levantar la restricción"
+		"de"		"Grund für die Entsperrung"
+		"pt"		"Motivo para remover a restrição"
 	}
 
 	"Wrong target"
@@ -761,6 +924,8 @@
 		"fr"		"Mauvaise cible"
 		"chi"		"目标错误"
 		"es"		"Objetivo equivocado"
+		"de"		"Falsches Ziel"
+		"pt"		"Alvo errado"
 	}
 
 	"Giving another chance"
@@ -770,6 +935,8 @@
 		"fr"		"Accorder une nouvelle chance"
 		"chi"		"给予另一次机会"
 		"es"		"Dar otra oportunidad"
+		"de"		"Noch eine Chance geben"
+		"pt"		"Dar outra chance"
 	}
 
 	"Bad duration"
@@ -779,6 +946,8 @@
 		"fr"		"Durée incorrecte"
 		"chi"		"时长有误"
 		"es"		"Duración incorrecta"
+		"de"		"Falsche Dauer"
+		"pt"		"Duração incorreta"
 	}
 
 	"Was not on purpose"
@@ -788,6 +957,8 @@
 		"fr"		"N'était pas intentionnel"
 		"chi"		"并非故意行为"
 		"es"		"No fue intencional"
+		"de"		"War keine Absicht"
+		"pt"		"Não foi intencional"
 	}
 
 	// =========================================================================
@@ -802,6 +973,8 @@
 		"fr"		"[entWatch] Joueurs récemment déconnectés"
 		"chi"		"[entWatch] 近期已离线玩家"
 		"es"		"[entWatch] Jugadores desconectados recientemente"
+		"de"		"[entWatch] Kürzlich getrennte Spieler"
+		"pt"		"[entWatch] Jogadores desconectados recentemente"
 	}
 
 	"EW_Menu_Offline_NoPlayers"
@@ -811,6 +984,20 @@
 		"fr"		"Aucun joueur récemment déconnecté enregistré."
 		"chi"		"暂无近期离线玩家记录。"
 		"es"		"No hay registros de jugadores desconectados recientemente."
+		"de"		"Keine kürzlich getrennten Spieler gespeichert."
+		"pt"		"Nenhum jogador desconectado recentemente registrado."
+	}
+
+	"EW_Menu_Offline_EntryFormat"
+	{
+		"#format"	"{1:s},{2:d},{3:d}"
+		"en"		"{1} (#{2}) - {3} min ago"
+		"ru"		"{1} (#{2}) - {3} мин. назад"
+		"fr"		"{1} (#{2}) - il y a {3} min"
+		"chi"		"{1} (#{2}) - {3} 分钟前"
+		"es"		"{1} (#{2}) - hace {3} min"
+		"de"		"{1} (#{2}) - vor {3} Min."
+		"pt"		"{1} (#{2}) - há {3} min"
 	}
 
 	"EW_Menu_Offline_MinutesAgo"
@@ -820,6 +1007,8 @@
 		"fr"		"min"
 		"chi"		"分钟前"
 		"es"		"min"
+		"de"		"Min. her"
+		"pt"		"min atrás"
 	}
 
 	// =========================================================================
@@ -834,42 +1023,56 @@
 		"fr"		"[entWatch] Joueur hors ligne"
 		"chi"		"[entWatch] 离线玩家"
 		"es"		"[entWatch] Jugador desconectado"
+		"de"		"[entWatch] Offline-Spieler"
+		"pt"		"[entWatch] Jogador offline"
 	}
 
 	"EW_Menu_OfflineDetails_Name"
 	{
-		"en"		"Name:"
-		"ru"		"Имя:"
-		"fr"		"Nom :"
-		"chi"		"名称："
-		"es"		"Nombre:"
+		"#format"	"{1:s},{2:d}"
+		"en"		"Name: {1} (#{2})"
+		"ru"		"Имя: {1} (#{2})"
+		"fr"		"Nom : {1} (#{2})"
+		"chi"		"名称：{1} (#{2})"
+		"es"		"Nombre: {1} (#{2})"
+		"de"		"Name: {1} (#{2})"
+		"pt"		"Nome: {1} (#{2})"
 	}
 
 	"EW_Menu_OfflineDetails_SteamID"
 	{
-		"en"		"SteamID:"
-		"ru"		"SteamID:"
-		"fr"		"SteamID :"
-		"chi"		"SteamID："
-		"es"		"SteamID:"
+		"#format"	"{1:s}"
+		"en"		"SteamID: {1}"
+		"ru"		"SteamID: {1}"
+		"fr"		"SteamID : {1}"
+		"chi"		"SteamID：{1}"
+		"es"		"SteamID: {1}"
+		"de"		"SteamID: {1}"
+		"pt"		"SteamID: {1}"
 	}
 
 	"EW_Menu_OfflineDetails_Disconnected"
 	{
-		"en"		"Disconnected:"
-		"ru"		"Отключился:"
-		"fr"		"Déconnecté :"
-		"chi"		"断开时间："
-		"es"		"Desconectado:"
+		"#format"	"{1:d}"
+		"en"		"Disconnected: {1} min ago"
+		"ru"		"Отключился: {1} мин. назад"
+		"fr"		"Déconnecté : il y a {1} min"
+		"chi"		"断开时间：{1} 分钟前"
+		"es"		"Desconectado: hace {1} min"
+		"de"		"Getrennt: vor {1} Min."
+		"pt"		"Desconectado: há {1} min"
 	}
 
 	"EW_Menu_OfflineDetails_LastItem"
 	{
-		"en"		"Last held item:"
-		"ru"		"Последний предмет:"
-		"fr"		"Dernier objet tenu :"
-		"chi"		"最后持有道具："
-		"es"		"Último objeto sostenido:"
+		"#format"	"{1:s}"
+		"en"		"Last held item: {1}"
+		"ru"		"Последний предмет: {1}"
+		"fr"		"Dernier objet tenu : {1}"
+		"chi"		"最后持有道具：{1}"
+		"es"		"Último objeto sostenido: {1}"
+		"de"		"Zuletzt gehaltenes Item: {1}"
+		"pt"		"Último item segurado: {1}"
 	}
 
 	"EW_Menu_OfflineDetails_BanButton"
@@ -879,6 +1082,8 @@
 		"fr"		"Émettre une restriction"
 		"chi"		"发起限制"
 		"es"		"Emitir una restricción"
+		"de"		"Sperre verhängen"
+		"pt"		"Aplicar uma restrição"
 	}
 
 	// =========================================================================
@@ -893,6 +1098,8 @@
 		"fr"		"[entWatch] Sélectionner la durée de restriction"
 		"chi"		"[entWatch] 选择限制时长"
 		"es"		"[entWatch] Seleccionar duración de restricción"
+		"de"		"[entWatch] Sperrdauer auswählen"
+		"pt"		"[entWatch] Selecionar duração da restrição"
 	}
 
 	"EW_Menu_OfflineDuration_10min"
@@ -902,6 +1109,8 @@
 		"fr"		"10 minutes"
 		"chi"		"10 分钟"
 		"es"		"10 minutos"
+		"de"		"10 Minuten"
+		"pt"		"10 minutos"
 	}
 
 	"EW_Menu_OfflineDuration_1Hour"
@@ -911,6 +1120,8 @@
 		"fr"		"1 heure"
 		"chi"		"1 小时"
 		"es"		"1 hora"
+		"de"		"1 Stunde"
+		"pt"		"1 hora"
 	}
 
 	"EW_Menu_OfflineDuration_1Day"
@@ -920,6 +1131,8 @@
 		"fr"		"1 jour"
 		"chi"		"1 天"
 		"es"		"1 día"
+		"de"		"1 Tag"
+		"pt"		"1 dia"
 	}
 
 	"EW_Menu_OfflineDuration_1Week"
@@ -929,6 +1142,8 @@
 		"fr"		"1 semaine"
 		"chi"		"1 周"
 		"es"		"1 semana"
+		"de"		"1 Woche"
+		"pt"		"1 semana"
 	}
 
 	"EW_Menu_OfflineDuration_1Month"
@@ -938,6 +1153,8 @@
 		"fr"		"1 mois"
 		"chi"		"1 个月"
 		"es"		"1 mes"
+		"de"		"1 Monat"
+		"pt"		"1 mês"
 	}
 
 	"EW_Menu_OfflineDuration_Permanent"
@@ -947,6 +1164,8 @@
 		"fr"		"Définitivement"
 		"chi"		"永久"
 		"es"		"Permanentemente"
+		"de"		"Dauerhaft"
+		"pt"		"Permanente"
 	}
 
 	// =========================================================================
@@ -961,6 +1180,8 @@
 		"fr"		"[entWatch] Raison de restriction — Permanent"
 		"chi"		"[entWatch] 限制原因 — 永久"
 		"es"		"[entWatch] Motivo de restricción — Permanente"
+		"de"		"[entWatch] Sperrgrund — Dauerhaft"
+		"pt"		"[entWatch] Motivo da restrição — Permanente"
 	}
 
 	"EW_Menu_OfflineReason_Title_Duration"
@@ -970,6 +1191,8 @@
 		"fr"		"[entWatch] Raison de restriction — Durée limitée"
 		"chi"		"[entWatch] 限制原因 — 限时"
 		"es"		"[entWatch] Motivo de restricción — Limitado"
+		"de"		"[entWatch] Sperrgrund — Befristet"
+		"pt"		"[entWatch] Motivo da restrição — Temporária"
 	}
 
 	// =========================================================================
@@ -983,6 +1206,8 @@
 		"fr"		"Ce joueur n'est plus connecté au serveur."
 		"chi"		"该玩家已不在服务器上。"
 		"es"		"Este jugador ya no está conectado al servidor."
+		"de"		"Dieser Spieler ist nicht mehr mit dem Server verbunden."
+		"pt"		"Este jogador não está mais conectado ao servidor."
 	}
 
 	"EW_Error_PlayerNoLongerTracked"
@@ -992,6 +1217,8 @@
 		"fr"		"Ce joueur n'est plus suivi dans le registre hors ligne."
 		"chi"		"该玩家已不再被离线记录追踪。"
 		"es"		"Este jugador ya no está siendo rastreado en el registro sin conexión."
+		"de"		"Dieser Spieler wird nicht mehr im Offline-Register erfasst."
+		"pt"		"Este jogador não está mais sendo rastreado pelo registro offline."
 	}
 
 	// =========================================================================
@@ -1006,6 +1233,8 @@
 		"fr"		"seconde(s)"
 		"chi"		"秒"
 		"es"		"segundo(s)"
+		"de"		"Sekunde(n)"
+		"pt"		"segundo(s)"
 	}
 
 	"EW_Time_Minutes"
@@ -1015,6 +1244,8 @@
 		"fr"		"minute(s)"
 		"chi"		"分钟"
 		"es"		"minuto(s)"
+		"de"		"Minute(n)"
+		"pt"		"minuto(s)"
 	}
 
 	"EW_Time_Hours"
@@ -1024,6 +1255,8 @@
 		"fr"		"heure(s)"
 		"chi"		"小时"
 		"es"		"hora(s)"
+		"de"		"Stunde(n)"
+		"pt"		"hora(s)"
 	}
 
 	"EW_Time_Days"
@@ -1033,6 +1266,8 @@
 		"fr"		"jour(s)"
 		"chi"		"天"
 		"es"		"día(s)"
+		"de"		"Tag(e)"
+		"pt"		"dia(s)"
 	}
 
 	// =========================================================================
@@ -1047,6 +1282,8 @@
 		"fr"    "Utilisation : sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
 		"chi"   "用法: sm_ewsetcooldown <hammerid> <冷却时间> [force:0/1]"
 		"es"    "Uso: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"de"    "Verwendung: sm_ewsetcooldown <hammerid> <Cooldown> [force:0/1]"
+		"pt"    "Uso: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
 	}
 
 	"EW_Override_SetMaxUses_Usage"
@@ -1056,6 +1293,8 @@
 		"fr"    "Utilisation : sm_ewsetmaxuses <hammerid> <maxuses>"
 		"chi"   "用法: sm_ewsetmaxuses <hammerid> <最大使用次数>"
 		"es"    "Uso: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"de"    "Verwendung: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"pt"    "Uso: sm_ewsetmaxuses <hammerid> <maxuses>"
 	}
 
 	"EW_Override_SetMode_Usage"
@@ -1065,6 +1304,8 @@
 		"fr"    "Utilisation : sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
 		"chi"   "用法: sm_ewsetmode <hammerid> <类型(0-4)> <模式(0-4)> <冷却时间> <最大使用次数>"
 		"es"    "Uso: sm_ewsetmode <hammerid> <tipo(0-4)> <modo(0-4)> <cooldown> <maxuses>"
+		"de"    "Verwendung: sm_ewsetmode <hammerid> <Typ(0-4)> <Modus(0-4)> <Cooldown> <maxuses>"
+		"pt"    "Uso: sm_ewsetmode <hammerid> <tipo(0-4)> <modo(0-4)> <cooldown> <maxuses>"
 	}
 
 	"EW_Override_SetName_Usage"
@@ -1074,15 +1315,19 @@
 		"fr"    "Utilisation : sm_ewsetname <hammerid> <nouveaunom>"
 		"chi"   "用法: sm_ewsetname <hammerid> <新名称>"
 		"es"    "Uso: sm_ewsetname <hammerid> <nuevonombre>"
+		"de"    "Verwendung: sm_ewsetname <hammerid> <NeuerName>"
+		"pt"    "Uso: sm_ewsetname <hammerid> <novonome>"
 	}
 
 	"EW_Override_SetShortName_Usage"
 	{
 		"en"    "Usage: sm_ewsetshortname <hammerid> <newshortname>"
 		"ru"    "Использование: sm_ewsetshortname <hammerid> <новое короткое имя>"
-		"fr"    "Utilisation : sm_ewsetshortname <hammerid> <nouveaucourtnnom>"
+		"fr"    "Utilisation : sm_ewsetshortname <hammerid> <nouveaunomcourt>"
 		"chi"   "用法: sm_ewsetshortname <hammerid> <新短名称>"
 		"es"    "Uso: sm_ewsetshortname <hammerid> <nuevonombrecorto>"
+		"de"    "Verwendung: sm_ewsetshortname <hammerid> <NeuerKurzname>"
+		"pt"    "Uso: sm_ewsetshortname <hammerid> <novonomecurto>"
 	}
 
 	"EW_Override_LockButton_Usage"
@@ -1092,6 +1337,8 @@
 		"fr"    "Utilisation : sm_ewlockbutton <hammerid> <1=verrouiller|0=déverrouiller>"
 		"chi"   "用法: sm_ewlockbutton <hammerid> <1=锁定|0=解锁>"
 		"es"    "Uso: sm_ewlockbutton <hammerid> <1=bloquear|0=desbloquear>"
+		"de"    "Verwendung: sm_ewlockbutton <hammerid> <1=sperren|0=entsperren>"
+		"pt"    "Uso: sm_ewlockbutton <hammerid> <1=bloquear|0=desbloquear>"
 	}
 
 	"EW_Override_NoButton"
@@ -1101,6 +1348,8 @@
 		"fr"    "Aucun objet/bouton trouvé pour le HammerID %d."
 		"chi"   "未找到 HammerID 为 %d 的道具/按钮。"
 		"es"    "No se encontró ningún objeto/botón para el HammerID %d."
+		"de"    "Kein Item/Button für HammerID %d gefunden."
+		"pt"    "Nenhum item/botão encontrado para o HammerID %d."
 	}
 
 	"EW_Override_NoItem"
@@ -1110,6 +1359,8 @@
 		"fr"    "Aucun objet trouvé pour le HammerID %d."
 		"chi"   "未找到 HammerID 为 %d 的道具。"
 		"es"    "No se encontró ningún objeto para el HammerID %d."
+		"de"    "Kein Item für HammerID %d gefunden."
+		"pt"    "Nenhum item encontrado para o HammerID %d."
 	}
 
 	"EW_Override_InvalidType"
@@ -1119,6 +1370,8 @@
 		"fr"    "Type invalide (0-4)."
 		"chi"   "无效类型（0-4）。"
 		"es"    "Tipo inválido (0-4)."
+		"de"    "Ungültiger Typ (0-4)."
+		"pt"    "Tipo inválido (0-4)."
 	}
 
 	"EW_Override_InvalidMode"
@@ -1128,6 +1381,8 @@
 		"fr"    "Mode invalide (0-4)."
 		"chi"   "无效模式（0-4）。"
 		"es"    "Modo inválido (0-4)."
+		"de"    "Ungültiger Modus (0-4)."
+		"pt"    "Modo inválido (0-4)."
 	}
 
 	"EW_Override_SetCooldown_Done"
@@ -1138,6 +1393,8 @@
 		"fr"    "Cooldown du bouton {1} défini à {2} s."
 		"chi"   "{1} 按钮冷却时间已设置为 {2} 秒。"
 		"es"    "Cooldown del botón {1} establecido en {2} s."
+		"de"    "Cooldown von Button {1} auf {2} s gesetzt."
+		"pt"    "Cooldown do botão {1} definido para {2} s."
 	}
 
 	"EW_Override_SetMaxUses_Done"
@@ -1148,6 +1405,8 @@
 		"fr"    "Utilisations max du bouton {1} définies à {2}."
 		"chi"   "{1} 按钮最大使用次数已设置为 {2}。"
 		"es"    "Usos máximos del botón {1} establecidos en {2}."
+		"de"    "Max. Benutzungen von Button {1} auf {2} gesetzt."
+		"pt"    "Usos máximos do botão {1} definidos para {2}."
 	}
 
 	"EW_Override_SetMode_Done"
@@ -1158,6 +1417,8 @@
 		"fr"    "Bouton {1} → type {2}, mode {3}, cd {4} s, maxuses {5}."
 		"chi"   "{1} 按钮 → 类型 {2}，模式 {3}，冷却 {4} 秒，最大次数 {5}。"
 		"es"    "Botón {1} → tipo {2}, modo {3}, cd {4} s, maxuses {5}."
+		"de"    "Button {1} → Typ {2}, Modus {3}, CD {4} s, maxuses {5}."
+		"pt"    "Botão {1} → tipo {2}, modo {3}, cd {4} s, maxuses {5}."
 	}
 
 	"EW_Override_SetName_Done"
@@ -1168,6 +1429,8 @@
 		"fr"    "Nom de l'objet #{1} défini sur \"{2}\"."
 		"chi"   "道具 #{1} 名称已设置为\"{2}\"。"
 		"es"    "Nombre del objeto #{1} establecido en \"{2}\"."
+		"de"    "Name von Item #{1} auf \"{2}\" gesetzt."
+		"pt"    "Nome do item #{1} definido como \"{2}\"."
 	}
 
 	"EW_Override_SetShortName_Done"
@@ -1178,6 +1441,8 @@
 		"fr"    "Nom court de l'objet #{1} défini sur \"{2}\"."
 		"chi"   "道具 #{1} 短名称已设置为\"{2}\"。"
 		"es"    "Nombre corto del objeto #{1} establecido en \"{2}\"."
+		"de"    "Kurzname von Item #{1} auf \"{2}\" gesetzt."
+		"pt"    "Nome curto do item #{1} definido como \"{2}\"."
 	}
 
 	"EW_Override_LockButton_Done"
@@ -1188,6 +1453,8 @@
 		"fr"    "Bouton {1} {2}."
 		"chi"   "{1} 按钮已{2}。"
 		"es"    "Botón {1} {2}."
+		"de"    "Button {1} {2}."
+		"pt"    "Botão {1} {2}."
 	}
 
 	"EW_Override_Locked"
@@ -1197,6 +1464,8 @@
 		"fr"    "verrouillé"
 		"chi"   "锁定"
 		"es"    "bloqueado"
+		"de"    "gesperrt"
+		"pt"    "bloqueado"
 	}
 
 	"EW_Override_Unlocked"
@@ -1206,6 +1475,8 @@
 		"fr"    "déverrouillé"
 		"chi"   "解锁"
 		"es"    "desbloqueado"
+		"de"    "entsperrt"
+		"pt"    "desbloqueado"
 	}
 
 	// =========================================================================
@@ -1220,6 +1491,8 @@
 		"fr"    "Commandes EntWatch :"
 		"chi"   "EntWatch 命令："
 		"es"    "Comandos EntWatch:"
+		"de"    "EntWatch-Befehle:"
+		"pt"    "Comandos do EntWatch:"
 	}
 
 	"EW_AdminMenu_Category_Option"
@@ -1229,6 +1502,8 @@
 		"fr"    "Commandes EntWatch"
 		"chi"   "EntWatch 命令"
 		"es"    "Comandos EntWatch"
+		"de"    "EntWatch-Befehle"
+		"pt"    "Comandos do EntWatch"
 	}
 
 	"EW_AdminMenu_ItemList"
@@ -1238,6 +1513,8 @@
 		"fr"    "Liste des objets"
 		"chi"   "道具列表"
 		"es"    "Lista de objetos"
+		"de"    "Itemliste"
+		"pt"    "Lista de itens"
 	}
 
 	"EW_AdminMenu_EBanList"
@@ -1247,6 +1524,8 @@
 		"fr"    "Restreindre un joueur"
 		"chi"   "限制玩家"
 		"es"    "Restringir jugador"
+		"de"    "Spieler sperren"
+		"pt"    "Restringir jogador"
 	}
 
 	"EW_AdminMenu_EUnBanList"
@@ -1256,6 +1535,8 @@
 		"fr"    "Liste des restrictions"
 		"chi"   "限制列表"
 		"es"    "Lista de restricciones"
+		"de"    "Liste der Sperren"
+		"pt"    "Lista de restrições"
 	}
 
 	"EW_AdminMenu_SpawnItem"
@@ -1265,6 +1546,8 @@
 		"fr"    "Faire apparaître un objet"
 		"chi"   "生成一个道具"
 		"es"    "Generar un objeto"
+		"de"    "Item spawnen"
+		"pt"    "Gerar um item"
 	}
 
 	// =========================================================================
@@ -1279,6 +1562,8 @@
 		"fr"    "entWatch - Liste des objets :"
 		"chi"   "entWatch - 道具列表："
 		"es"    "entWatch - Lista de objetos:"
+		"de"    "entWatch - Itemliste:"
+		"pt"    "entWatch - Lista de itens:"
 	}
 
 	"EW_PM_ItemList_NoOwner"
@@ -1288,6 +1573,8 @@
 		"fr"    "Sans propriétaire"
 		"chi"   "无持有者"
 		"es"    "Sin propietario"
+		"de"    "Kein Besitzer"
+		"pt"    "Sem dono"
 	}
 
 	// =========================================================================
@@ -1302,6 +1589,8 @@
 		"fr"    "Objet :"
 		"chi"   "道具："
 		"es"    "Objeto:"
+		"de"    "Item:"
+		"pt"    "Item:"
 	}
 
 	"EW_PM_ItemInfo_RestrictPlayer"
@@ -1311,6 +1600,8 @@
 		"fr"    "Restreindre le joueur"
 		"chi"   "限制玩家"
 		"es"    "Restringir jugador"
+		"de"    "Spieler sperren"
+		"pt"    "Restringir jogador"
 	}
 
 	"EW_PM_ItemInfo_TransferItem"
@@ -1320,6 +1611,8 @@
 		"fr"    "Transférer l'objet"
 		"chi"   "转移道具"
 		"es"    "Transferir objeto"
+		"de"    "Item übertragen"
+		"pt"    "Transferir item"
 	}
 
 	// =========================================================================
@@ -1334,6 +1627,8 @@
 		"fr"    "Sélectionner le destinataire :"
 		"chi"   "选择接收者："
 		"es"    "Seleccionar receptor:"
+		"de"    "Empfänger auswählen:"
+		"pt"    "Selecionar destinatário:"
 	}
 
 	"EW_PM_Transfer_NoValidPlayers"
@@ -1343,6 +1638,8 @@
 		"fr"    "Aucun joueur valide trouvé"
 		"chi"   "未找到有效玩家"
 		"es"    "No se encontraron jugadores válidos"
+		"de"    "Keine gültigen Spieler gefunden"
+		"pt"    "Nenhum jogador válido encontrado"
 	}
 
 	// =========================================================================
@@ -1357,6 +1654,8 @@
 		"fr"    "entWatch - Restreindre un joueur :"
 		"chi"   "entWatch - 限制玩家："
 		"es"    "entWatch - Restringir jugador:"
+		"de"    "entWatch - Spieler sperren:"
+		"pt"    "entWatch - Restringir jogador:"
 	}
 
 	"EW_PM_EBanList_NoPlayers"
@@ -1366,6 +1665,8 @@
 		"fr"    "Aucun joueur trouvé"
 		"chi"   "未找到玩家"
 		"es"    "No se encontraron jugadores"
+		"de"    "Keine Spieler gefunden"
+		"pt"    "Nenhum jogador encontrado"
 	}
 
 	// =========================================================================
@@ -1381,6 +1682,8 @@
 		"fr"    "Durée pour {1} :"
 		"chi"   "{1} 的限制时长："
 		"es"    "Duración para {1}:"
+		"de"    "Dauer für {1}:"
+		"pt"    "Duração para {1}:"
 	}
 
 	// =========================================================================
@@ -1395,6 +1698,8 @@
 		"fr"    "entWatch - Liste des restrictions :"
 		"chi"   "entWatch - 限制列表："
 		"es"    "entWatch - Lista de restricciones:"
+		"de"    "entWatch - Liste der Sperren:"
+		"pt"    "entWatch - Lista de restrições:"
 	}
 
 	"EW_PM_EUnBanList_NoPlayers"
@@ -1404,6 +1709,8 @@
 		"fr"    "Aucun joueur restreint trouvé"
 		"chi"   "未找到受限玩家"
 		"es"    "No se encontraron jugadores restringidos"
+		"de"    "Keine gesperrten Spieler gefunden"
+		"pt"    "Nenhum jogador restrito encontrado"
 	}
 
 	// =========================================================================
@@ -1419,6 +1726,8 @@
 		"fr"    "Info restriction : {1}"
 		"chi"   "限制信息：{1}"
 		"es"    "Info restricción: {1}"
+		"de"    "Sperrinfo: {1}"
+		"pt"    "Info da restrição: {1}"
 	}
 
 	"EW_PM_EBanInfo_Admin"
@@ -1429,6 +1738,8 @@
 		"fr"    "Admin : {1}"
 		"chi"   "管理员：{1}"
 		"es"    "Admin: {1}"
+		"de"    "Admin: {1}"
+		"pt"    "Admin: {1}"
 	}
 
 	"EW_PM_EBanInfo_Duration_Permanent"
@@ -1438,6 +1749,8 @@
 		"fr"    "Durée : Permanent"
 		"chi"   "时长：永久"
 		"es"    "Duración: Permanente"
+		"de"    "Dauer: Dauerhaft"
+		"pt"    "Duração: Permanente"
 	}
 
 	"EW_PM_EBanInfo_Duration_Timed"
@@ -1448,6 +1761,8 @@
 		"fr"    "Durée : {1} min"
 		"chi"   "时长：{1} 分钟"
 		"es"    "Duración: {1} min"
+		"de"    "Dauer: {1} Min."
+		"pt"    "Duração: {1} min"
 	}
 
 	"EW_PM_EBanInfo_Reason"
@@ -1458,6 +1773,8 @@
 		"fr"    "Raison : {1}"
 		"chi"   "原因：{1}"
 		"es"    "Motivo: {1}"
+		"de"    "Grund: {1}"
+		"pt"    "Motivo: {1}"
 	}
 
 	"EW_PM_EBanInfo_TotalEbans"
@@ -1468,6 +1785,8 @@
 		"fr"    "Total eBans : {1}"
 		"chi"   "累计 eban：{1}"
 		"es"    "Total eBans: {1}"
+		"de"    "Ebans insgesamt: {1}"
+		"pt"    "Total de eBans: {1}"
 	}
 
 	"EW_PM_EBanInfo_UnrestrictButton"
@@ -1477,6 +1796,8 @@
 		"fr"    "Lever la restriction"
 		"chi"   "解除限制"
 		"es"    "Levantar restricción"
+		"de"    "Spieler entsperren"
+		"pt"    "Remover restrição"
 	}
 
 	// =========================================================================
@@ -1491,6 +1812,8 @@
 		"fr"    "entWatch - Faire apparaître un objet :"
 		"chi"   "entWatch - 生成道具："
 		"es"    "entWatch - Generar un objeto:"
+		"de"    "entWatch - Item spawnen:"
+		"pt"    "entWatch - Gerar um item:"
 	}
 
 	"EW_PM_SpawnItemList_NoItems"
@@ -1500,6 +1823,8 @@
 		"fr"    "Aucun objet générable trouvé"
 		"chi"   "未找到可生成道具"
 		"es"    "No se encontraron objetos generables"
+		"de"    "Keine spawnbaren Items gefunden"
+		"pt"    "Nenhum item gerável encontrado"
 	}
 
 	// =========================================================================
@@ -1514,6 +1839,8 @@
 		"fr"    "entWatch - Retirer les armes ?"
 		"chi"   "entWatch - 移除武器？"
 		"es"    "entWatch - ¿Quitar armas?"
+		"de"    "entWatch - Waffen entfernen?"
+		"pt"    "entWatch - Remover armas?"
 	}
 
 	"EW_PM_SpawnStrip_Yes"
@@ -1523,6 +1850,8 @@
 		"fr"    "Oui, retirer les armes"
 		"chi"   "是，移除武器"
 		"es"    "Sí, quitar armas"
+		"de"    "Ja, Waffen entfernen"
+		"pt"    "Sim, remover armas"
 	}
 
 	"EW_PM_SpawnStrip_No"
@@ -1532,6 +1861,8 @@
 		"fr"    "Non, garder les armes"
 		"chi"   "否，保留武器"
 		"es"    "No, conservar armas"
+		"de"    "Nein, Waffen behalten"
+		"pt"    "Não, manter armas"
 	}
 
 	// =========================================================================
@@ -1546,6 +1877,8 @@
 		"fr"    "entWatch - Sélectionner le destinataire :"
 		"chi"   "entWatch - 选择接收者："
 		"es"    "entWatch - Seleccionar receptor:"
+		"de"    "entWatch - Empfänger auswählen:"
+		"pt"    "entWatch - Selecionar destinatário:"
 	}
 
 	"EW_PM_SpawnTarget_NoPlayers"
@@ -1555,6 +1888,8 @@
 		"fr"    "Aucun joueur valide trouvé"
 		"chi"   "未找到有效玩家"
 		"es"    "No se encontraron jugadores válidos"
+		"de"    "Keine gültigen Spieler gefunden"
+		"pt"    "Nenhum jogador válido encontrado"
 	}
 
 	// =========================================================================
@@ -1570,6 +1905,8 @@
 		"fr"		"Configuration de la carte chargée. (Statut : {1})"
 		"chi"		"地图配置已加载。（状态：{1}）"
 		"es"		"Configuración del mapa cargada. (Estado: {1})"
+		"de"		"Map-Konfiguration geladen. (Status: {1})"
+		"pt"		"Configuração do mapa carregada. (Status: {1})"
 	}
 
 	"EW_Debug_TraceItems_Done"
@@ -1579,5 +1916,7 @@
 		"fr"		"objets tracés."
 		"chi"		"道具已追踪。"
 		"es"		"objetos rastreados."
+		"de"		"Items verfolgt."
+		"pt"		"Itens rastreados."
 	}
 }
