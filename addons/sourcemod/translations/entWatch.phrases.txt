@@ -108,17 +108,6 @@
 	// Used in spawn-items.inc — CPrintToChatAll
 	// =========================================================================
 
-	"EW_Spawn_NoPTConfig"
-	{
-		"en"		"PT configuration not found."
-		"ru"		"Конфигурация PT не найдена."
-		"fr"		"Configuration PT introuvable."
-		"chi"		"未找到 PT 配置。"
-		"es"		"Configuración PT no encontrada."
-		"de"		"PT-Konfiguration nicht gefunden."
-		"pt"		"Configuração PT não encontrada."
-	}
-
 	"EW_Spawn_PTConfigError"
 	{
 		"en"		"PT configuration error."
@@ -174,17 +163,6 @@
 		"pt"		"Erro: nenhum item correspondente encontrado."
 	}
 
-	"EW_Spawn_PlayerNoLongerValid"
-	{
-		"en"		"Player no longer valid."
-		"ru"		"Игрок больше не действителен."
-		"fr"		"Le joueur n'est plus valide."
-		"chi"		"玩家已失效。"
-		"es"		"El jugador ya no es válido."
-		"de"		"Spieler ist nicht mehr gültig."
-		"pt"		"O jogador não é mais válido."
-	}
-
 	"Item Spawn"
 	{
 		"en"		"spawned"
@@ -231,6 +209,17 @@
 		"es"		"por"
 		"de"		"für"
 		"pt"		"por"
+	}
+
+	"EW_From"
+	{
+		"en"		"from"
+		"ru"		"от"
+		"fr"		"de"
+		"chi"		"从"
+		"es"		"de"
+		"de"		"von"
+		"pt"		"de"
 	}
 
 	"EW_Minutes"
@@ -308,17 +297,6 @@
 		"es"		"levantó la restricción de"
 		"de"		"entsperrte"
 		"pt"		"removeu a restrição de"
-	}
-
-	"EW_Player"
-	{
-		"en"		"player"
-		"ru"		"игрока"
-		"fr"		"joueur"
-		"chi"		"玩家"
-		"es"		"jugador"
-		"de"		"Spieler"
-		"pt"		"jogador"
 	}
 
 	// =========================================================================
@@ -787,24 +765,26 @@
 
 	"EW_Menu_BanReason_Title_Permanent"
 	{
-		"en"		"Restriction Reason — Permanent"
-		"ru"		"Причина ограничения — Навсегда"
-		"fr"		"Raison de restriction — Permanent"
-		"chi"		"限制原因 — 永久"
-		"es"		"Motivo de restricción — Permanente"
-		"de"		"Sperrgrund — Dauerhaft"
-		"pt"		"Motivo da restrição — Permanente"
+		"#format"	"{1:s}"
+		"en"		"Restriction Reason for {1} — Permanent"
+		"ru"		"Причина ограничения для {1} — Навсегда"
+		"fr"		"Raison de restriction pour {1} — Permanent"
+		"chi"		"{1} 的限制原因 — 永久"
+		"es"		"Motivo de restricción para {1} — Permanente"
+		"de"		"Sperrgrund für {1} — Dauerhaft"
+		"pt"		"Motivo da restrição de {1} — Permanente"
 	}
 
 	"EW_Menu_BanReason_Title_Duration"
 	{
-		"en"		"Restriction Reason — Timed"
-		"ru"		"Причина ограничения — Временное"
-		"fr"		"Raison de restriction — Durée limitée"
-		"chi"		"限制原因 — 限时"
-		"es"		"Motivo de restricción — Limitado"
-		"de"		"Sperrgrund — Befristet"
-		"pt"		"Motivo da restrição — Temporária"
+		"#format"	"{1:s},{2:d}"
+		"en"		"Restriction Reason for {1} — {2} min"
+		"ru"		"Причина ограничения для {1} — {2} мин."
+		"fr"		"Raison de restriction pour {1} — {2} min"
+		"chi"		"{1} 的限制原因 — {2} 分钟"
+		"es"		"Motivo de restricción para {1} — {2} min"
+		"de"		"Sperrgrund für {1} — {2} Min."
+		"pt"		"Motivo da restrição de {1} — {2} min"
 	}
 
 	// =========================================================================
@@ -908,13 +888,14 @@
 
 	"EW_Menu_UnbanReason_Title"
 	{
-		"en"		"Unrestrict Reason"
-		"ru"		"Причина снятия ограничения"
-		"fr"		"Raison de levée de restriction"
-		"chi"		"解除限制的原因"
-		"es"		"Motivo para levantar la restricción"
-		"de"		"Grund für die Entsperrung"
-		"pt"		"Motivo para remover a restrição"
+		"#format"	"{1:s}"
+		"en"		"Unrestrict Reason for {1}"
+		"ru"		"Причина снятия ограничения с {1}"
+		"fr"		"Raison de levée de restriction pour {1}"
+		"chi"		"解除 {1} 限制的原因"
+		"es"		"Motivo para levantar la restricción de {1}"
+		"de"		"Grund für die Entsperrung von {1}"
+		"pt"		"Motivo para remover a restrição de {1}"
 	}
 
 	"Wrong target"
@@ -1000,17 +981,6 @@
 		"pt"		"{1} (#{2}) - há {3} min"
 	}
 
-	"EW_Menu_Offline_MinutesAgo"
-	{
-		"en"		"min ago"
-		"ru"		"мин. назад"
-		"fr"		"min"
-		"chi"		"分钟前"
-		"es"		"min"
-		"de"		"Min. her"
-		"pt"		"min atrás"
-	}
-
 	// =========================================================================
 	// Menus — Offline player details
 	// Used in Menu_ShowOfflinePlayerDetails (restrictions.inc)
@@ -1018,13 +988,14 @@
 
 	"EW_Menu_OfflineDetails_Title"
 	{
-		"en"		"[entWatch] Offline Player"
-		"ru"		"[entWatch] Оффлайн игрок"
-		"fr"		"[entWatch] Joueur hors ligne"
-		"chi"		"[entWatch] 离线玩家"
-		"es"		"[entWatch] Jugador desconectado"
-		"de"		"[entWatch] Offline-Spieler"
-		"pt"		"[entWatch] Jogador offline"
+		"#format"	"{1:s}"
+		"en"		"[entWatch] Offline Player: {1}"
+		"ru"		"[entWatch] Оффлайн игрок: {1}"
+		"fr"		"[entWatch] Joueur hors ligne : {1}"
+		"chi"		"[entWatch] 离线玩家：{1}"
+		"es"		"[entWatch] Jugador desconectado: {1}"
+		"de"		"[entWatch] Offline-Spieler: {1}"
+		"pt"		"[entWatch] Jogador offline: {1}"
 	}
 
 	"EW_Menu_OfflineDetails_Name"
@@ -1093,13 +1064,14 @@
 
 	"EW_Menu_OfflineDuration_Title"
 	{
-		"en"		"[entWatch] Select Restriction Duration"
-		"ru"		"[entWatch] Выберите длительность ограничения"
-		"fr"		"[entWatch] Sélectionner la durée de restriction"
-		"chi"		"[entWatch] 选择限制时长"
-		"es"		"[entWatch] Seleccionar duración de restricción"
-		"de"		"[entWatch] Sperrdauer auswählen"
-		"pt"		"[entWatch] Selecionar duração da restrição"
+		"#format"	"{1:s}"
+		"en"		"[entWatch] Select Restriction Duration for {1}"
+		"ru"		"[entWatch] Выберите длительность ограничения для {1}"
+		"fr"		"[entWatch] Sélectionner la durée de restriction pour {1}"
+		"chi"		"[entWatch] 选择 {1} 的限制时长"
+		"es"		"[entWatch] Seleccionar duración de restricción para {1}"
+		"de"		"[entWatch] Sperrdauer für {1} auswählen"
+		"pt"		"[entWatch] Selecionar duração da restrição de {1}"
 	}
 
 	"EW_Menu_OfflineDuration_10min"
@@ -1175,24 +1147,26 @@
 
 	"EW_Menu_OfflineReason_Title_Permanent"
 	{
-		"en"		"[entWatch] Restriction Reason — Permanent"
-		"ru"		"[entWatch] Причина ограничения — Навсегда"
-		"fr"		"[entWatch] Raison de restriction — Permanent"
-		"chi"		"[entWatch] 限制原因 — 永久"
-		"es"		"[entWatch] Motivo de restricción — Permanente"
-		"de"		"[entWatch] Sperrgrund — Dauerhaft"
-		"pt"		"[entWatch] Motivo da restrição — Permanente"
+		"#format"	"{1:s}"
+		"en"		"[entWatch] Restriction Reason for {1} — Permanent"
+		"ru"		"[entWatch] Причина ограничения для {1} — Навсегда"
+		"fr"		"[entWatch] Raison de restriction pour {1} — Permanent"
+		"chi"		"[entWatch] {1} 的限制原因 — 永久"
+		"es"		"[entWatch] Motivo de restricción para {1} — Permanente"
+		"de"		"[entWatch] Sperrgrund für {1} — Dauerhaft"
+		"pt"		"[entWatch] Motivo da restrição de {1} — Permanente"
 	}
 
 	"EW_Menu_OfflineReason_Title_Duration"
 	{
-		"en"		"[entWatch] Restriction Reason — Timed"
-		"ru"		"[entWatch] Причина ограничения — Временное"
-		"fr"		"[entWatch] Raison de restriction — Durée limitée"
-		"chi"		"[entWatch] 限制原因 — 限时"
-		"es"		"[entWatch] Motivo de restricción — Limitado"
-		"de"		"[entWatch] Sperrgrund — Befristet"
-		"pt"		"[entWatch] Motivo da restrição — Temporária"
+		"#format"	"{1:s},{2:d}"
+		"en"		"[entWatch] Restriction Reason for {1} — {2} min"
+		"ru"		"[entWatch] Причина ограничения для {1} — {2} мин."
+		"fr"		"[entWatch] Raison de restriction pour {1} — {2} min"
+		"chi"		"[entWatch] {1} 的限制原因 — {2} 分钟"
+		"es"		"[entWatch] Motivo de restricción para {1} — {2} min"
+		"de"		"[entWatch] Sperrgrund für {1} — {2} Min."
+		"pt"		"[entWatch] Motivo da restrição de {1} — {2} min"
 	}
 
 	// =========================================================================
@@ -1897,16 +1871,26 @@
 	// Used via ReplyToCommand (debug.inc)
 	// =========================================================================
 
-	"EW_Debug_LoadConfig_Result"
+	"EW_Debug_LoadConfig_Successful"
 	{
-		"#format"	"{1:s}"
-		"en"		"Loaded map config. (Status: {1})"
-		"ru"		"Конфигурация карты загружена. (Статус: {1})"
-		"fr"		"Configuration de la carte chargée. (Statut : {1})"
-		"chi"		"地图配置已加载。（状态：{1}）"
-		"es"		"Configuración del mapa cargada. (Estado: {1})"
-		"de"		"Map-Konfiguration geladen. (Status: {1})"
-		"pt"		"Configuração do mapa carregada. (Status: {1})"
+		"en"		"Loaded map config. (Status: Successful)"
+		"ru"		"Конфигурация карты загружена. (Статус: успешно)"
+		"fr"		"Configuration de la carte chargée. (Statut : réussi)"
+		"chi"		"地图配置已加载。（状态：成功）"
+		"es"		"Configuración del mapa cargada. (Estado: correcto)"
+		"de"		"Map-Konfiguration geladen. (Status: erfolgreich)"
+		"pt"		"Configuração do mapa carregada. (Status: sucesso)"
+	}
+
+	"EW_Debug_LoadConfig_Failed"
+	{
+		"en"		"Loaded map config. (Status: Failed)"
+		"ru"		"Конфигурация карты загружена. (Статус: ошибка)"
+		"fr"		"Configuration de la carte chargée. (Statut : échec)"
+		"chi"		"地图配置已加载。（状态：失败）"
+		"es"		"Configuración del mapa cargada. (Estado: fallido)"
+		"de"		"Map-Konfiguration geladen. (Status: fehlgeschlagen)"
+		"pt"		"Configuração do mapa carregada. (Status: falha)"
 	}
 
 	"EW_Debug_TraceItems_Done"

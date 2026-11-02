@@ -222,7 +222,7 @@ public Action Command_LoadConfig(int iClient, int iArgs)
 {
 	bool bSuccessful = EW_LoadConfig(true);
 
-	CPrintToChat(iClient, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, "EW_Debug_LoadConfig_Result", bSuccessful ? "Successful" : "Failed");
+	CReplyToCommand(iClient, "{#%s}%t {#%s}%t", g_clr.sTag, "EW_Tag", g_clr.sWarning, bSuccessful ? "EW_Debug_LoadConfig_Successful" : "EW_Debug_LoadConfig_Failed");
 	LogAction(iClient, -1, "\"%L\" loaded map config.", iClient);
 
 	return Plugin_Handled;
