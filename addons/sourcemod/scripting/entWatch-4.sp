@@ -63,6 +63,17 @@ ArrayList g_hArray_Configs;
 
 StringMap g_hConfigHammerIDs;
 
+// Item parts by entity slot (index, or low bits of the reference of a non-networked entity):
+// how many item weapon/button/trigger fields point at each entity, how many of them are item
+// triggers, and that item trigger when there is only one. OnEntityDestroyed (every entity),
+// WeaponCanUse (every tick a player touches a weapon) and the item triggers Touch hook check
+// these before walking every item and all of its buttons and triggers.
+#define EW_ENTITY_SLOTS 4096
+
+int g_iItemEntityRefs[EW_ENTITY_SLOTS];
+int g_iItemTriggerRefs[EW_ENTITY_SLOTS];
+CItemTrigger g_hItemTriggerOf[EW_ENTITY_SLOTS];
+
 /* HANDLES */
 Handle SDKCall_GetSlot;
 Handle SDKCall_OnPickedUp;
@@ -724,6 +735,8 @@ void CleanupConfigs()
 //----------------------------------------------------------------------------------------------------
 void CleanupItems(bool bUnhookEntities = true)
 {
+	ResetItemEntitySlots();
+
 	if (!g_hArray_Items.Length)
 		return;
 
@@ -977,6 +990,7 @@ bool RegisterItemWeapon(CItem hItem, int iWeapon)
 
 	hItem.iWeapon = iWeapon;
 	hItem.iState  = EW_ENTITY_STATE_SPAWNED;
+	g_iItemEntityRefs[EntitySlot(iWeapon)]++;
 
 	int iOwner = INVALID_ENT_REFERENCE;
 	if ((iOwner = GetEntPropEnt(iWeapon, Prop_Data, "m_hOwnerEntity")) != INVALID_ENT_REFERENCE && IsValidClient(iOwner))
@@ -1020,6 +1034,7 @@ bool RegisterItemButton(CConfigButton hConfigButton, CItem hItem, int iButton)
 	CItemButton hItemButton = new CItemButton(hConfigButton, hItem);
 	hItemButton.iButton = iButton;
 	hItemButton.iState  = EW_ENTITY_STATE_SPAWNED;
+	g_iItemEntityRefs[EntitySlot(iButton)]++;
 
 	if (hConfigButton.iType == EW_BUTTON_TYPE_COUNTERDOWN || hConfigButton.iType == EW_BUTTON_TYPE_COUNTERUP)
 	{
@@ -1091,6 +1106,11 @@ bool RegisterItemTrigger(CConfigTrigger hConfigTrigger, CItem hItem, int iTrigge
 	hItemTrigger.iTrigger = iTrigger;
 	hItemTrigger.iState   = EW_ENTITY_STATE_SPAWNED;
 
+	int iSlot = EntitySlot(iTrigger);
+	g_iItemEntityRefs[iSlot]++;
+	g_iItemTriggerRefs[iSlot]++;
+	g_hItemTriggerOf[iSlot] = hItemTrigger;
+
 	bool bShifted;
 
 	for (int iShiftItemTriggerID; iShiftItemTriggerID < hItem.hTriggers.Length; iShiftItemTriggerID++)
@@ -1140,6 +1160,10 @@ public void OnEntityDestroyed(int iEntity)
 	if (!IsValidEntity(iEntity) || !g_hArray_Items.Length)
 		return;
 
+	// Most destroyed entities are not part of an item
+	if (!g_iItemEntityRefs[EntitySlot(iEntity)])
+		return;
+
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
 	{
 		CItem hItem = g_hArray_Items.Get(iItemID);
@@ -1150,6 +1174,7 @@ public void OnEntityDestroyed(int iEntity)
 			hItem.iClient = INVALID_ENT_REFERENCE;
 			hItem.iWeapon = INVALID_ENT_REFERENCE;
 			hItem.iState  = EW_ENTITY_STATE_DESTROYED;
+			UntrackItemEntity(iEntity);
 
 			Forward_OnClientItemWeaponInteract(iPrevClient, hItem, EW_WEAPON_INTERACTION_DESTROYED);
 		}
@@ -1162,6 +1187,7 @@ public void OnEntityDestroyed(int iEntity)
 			{
 				hItemButton.iButton = INVALID_ENT_REFERENCE;
 				hItemButton.iState  = EW_ENTITY_STATE_DESTROYED;
+				UntrackItemEntity(iEntity);
 			}
 		}
 
@@ -1173,6 +1199,7 @@ public void OnEntityDestroyed(int iEntity)
 			{
 				hItemTrigger.iTrigger = INVALID_ENT_REFERENCE;
 				hItemTrigger.iState   = EW_ENTITY_STATE_DESTROYED;
+				UntrackItemTrigger(iEntity, hItemTrigger);
 			}
 		}
 	}
@@ -1580,6 +1607,21 @@ Action OnTriggerTouch(int iTrigger, int iClient)
 	if (!IsValidClient(iClient) || !IsValidEntity(iTrigger) || !g_hArray_Items.Length)
 		return Plugin_Handled;
 
+	// Runs on every tick a player touches the trigger: when a single item trigger is on this entity,
+	// use it directly instead of walking every item and all of its triggers
+	int iSlot = EntitySlot(iTrigger);
+	if (!g_iItemTriggerRefs[iSlot])
+		return Plugin_Handled;
+
+	CItemTrigger hOnlyTrigger = g_hItemTriggerOf[iSlot];
+	if (g_iItemTriggerRefs[iSlot] == 1 && hOnlyTrigger != null && hOnlyTrigger.iTrigger == iTrigger)
+	{
+		if (hOnlyTrigger.hConfigTrigger.iType != EW_TRIGGER_TYPE_STRIP)
+			return Plugin_Handled;
+
+		return ProcessTriggerTouch(iClient, hOnlyTrigger);
+	}
+
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
 	{
 		CItem hItem = g_hArray_Items.Get(iItemID);
@@ -1592,26 +1634,78 @@ Action OnTriggerTouch(int iTrigger, int iClient)
 				continue;
 
 			if (hItemTrigger.hConfigTrigger.iType == EW_TRIGGER_TYPE_STRIP)
-			{
-				if (g_bIntermission)
-					return Plugin_Handled;
-
-				bool bResult = true;
-				Call_StartForward(g_hFwd_OnClientItemTriggerCanInteract);
-				Call_PushCell(iClient);
-				Call_PushCell(hItemTrigger);
-				Call_Finish(bResult);
-
-				if (!bResult)
-					return Plugin_Handled;
-
-				Forward_OnClientItemTriggerInteract(iClient, hItemTrigger);
-				return Plugin_Continue;
-			}
+				return ProcessTriggerTouch(iClient, hItemTrigger);
 		}
 	}
 
 	return Plugin_Handled;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Ask the other plugins, then fire the trigger-interact forward for a strip trigger touch
+//----------------------------------------------------------------------------------------------------
+Action ProcessTriggerTouch(int iClient, CItemTrigger hItemTrigger)
+{
+	if (g_bIntermission)
+		return Plugin_Handled;
+
+	bool bResult = true;
+	Call_StartForward(g_hFwd_OnClientItemTriggerCanInteract);
+	Call_PushCell(iClient);
+	Call_PushCell(hItemTrigger);
+	Call_Finish(bResult);
+
+	if (!bResult)
+		return Plugin_Handled;
+
+	Forward_OnClientItemTriggerInteract(iClient, hItemTrigger);
+	return Plugin_Continue;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Entity slot of an entity index, or of the reference of a non-networked entity
+//----------------------------------------------------------------------------------------------------
+int EntitySlot(int iEntity)
+{
+	return iEntity & (EW_ENTITY_SLOTS - 1);
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: An item weapon/button field stopped pointing at this entity
+//----------------------------------------------------------------------------------------------------
+void UntrackItemEntity(int iEntity)
+{
+	int iSlot = EntitySlot(iEntity);
+	if (g_iItemEntityRefs[iSlot] > 0)
+		g_iItemEntityRefs[iSlot]--;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: An item trigger stopped pointing at this entity
+//----------------------------------------------------------------------------------------------------
+void UntrackItemTrigger(int iEntity, CItemTrigger hItemTrigger)
+{
+	UntrackItemEntity(iEntity);
+
+	int iSlot = EntitySlot(iEntity);
+	if (g_iItemTriggerRefs[iSlot] > 0)
+		g_iItemTriggerRefs[iSlot]--;
+
+	if (g_hItemTriggerOf[iSlot] == hItemTrigger)
+		g_hItemTriggerOf[iSlot] = null;
+}
+
+//----------------------------------------------------------------------------------------------------
+// Purpose: Forget every item part, the items are being freed
+//----------------------------------------------------------------------------------------------------
+void ResetItemEntitySlots()
+{
+	for (int iSlot; iSlot < EW_ENTITY_SLOTS; iSlot++)
+	{
+		g_iItemEntityRefs[iSlot]  = 0;
+		g_iItemTriggerRefs[iSlot] = 0;
+		g_hItemTriggerOf[iSlot]   = null;
+	}
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -1620,6 +1714,10 @@ Action OnTriggerTouch(int iTrigger, int iClient)
 Action OnWeaponTouch(int iClient, int iWeapon)
 {
 	if (!IsValidClient(iClient) || !IsValidEntity(iWeapon) || !g_hArray_Items.Length)
+		return Plugin_Continue;
+
+	// Runs on every tick a player touches any weapon: most of them are not items
+	if (!g_iItemEntityRefs[EntitySlot(iWeapon)])
 		return Plugin_Continue;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
@@ -1688,6 +1786,9 @@ public any Native_IsEntityItem(Handle hPlugin, int iNumParams)
 {
 	int iEntity = GetNativeCell(1);
 	if (!IsValidEntity(iEntity) || !g_hArray_Items.Length)
+		return false;
+
+	if (!g_iItemEntityRefs[EntitySlot(iEntity)])
 		return false;
 
 	for (int iItemID; iItemID < g_hArray_Items.Length; iItemID++)
