@@ -13,6 +13,12 @@
 		"es"		"[entWatch]"
 		"de"		"[entWatch]"
 		"pt"		"[entWatch]"
+		"pl"		"[entWatch]"
+		"tr"		"[entWatch]"
+		"it"		"[entWatch]"
+		"ua"		"[entWatch]"
+		"zho"		"[entWatch]"
+		"cze"		"[entWatch]"
 	}
 
 	// =========================================================================
@@ -30,6 +36,12 @@
 		"es"		"ha dejado caer"
 		"de"		"hat fallen gelassen:"
 		"pt"		"largou"
+		"pl"		"upuścił"
+		"tr"		"bıraktı"
+		"it"		"ha lasciato"
+		"ua"		"викинув"
+		"zho"		"丟棄了"
+		"cze"		"upustil"
 	}
 
 	"Item Death"
@@ -41,6 +53,12 @@
 		"es"		"murió con"
 		"de"		"starb mit"
 		"pt"		"morreu com"
+		"pl"		"zginął z"
+		"tr"		"şununla öldü:"
+		"it"		"è morto con"
+		"ua"		"помер з"
+		"zho"		"死亡時持有"
+		"cze"		"zemřel s"
 	}
 
 	"Item Pickup"
@@ -52,6 +70,12 @@
 		"es"		"recogió"
 		"de"		"hat aufgehoben:"
 		"pt"		"pegou"
+		"pl"		"podniósł"
+		"tr"		"aldı"
+		"it"		"ha raccolto"
+		"ua"		"підібрав"
+		"zho"		"撿起了"
+		"cze"		"sebral"
 	}
 
 	"Item Disconnect"
@@ -63,6 +87,12 @@
 		"es"		"se desconectó con"
 		"de"		"verließ den Server mit"
 		"pt"		"desconectou com"
+		"pl"		"rozłączył się z"
+		"tr"		"şununla ayrıldı:"
+		"it"		"si è disconnesso con"
+		"ua"		"відключився з"
+		"zho"		"帶著以下物品離線:"
+		"cze"		"se odpojil s"
 	}
 
 	"Item Activate"
@@ -74,6 +104,12 @@
 		"es"		"usó"
 		"de"		"benutzte"
 		"pt"		"usou"
+		"pl"		"użył"
+		"tr"		"kullandı"
+		"it"		"ha usato"
+		"ua"		"використав"
+		"zho"		"使用了"
+		"cze"		"použil"
 	}
 
 	// =========================================================================
@@ -90,6 +126,12 @@
 		"es"		"transfirió"
 		"de"		"übertrug"
 		"pt"		"transferiu"
+		"pl"		"przekazał"
+		"tr"		"devretti"
+		"it"		"ha trasferito"
+		"ua"		"передав"
+		"zho"		"轉移了"
+		"cze"		"předal"
 	}
 
 	"Item Transfer All From"
@@ -101,6 +143,12 @@
 		"es"		"transfirió todos los objetos de"
 		"de"		"übertrug alle Items von"
 		"pt"		"transferiu todos os itens de"
+		"pl"		"przekazał wszystkie przedmioty od"
+		"tr"		"tüm eşyaları şu kişiden devretti:"
+		"it"		"ha trasferito tutti gli oggetti di"
+		"ua"		"передав усі предмети від"
+		"zho"		"轉移了所有物品，來自"
+		"cze"		"předal všechny předměty od"
 	}
 
 	// =========================================================================
@@ -117,6 +165,12 @@
 		"es"		"Error de configuración PT."
 		"de"		"Fehler in der PT-Konfiguration."
 		"pt"		"Erro na configuração PT."
+		"pl"		"Błąd konfiguracji PT."
+		"tr"		"PT yapılandırma hatası."
+		"it"		"Errore di configurazione PT."
+		"ua"		"Помилка конфігурації PT."
+		"zho"		"PT 設定錯誤。"
+		"cze"		"Chyba konfigurace PT."
 	}
 
 	"EW_Spawn_MakerError"
@@ -128,6 +182,12 @@
 		"es"		"No se pudo crear el entity maker."
 		"de"		"Entity Maker konnte nicht erstellt werden."
 		"pt"		"Falha ao criar o entity maker."
+		"pl"		"Nie udało się utworzyć entity makera."
+		"tr"		"Entity maker oluşturulamadı."
+		"it"		"Impossibile creare l'entity maker."
+		"ua"		"Не вдалося створити entity maker."
+		"zho"		"無法建立 entity maker。"
+		"cze"		"Nepodařilo se vytvořit entity maker."
 	}
 
 	"EW_Spawn_Usage"
@@ -139,6 +199,12 @@
 		"es"		"Uso: sm_espawnitem <receptor> <objeto> [<strip 0/1>]"
 		"de"		"Verwendung: sm_espawnitem <Empfänger> <Itemname> [<strip 0/1>]"
 		"pt"		"Uso: sm_espawnitem <destinatário> <item> [<strip 0/1>]"
+		"pl"		"Użycie: sm_espawnitem <odbiorca> <nazwa przedmiotu> [<strip 0/1>]"
+		"tr"		"Kullanım: sm_espawnitem <alıcı> <eşya adı> [<strip 0/1>]"
+		"it"		"Uso: sm_espawnitem <destinatario> <nome oggetto> [<strip 0/1>]"
+		"ua"		"Використання: sm_espawnitem <отримувач> <назва предмета> [<strip 0/1>]"
+		"zho"		"用法: sm_espawnitem <接收者> <物品名稱> [<strip 0/1>]"
+		"cze"		"Použití: sm_espawnitem <příjemce> <název předmětu> [<strip 0/1>]"
 	}
 
 	"EW_Spawn_NoSpawnableItems"
@@ -150,6 +216,12 @@
 		"es"		"No hay objetos generables en este mapa."
 		"de"		"Auf dieser Map gibt es keine spawnbaren Items."
 		"pt"		"Não há itens para gerar neste mapa."
+		"pl"		"Brak przedmiotów do stworzenia na tej mapie."
+		"tr"		"Bu haritada oluşturulabilir eşya yok."
+		"it"		"Nessun oggetto generabile su questa mappa."
+		"ua"		"На цій мапі немає предметів для появи."
+		"zho"		"此地圖沒有可生成的物品。"
+		"cze"		"Na této mapě nejsou žádné předměty k vytvoření."
 	}
 
 	"EW_Spawn_NoMatchingItems"
@@ -161,6 +233,12 @@
 		"es"		"Error: no se encontraron objetos coincidentes."
 		"de"		"Fehler: keine passenden Items gefunden."
 		"pt"		"Erro: nenhum item correspondente encontrado."
+		"pl"		"Błąd: nie znaleziono pasujących przedmiotów."
+		"tr"		"Hata: eşleşen eşya bulunamadı."
+		"it"		"Errore: nessun oggetto corrispondente trovato."
+		"ua"		"Помилка: відповідних предметів не знайдено."
+		"zho"		"錯誤: 找不到符合的物品。"
+		"cze"		"Chyba: nebyly nalezeny žádné odpovídající předměty."
 	}
 
 	"Item Spawn"
@@ -172,6 +250,12 @@
 		"es"		"generó"
 		"de"		"spawnte"
 		"pt"		"gerou"
+		"pl"		"stworzył"
+		"tr"		"oluşturdu"
+		"it"		"ha generato"
+		"ua"		"створив"
+		"zho"		"生成了"
+		"cze"		"vytvořil"
 	}
 
 	// =========================================================================
@@ -187,6 +271,12 @@
 		"es"		"a"
 		"de"		"an"
 		"pt"		"para"
+		"pl"		"dla"
+		"tr"		"şuna:"
+		"it"		"a"
+		"ua"		"для"
+		"zho"		"給"
+		"cze"		"pro"
 	}
 
 	"EW_On"
@@ -198,6 +288,12 @@
 		"es"		"en"
 		"de"		"bei"
 		"pt"		"para"
+		"pl"		"na"
+		"tr"		"üzerinde:"
+		"it"		"su"
+		"ua"		"на"
+		"zho"		"於"
+		"cze"		"na"
 	}
 
 	"EW_For"
@@ -209,6 +305,12 @@
 		"es"		"por"
 		"de"		"für"
 		"pt"		"por"
+		"pl"		"na"
+		"tr"		"süre:"
+		"it"		"per"
+		"ua"		"на"
+		"zho"		"為期"
+		"cze"		"na"
 	}
 
 	"EW_From"
@@ -220,6 +322,12 @@
 		"es"		"de"
 		"de"		"von"
 		"pt"		"de"
+		"pl"		"od"
+		"tr"		"şundan:"
+		"it"		"da"
+		"ua"		"від"
+		"zho"		"從"
+		"cze"		"od"
 	}
 
 	"EW_Minutes"
@@ -231,6 +339,12 @@
 		"es"		"minuto(s)"
 		"de"		"Minute(n)"
 		"pt"		"minuto(s)"
+		"pl"		"min."
+		"tr"		"dakika"
+		"it"		"minuto/i"
+		"ua"		"хв."
+		"zho"		"分鐘"
+		"cze"		"min."
 	}
 
 	"EW_Temporarily"
@@ -242,6 +356,12 @@
 		"es"		"temporalmente"
 		"de"		"vorübergehend"
 		"pt"		"temporariamente"
+		"pl"		"tymczasowo"
+		"tr"		"geçici olarak"
+		"it"		"temporaneamente"
+		"ua"		"тимчасово"
+		"zho"		"暫時"
+		"cze"		"dočasně"
 	}
 
 	"EW_Permanently"
@@ -253,6 +373,12 @@
 		"es"		"permanentemente"
 		"de"		"dauerhaft"
 		"pt"		"permanentemente"
+		"pl"		"na stałe"
+		"tr"		"kalıcı olarak"
+		"it"		"permanentemente"
+		"ua"		"назавжди"
+		"zho"		"永久"
+		"cze"		"trvale"
 	}
 
 	"EW_Offline"
@@ -264,6 +390,12 @@
 		"es"		"(sin conexión)"
 		"de"		"offline"
 		"pt"		"offline"
+		"pl"		"offline"
+		"tr"		"çevrimdışı"
+		"it"		"offline"
+		"ua"		"офлайн"
+		"zho"		"離線"
+		"cze"		"offline"
 	}
 
 	"EW_Reason"
@@ -275,6 +407,12 @@
 		"es"		"Motivo:"
 		"de"		"Grund:"
 		"pt"		"Motivo:"
+		"pl"		"Powód:"
+		"tr"		"Sebep:"
+		"it"		"Motivo:"
+		"ua"		"Причина:"
+		"zho"		"原因:"
+		"cze"		"Důvod:"
 	}
 
 	"EW_Restricted"
@@ -286,6 +424,12 @@
 		"es"		"restringió a"
 		"de"		"sperrte"
 		"pt"		"restringiu"
+		"pl"		"zablokował"
+		"tr"		"kısıtladı"
+		"it"		"ha limitato"
+		"ua"		"обмежив"
+		"zho"		"限制了"
+		"cze"		"omezil"
 	}
 
 	"EW_Unrestricted"
@@ -297,6 +441,12 @@
 		"es"		"levantó la restricción de"
 		"de"		"entsperrte"
 		"pt"		"removeu a restrição de"
+		"pl"		"zdjął blokadę z"
+		"tr"		"kısıtlamayı kaldırdı:"
+		"it"		"ha rimosso la limitazione a"
+		"ua"		"зняв обмеження з"
+		"zho"		"解除了限制:"
+		"cze"		"zrušil omezení pro"
 	}
 
 	// =========================================================================
@@ -313,6 +463,12 @@
 		"es"		"El HUD ahora está oculto."
 		"de"		"Das HUD ist jetzt ausgeblendet."
 		"pt"		"O HUD agora está oculto."
+		"pl"		"HUD jest teraz ukryty."
+		"tr"		"HUD artık gizli."
+		"it"		"L'HUD è ora nascosto."
+		"ua"		"HUD тепер приховано."
+		"zho"		"HUD 已隱藏。"
+		"cze"		"HUD je nyní skryté."
 	}
 
 	"EW_Chat_HUD_Visible"
@@ -324,6 +480,12 @@
 		"es"		"El HUD ahora está visible."
 		"de"		"Das HUD ist jetzt sichtbar."
 		"pt"		"O HUD agora está visível."
+		"pl"		"HUD jest teraz widoczny."
+		"tr"		"HUD artık görünür."
+		"it"		"L'HUD è ora visibile."
+		"ua"		"HUD тепер видно."
+		"zho"		"HUD 已顯示。"
+		"cze"		"HUD je nyní zobrazeno."
 	}
 
 	// =========================================================================
@@ -340,6 +502,12 @@
 		"es"		"No se encontraron objetos."
 		"de"		"Keine Items gefunden."
 		"pt"		"Nenhum item encontrado."
+		"pl"		"Nie znaleziono przedmiotów."
+		"tr"		"Eşya bulunamadı."
+		"it"		"Nessun oggetto trovato."
+		"ua"		"Предметів не знайдено."
+		"zho"		"找不到物品。"
+		"cze"		"Nebyly nalezeny žádné předměty."
 	}
 
 	"EW_Menu_PlayerNoLongerValid"
@@ -351,6 +519,12 @@
 		"es"		"El jugador ya no es válido."
 		"de"		"Spieler ist nicht mehr gültig."
 		"pt"		"O jogador não é mais válido."
+		"pl"		"Gracz nie jest już prawidłowy."
+		"tr"		"Oyuncu artık geçerli değil."
+		"it"		"Il giocatore non è più valido."
+		"ua"		"Гравець більше не дійсний."
+		"zho"		"玩家已失效。"
+		"cze"		"Hráč již není platný."
 	}
 
 	"EW_Menu_ReceiverDisconnected"
@@ -362,6 +536,12 @@
 		"es"		"El receptor se desconectó."
 		"de"		"Der Empfänger hat die Verbindung getrennt."
 		"pt"		"O destinatário se desconectou."
+		"pl"		"Odbiorca się rozłączył."
+		"tr"		"Alıcı bağlantıyı kesti."
+		"it"		"Il destinatario si è disconnesso."
+		"ua"		"Отримувач відключився."
+		"zho"		"接收者已離線。"
+		"cze"		"Příjemce se odpojil."
 	}
 
 	"EW_Menu_TransferFailed"
@@ -373,6 +553,12 @@
 		"es"		"La transferencia falló."
 		"de"		"Übertragung fehlgeschlagen."
 		"pt"		"A transferência falhou."
+		"pl"		"Przekazanie nie powiodło się."
+		"tr"		"Devir başarısız oldu."
+		"it"		"Trasferimento fallito."
+		"ua"		"Передача не вдалася."
+		"zho"		"轉移失敗。"
+		"cze"		"Předání se nezdařilo."
 	}
 
 	"EW_Menu_BanInfoFailed"
@@ -384,6 +570,12 @@
 		"es"		"No se pudo obtener la información de restricción."
 		"de"		"Sperrinformationen konnten nicht abgerufen werden."
 		"pt"		"Não foi possível obter as informações da restrição."
+		"pl"		"Nie udało się pobrać informacji o banie."
+		"tr"		"Ban bilgisi alınamadı."
+		"it"		"Impossibile recuperare le informazioni sul ban."
+		"ua"		"Не вдалося отримати інформацію про бан."
+		"zho"		"無法取得封鎖資訊。"
+		"cze"		"Nepodařilo se načíst informace o banu."
 	}
 
 	"EW_Menu_SpawnFailed"
@@ -395,6 +587,12 @@
 		"es"		"La generación falló."
 		"de"		"Spawnen fehlgeschlagen."
 		"pt"		"Falha ao gerar o item."
+		"pl"		"Stworzenie nie powiodło się."
+		"tr"		"Oluşturma başarısız oldu."
+		"it"		"Generazione fallita."
+		"ua"		"Появу не вдалося виконати."
+		"zho"		"生成失敗。"
+		"cze"		"Vytvoření se nezdařilo."
 	}
 
 	"EW_Transfer_Usage"
@@ -406,6 +604,12 @@
 		"es"		"Uso: sm_etransfer <#userid/nombre/$objeto> <#userid/nombre>"
 		"de"		"Verwendung: sm_etransfer <#userid/Name/$Item> <#userid/Name>"
 		"pt"		"Uso: sm_etransfer <#userid/nome/$item> <#userid/nome>"
+		"pl"		"Użycie: sm_etransfer <#userid/nazwa/$przedmiot> <#userid/nazwa>"
+		"tr"		"Kullanım: sm_etransfer <#userid/isim/$eşya> <#userid/isim>"
+		"it"		"Uso: sm_etransfer <#userid/nome/$oggetto> <#userid/nome>"
+		"ua"		"Використання: sm_etransfer <#userid/нік/$предмет> <#userid/нік>"
+		"zho"		"用法: sm_etransfer <#userid/名稱/$物品> <#userid/名稱>"
+		"cze"		"Použití: sm_etransfer <#userid/jméno/$předmět> <#userid/jméno>"
 	}
 
 	"EW_Transfer_NoTransferableItems"
@@ -417,6 +621,12 @@
 		"es"		"¡Error: no se encontraron objetos transferibles!"
 		"de"		"Fehler: keine übertragbaren Items gefunden!"
 		"pt"		"Erro: nenhum item transferível encontrado!"
+		"pl"		"Błąd: nie znaleziono przedmiotów do przekazania!"
+		"tr"		"Hata: devredilebilir eşya bulunamadı!"
+		"it"		"Errore: nessun oggetto trasferibile trovato!"
+		"ua"		"Помилка: предметів для передачі не знайдено!"
+		"zho"		"錯誤: 找不到可轉移的物品!"
+		"cze"		"Chyba: nebyly nalezeny žádné předměty k předání!"
 	}
 
 	"EW_Transfer_TargetNoTransferableItems"
@@ -428,6 +638,12 @@
 		"es"		"¡Error: el objetivo no tiene objetos transferibles!"
 		"de"		"Fehler: Das Ziel hat keine übertragbaren Items!"
 		"pt"		"Erro: o alvo não tem itens transferíveis!"
+		"pl"		"Błąd: cel nie ma przedmiotów do przekazania!"
+		"tr"		"Hata: hedefte devredilebilir eşya yok!"
+		"it"		"Errore: il bersaglio non ha oggetti trasferibili!"
+		"ua"		"Помилка: у цілі немає предметів для передачі!"
+		"zho"		"錯誤: 目標沒有可轉移的物品!"
+		"cze"		"Chyba: cíl nemá žádné předměty k předání!"
 	}
 
 	// =========================================================================
@@ -444,6 +660,12 @@
 		"es"		"Uso: sm_eban <#userid/nombre> [duración] [motivo]"
 		"de"		"Verwendung: sm_eban <#userid/Name> [Dauer] [Grund]"
 		"pt"		"Uso: sm_eban <#userid/nome> [duração] [motivo]"
+		"pl"		"Użycie: sm_eban <#userid/nazwa> [czas] [powód]"
+		"tr"		"Kullanım: sm_eban <#userid/isim> [süre] [sebep]"
+		"it"		"Uso: sm_eban <#userid/nome> [durata] [motivo]"
+		"ua"		"Використання: sm_eban <#userid/нік> [тривалість] [причина]"
+		"zho"		"用法: sm_eban <#userid/名稱> [時間] [原因]"
+		"cze"		"Použití: sm_eban <#userid/jméno> [doba] [důvod]"
 	}
 
 	"EW_Restrict_AlreadyRestricted"
@@ -455,6 +677,12 @@
 		"es"		"ya está restringido."
 		"de"		"ist bereits gesperrt."
 		"pt"		"já está restrito."
+		"pl"		"jest już zablokowany."
+		"tr"		"zaten kısıtlı."
+		"it"		"è già limitato."
+		"ua"		"вже обмежений."
+		"zho"		"已被限制。"
+		"cze"		"je již omezen."
 	}
 
 	"EW_Offline_AlreadyBanned"
@@ -466,6 +694,12 @@
 		"es"		"ya tiene un eban activo emitido por"
 		"de"		"hat bereits einen aktiven Eban von"
 		"pt"		"já tem um eban ativo aplicado por"
+		"pl"		"ma już aktywny eban nadany przez"
+		"tr"		"zaten şu kişi tarafından verilmiş aktif bir eban'a sahip:"
+		"it"		"ha già un eban attivo assegnato da"
+		"ua"		"вже має активний eban від"
+		"zho"		"已有一個有效的 eban，發出者:"
+		"cze"		"již má aktivní eban udělený hráčem"
 	}
 
 	"EW_Restrict_InvalidDuration"
@@ -477,6 +711,12 @@
 		"es"		"Duración inválida. Debe ser 0 (permanente) o un número positivo de minutos."
 		"de"		"Ungültige Dauer. Muss 0 (dauerhaft) oder eine positive Anzahl an Minuten sein."
 		"pt"		"Duração inválida. Deve ser 0 (permanente) ou um número positivo de minutos."
+		"pl"		"Nieprawidłowy czas. Musi wynosić 0 (na stałe) lub dodatnią liczbę minut."
+		"tr"		"Geçersiz süre. 0 (kalıcı) veya pozitif bir dakika sayısı olmalı."
+		"it"		"Durata non valida. Deve essere 0 (permanente) o un numero positivo di minuti."
+		"ua"		"Недійсна тривалість. Має бути 0 (назавжди) або додатне число хвилин."
+		"zho"		"無效的時間。必須為 0(永久)或正整數分鐘。"
+		"cze"		"Neplatná doba. Musí být 0 (trvale) nebo kladný počet minut."
 	}
 
 	"EW_Restrict_InvalidDuration_Max"
@@ -489,6 +729,12 @@
 		"es"		"Duración inválida. Debe estar entre 0 (permanente) y {1} minuto(s)."
 		"de"		"Ungültige Dauer. Muss zwischen 0 (dauerhaft) und {1} Minute(n) liegen."
 		"pt"		"Duração inválida. Deve estar entre 0 (permanente) e {1} minuto(s)."
+		"pl"		"Nieprawidłowy czas. Musi mieścić się między 0 (na stałe) a {1} min."
+		"tr"		"Geçersiz süre. 0 (kalıcı) ile {1} dakika arasında olmalı."
+		"it"		"Durata non valida. Deve essere tra 0 (permanente) e {1} minuto/i."
+		"ua"		"Недійсна тривалість. Має бути від 0 (назавжди) до {1} хв."
+		"zho"		"無效的時間。必須介於 0(永久)與 {1} 分鐘之間。"
+		"cze"		"Neplatná doba. Musí být mezi 0 (trvale) a {1} min."
 	}
 
 	"EW_Unrestrict_Usage"
@@ -500,6 +746,12 @@
 		"es"		"Uso: sm_eunban <#userid/nombre> [motivo]"
 		"de"		"Verwendung: sm_eunban <#userid/Name> [Grund]"
 		"pt"		"Uso: sm_eunban <#userid/nome> [motivo]"
+		"pl"		"Użycie: sm_eunban <#userid/nazwa> [powód]"
+		"tr"		"Kullanım: sm_eunban <#userid/isim> [sebep]"
+		"it"		"Uso: sm_eunban <#userid/nome> [motivo]"
+		"ua"		"Використання: sm_eunban <#userid/нік> [причина]"
+		"zho"		"用法: sm_eunban <#userid/名稱> [原因]"
+		"cze"		"Použití: sm_eunban <#userid/jméno> [důvod]"
 	}
 
 	"EW_Unrestrict_NotRestricted"
@@ -511,6 +763,12 @@
 		"es"		"no está restringido actualmente."
 		"de"		"ist derzeit nicht gesperrt."
 		"pt"		"não está restrito no momento."
+		"pl"		"nie jest obecnie zablokowany."
+		"tr"		"şu anda kısıtlı değil."
+		"it"		"non è attualmente limitato."
+		"ua"		"наразі не обмежений."
+		"zho"		"目前未被限制。"
+		"cze"		"momentálně není omezen."
 	}
 
 	// =========================================================================
@@ -527,6 +785,12 @@
 		"es"		"Actualmente restringidos:"
 		"de"		"Derzeit gesperrt:"
 		"pt"		"Atualmente restritos:"
+		"pl"		"Obecnie zablokowani:"
+		"tr"		"Şu anda kısıtlı olanlar:"
+		"it"		"Attualmente limitati:"
+		"ua"		"Наразі обмежені:"
+		"zho"		"目前被限制的玩家:"
+		"cze"		"Aktuálně omezeni:"
 	}
 
 	"EW_Restrictions_None"
@@ -538,6 +802,12 @@
 		"es"		"Actualmente no hay jugadores restringidos."
 		"de"		"Derzeit ist kein Spieler gesperrt."
 		"pt"		"Nenhum jogador está restrito no momento."
+		"pl"		"Obecnie nikt nie jest zablokowany."
+		"tr"		"Şu anda kısıtlı oyuncu yok."
+		"it"		"Nessun giocatore è attualmente limitato."
+		"ua"		"Наразі немає обмежених гравців."
+		"zho"		"目前沒有被限制的玩家。"
+		"cze"		"Aktuálně nejsou omezeni žádní hráči."
 	}
 
 	"EW_Status_InvalidPlayer"
@@ -549,6 +819,12 @@
 		"es"		"El jugador no es válido."
 		"de"		"Spieler ist ungültig."
 		"pt"		"Jogador inválido."
+		"pl"		"Gracz jest nieprawidłowy."
+		"tr"		"Oyuncu geçerli değil."
+		"it"		"Il giocatore non è valido."
+		"ua"		"Гравець недійсний."
+		"zho"		"玩家無效。"
+		"cze"		"Hráč není platný."
 	}
 
 	"EW_Status_TotalEbans"
@@ -560,6 +836,12 @@
 		"es"		"ha acumulado un total de"
 		"de"		"hat insgesamt"
 		"pt"		"acumulou um total de"
+		"pl"		"ma łącznie"
+		"tr"		"toplamda şu kadar birikmiş:"
+		"it"		"ha accumulato un totale di"
+		"ua"		"назбирав загалом"
+		"zho"		"累計共有"
+		"cze"		"nasbíral celkem"
 	}
 
 	"EW_Status_TotalEbans_Suffix"
@@ -571,6 +853,12 @@
 		"es"		"eban(es)."
 		"de"		"Eban(s) erhalten."
 		"pt"		"eban(s)."
+		"pl"		"ebanów."
+		"tr"		"eban."
+		"it"		"eban."
+		"ua"		"eban(ів)."
+		"zho"		"次 eban。"
+		"cze"		"ebanů."
 	}
 
 	"EW_Status_NotRestricted"
@@ -582,6 +870,12 @@
 		"es"		"no está restringido actualmente."
 		"de"		"ist derzeit nicht gesperrt."
 		"pt"		"não está restrito no momento."
+		"pl"		"nie jest obecnie zablokowany."
+		"tr"		"şu anda kısıtlı değil."
+		"it"		"non è attualmente limitato."
+		"ua"		"наразі не обмежений."
+		"zho"		"目前未被限制。"
+		"cze"		"momentálně není omezen."
 	}
 
 	"EW_Status_IsRestricted"
@@ -593,6 +887,12 @@
 		"es"		"está actualmente restringido."
 		"de"		"ist derzeit gesperrt."
 		"pt"		"está restrito no momento."
+		"pl"		"jest obecnie zablokowany."
+		"tr"		"şu anda kısıtlı."
+		"it"		"è attualmente limitato."
+		"ua"		"наразі обмежений."
+		"zho"		"目前被限制。"
+		"cze"		"je aktuálně omezen."
 	}
 
 	"EW_Status_Reason"
@@ -604,6 +904,12 @@
 		"es"		"Motivo:"
 		"de"		"Grund:"
 		"pt"		"Motivo:"
+		"pl"		"Powód:"
+		"tr"		"Sebep:"
+		"it"		"Motivo:"
+		"ua"		"Причина:"
+		"zho"		"原因:"
+		"cze"		"Důvod:"
 	}
 
 	"EW_Status_RestrictedBy"
@@ -615,6 +921,12 @@
 		"es"		"Restringido por:"
 		"de"		"Gesperrt von:"
 		"pt"		"Restrito por:"
+		"pl"		"Zablokował:"
+		"tr"		"Kısıtlayan:"
+		"it"		"Limitato da:"
+		"ua"		"Обмежив:"
+		"zho"		"限制者:"
+		"cze"		"Omezil:"
 	}
 
 	"EW_Status_IssuedAt"
@@ -626,6 +938,12 @@
 		"es"		"Emitido:"
 		"de"		"Ausgestellt am:"
 		"pt"		"Emitido em:"
+		"pl"		"Nadano:"
+		"tr"		"Verilme zamanı:"
+		"it"		"Emesso il:"
+		"ua"		"Видано:"
+		"zho"		"發出時間:"
+		"cze"		"Uděleno:"
 	}
 
 	"EW_Status_Duration"
@@ -637,6 +955,12 @@
 		"es"		"Duración:"
 		"de"		"Dauer:"
 		"pt"		"Duração:"
+		"pl"		"Czas:"
+		"tr"		"Süre:"
+		"it"		"Durata:"
+		"ua"		"Тривалість:"
+		"zho"		"時間:"
+		"cze"		"Doba:"
 	}
 
 	"EW_Status_Permanent"
@@ -648,6 +972,12 @@
 		"es"		"Permanente"
 		"de"		"Dauerhaft"
 		"pt"		"Permanente"
+		"pl"		"Na stałe"
+		"tr"		"Kalıcı"
+		"it"		"Permanente"
+		"ua"		"Назавжди"
+		"zho"		"永久"
+		"cze"		"Trvale"
 	}
 
 	"EW_Status_Expires"
@@ -659,6 +989,12 @@
 		"es"		"Vence:"
 		"de"		"Läuft ab:"
 		"pt"		"Expira:"
+		"pl"		"Wygasa:"
+		"tr"		"Bitiş:"
+		"it"		"Scade:"
+		"ua"		"Спливає:"
+		"zho"		"到期:"
+		"cze"		"Vyprší:"
 	}
 
 	"EW_Status_Expires_Never"
@@ -670,6 +1006,12 @@
 		"es"		"Nunca"
 		"de"		"Nie"
 		"pt"		"Nunca"
+		"pl"		"Nigdy"
+		"tr"		"Asla"
+		"it"		"Mai"
+		"ua"		"Ніколи"
+		"zho"		"永不"
+		"cze"		"Nikdy"
 	}
 
 	"EW_Status_Expires_Remaining"
@@ -681,6 +1023,12 @@
 		"es"		"restante"
 		"de"		"verbleibend"
 		"pt"		"restantes"
+		"pl"		"pozostało"
+		"tr"		"kaldı"
+		"it"		"rimanenti"
+		"ua"		"залишилось"
+		"zho"		"剩餘"
+		"cze"		"zbývá"
 	}
 
 	"EW_Status_Duration_Temporary"
@@ -692,6 +1040,12 @@
 		"es"		"Temporal (SteamID no verificado)"
 		"de"		"Vorübergehend (SteamID nicht verifiziert)"
 		"pt"		"Temporária (SteamID não verificado)"
+		"pl"		"Tymczasowo (niezweryfikowany SteamID)"
+		"tr"		"Geçici (doğrulanmamış SteamID)"
+		"it"		"Temporaneo (SteamID non verificato)"
+		"ua"		"Тимчасово (SteamID не підтверджено)"
+		"zho"		"暫時(SteamID 未驗證)"
+		"cze"		"Dočasně (neověřené SteamID)"
 	}
 
 	"EW_Status_Expires_UntilVerified"
@@ -703,6 +1057,12 @@
 		"es"		"Hasta que el SteamID se verifique o el cliente se desconecte"
 		"de"		"Bis die SteamID verifiziert ist oder der Client die Verbindung trennt"
 		"pt"		"Até o SteamID ser verificado ou o cliente se desconectar"
+		"pl"		"Do weryfikacji SteamID lub rozłączenia gracza"
+		"tr"		"SteamID doğrulanana veya oyuncu ayrılana kadar"
+		"it"		"Finché lo SteamID non viene verificato o il client si disconnette"
+		"ua"		"Доки SteamID не підтвердиться або клієнт не відключиться"
+		"zho"		"直到 SteamID 驗證完成或玩家離線"
+		"cze"		"Dokud nebude SteamID ověřeno nebo se hráč neodpojí"
 	}
 
 	// =========================================================================
@@ -719,6 +1079,12 @@
 		"es"		"No estás autorizado a emitir una restricción de esta duración o más."
 		"de"		"Du bist nicht berechtigt, eine Sperre dieser Dauer oder länger zu verhängen."
 		"pt"		"Você não tem permissão para aplicar uma restrição desta duração ou mais."
+		"pl"		"Nie masz uprawnień do nadawania blokad o takim czasie lub dłuższych."
+		"tr"		"Bu süre veya daha uzun bir kısıtlama verme yetkiniz yok."
+		"it"		"Non sei autorizzato a emettere una limitazione di questa durata o superiore."
+		"ua"		"Ви не маєте права видавати обмеження такої або більшої тривалості."
+		"zho"		"你無權發出此時間或更長的限制。"
+		"cze"		"Nemáte oprávnění udělit omezení této nebo delší doby."
 	}
 
 	"EW_Perm_MaxDuration_Max"
@@ -730,6 +1096,12 @@
 		"es"		"Máximo permitido:"
 		"de"		"Maximal erlaubt:"
 		"pt"		"Máximo permitido:"
+		"pl"		"Maksymalnie dozwolone:"
+		"tr"		"İzin verilen azami:"
+		"it"		"Massimo consentito:"
+		"ua"		"Максимально дозволено:"
+		"zho"		"最大允許:"
+		"cze"		"Maximum povoleno:"
 	}
 
 	"EW_Perm_NoPermanent"
@@ -741,6 +1113,12 @@
 		"es"		"No estás autorizado a emitir restricciones permanentes."
 		"de"		"Du bist nicht berechtigt, dauerhafte Sperren zu verhängen."
 		"pt"		"Você não tem permissão para aplicar restrições permanentes."
+		"pl"		"Nie masz uprawnień do nadawania blokad na stałe."
+		"tr"		"Kalıcı kısıtlama verme yetkiniz yok."
+		"it"		"Non sei autorizzato a emettere limitazioni permanenti."
+		"ua"		"Ви не маєте права видавати постійні обмеження."
+		"zho"		"你無權發出永久限制。"
+		"cze"		"Nemáte oprávnění udělovat trvalá omezení."
 	}
 
 	// =========================================================================
@@ -756,6 +1134,12 @@
 		"es"		"La base de datos no está disponible en este momento. Por favor, inténtalo más tarde."
 		"de"		"Die Datenbank ist derzeit nicht verfügbar. Bitte versuche es später erneut."
 		"pt"		"O banco de dados está indisponível no momento. Tente novamente mais tarde."
+		"pl"		"Baza danych jest obecnie niedostępna. Spróbuj ponownie później."
+		"tr"		"Veritabanı şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin."
+		"it"		"Il database non è al momento disponibile. Riprova più tardi."
+		"ua"		"База даних наразі недоступна. Спробуйте пізніше."
+		"zho"		"資料庫目前無法使用，請稍後再試。"
+		"cze"		"Databáze je momentálně nedostupná. Zkuste to prosím později."
 	}
 
 	// =========================================================================
@@ -773,6 +1157,12 @@
 		"es"		"Motivo de restricción para {1} — Permanente"
 		"de"		"Sperrgrund für {1} — Dauerhaft"
 		"pt"		"Motivo da restrição de {1} — Permanente"
+		"pl"		"Powód blokady dla {1} — na stałe"
+		"tr"		"{1} için kısıtlama sebebi — Kalıcı"
+		"it"		"Motivo della limitazione per {1} — Permanente"
+		"ua"		"Причина обмеження для {1} — назавжди"
+		"zho"		"{1} 的限制原因 — 永久"
+		"cze"		"Důvod omezení pro {1} — trvale"
 	}
 
 	"EW_Menu_BanReason_Title_Duration"
@@ -785,6 +1175,12 @@
 		"es"		"Motivo de restricción para {1} — {2} min"
 		"de"		"Sperrgrund für {1} — {2} Min."
 		"pt"		"Motivo da restrição de {1} — {2} min"
+		"pl"		"Powód blokady dla {1} — {2} min"
+		"tr"		"{1} için kısıtlama sebebi — {2} dk"
+		"it"		"Motivo della limitazione per {1} — {2} min"
+		"ua"		"Причина обмеження для {1} — {2} хв"
+		"zho"		"{1} 的限制原因 — {2} 分鐘"
+		"cze"		"Důvod omezení pro {1} — {2} min"
 	}
 
 	// =========================================================================
@@ -802,6 +1198,12 @@
 		"es"		"Mal uso del objeto"
 		"de"		"Item-Missbrauch"
 		"pt"		"Mau uso do item"
+		"pl"		"Niewłaściwe użycie przedmiotu"
+		"tr"		"Eşyayı kötüye kullanma"
+		"it"		"Uso improprio dell'oggetto"
+		"ua"		"Неправильне використання предмета"
+		"zho"		"濫用物品"
+		"cze"		"Zneužití předmětu"
 	}
 
 	"Trolling on purpose"
@@ -813,6 +1215,12 @@
 		"es"		"Trolleo intencional"
 		"de"		"Absichtliches Trollen"
 		"pt"		"Trollagem intencional"
+		"pl"		"Celowe trollowanie"
+		"tr"		"Kasıtlı trollük"
+		"it"		"Troll intenzionale"
+		"ua"		"Навмисний тролінг"
+		"zho"		"故意搗亂"
+		"cze"		"Záměrné trollení"
 	}
 
 	"Throwing item away"
@@ -824,6 +1232,12 @@
 		"es"		"Tirar el objeto intencionalmente"
 		"de"		"Item absichtlich wegwerfen"
 		"pt"		"Jogar o item fora de propósito"
+		"pl"		"Wyrzucanie przedmiotu"
+		"tr"		"Eşyayı atma"
+		"it"		"Oggetto buttato via"
+		"ua"		"Викидання предмета"
+		"zho"		"丟棄物品"
+		"cze"		"Zahazování předmětu"
 	}
 
 	"Not using an item"
@@ -835,6 +1249,12 @@
 		"es"		"No usar el objeto"
 		"de"		"Item nicht benutzen"
 		"pt"		"Não usar o item"
+		"pl"		"Nieużywanie przedmiotu"
+		"tr"		"Eşyayı kullanmama"
+		"it"		"Oggetto non utilizzato"
+		"ua"		"Невикористання предмета"
+		"zho"		"不使用物品"
+		"cze"		"Nepoužívání předmětu"
 	}
 
 	"Trimming team"
@@ -846,6 +1266,12 @@
 		"es"		"Sabotaje al equipo"
 		"de"		"Sabotage am Team"
 		"pt"		"Sabotagem da equipe"
+		"pl"		"Szkodzenie drużynie"
+		"tr"		"Takıma zarar verme"
+		"it"		"Danneggiare la squadra"
+		"ua"		"Шкода команді"
+		"zho"		"坑害隊友"
+		"cze"		"Škodění týmu"
 	}
 
 	"Not listening to leader"
@@ -857,6 +1283,12 @@
 		"es"		"No escuchar al líder"
 		"de"		"Nicht auf den Leader hören"
 		"pt"		"Não ouvir o líder"
+		"pl"		"Ignorowanie lidera"
+		"tr"		"Lideri dinlememe"
+		"it"		"Non ascolta il leader"
+		"ua"		"Ігнорування лідера"
+		"zho"		"不聽從隊長指揮"
+		"cze"		"Neposlouchání vedoucího"
 	}
 
 	"Spamming an item"
@@ -868,6 +1300,12 @@
 		"es"		"Abuso repetido del objeto"
 		"de"		"Item-Spam"
 		"pt"		"Spam do item"
+		"pl"		"Spamowanie przedmiotem"
+		"tr"		"Eşyayı spamlama"
+		"it"		"Spam dell'oggetto"
+		"ua"		"Спам предметом"
+		"zho"		"濫發物品"
+		"cze"		"Spamování předmětem"
 	}
 
 	"Other"
@@ -879,6 +1317,12 @@
 		"es"		"Otro"
 		"de"		"Sonstiges"
 		"pt"		"Outro"
+		"pl"		"Inne"
+		"tr"		"Diğer"
+		"it"		"Altro"
+		"ua"		"Інше"
+		"zho"		"其他"
+		"cze"		"Jiné"
 	}
 
 	// =========================================================================
@@ -896,6 +1340,12 @@
 		"es"		"Motivo para levantar la restricción de {1}"
 		"de"		"Grund für die Entsperrung von {1}"
 		"pt"		"Motivo para remover a restrição de {1}"
+		"pl"		"Powód zdjęcia blokady dla {1}"
+		"tr"		"{1} için kısıtlama kaldırma sebebi"
+		"it"		"Motivo della rimozione della limitazione per {1}"
+		"ua"		"Причина зняття обмеження для {1}"
+		"zho"		"{1} 的解除限制原因"
+		"cze"		"Důvod zrušení omezení pro {1}"
 	}
 
 	"Wrong target"
@@ -907,6 +1357,12 @@
 		"es"		"Objetivo equivocado"
 		"de"		"Falsches Ziel"
 		"pt"		"Alvo errado"
+		"pl"		"Zły cel"
+		"tr"		"Yanlış hedef"
+		"it"		"Bersaglio sbagliato"
+		"ua"		"Хибна ціль"
+		"zho"		"目標錯誤"
+		"cze"		"Špatný cíl"
 	}
 
 	"Giving another chance"
@@ -918,6 +1374,12 @@
 		"es"		"Dar otra oportunidad"
 		"de"		"Noch eine Chance geben"
 		"pt"		"Dar outra chance"
+		"pl"		"Danie kolejnej szansy"
+		"tr"		"Bir şans daha verme"
+		"it"		"Concedere un'altra possibilità"
+		"ua"		"Ще один шанс"
+		"zho"		"再給一次機會"
+		"cze"		"Další šance"
 	}
 
 	"Bad duration"
@@ -929,6 +1391,12 @@
 		"es"		"Duración incorrecta"
 		"de"		"Falsche Dauer"
 		"pt"		"Duração incorreta"
+		"pl"		"Nieprawidłowy czas"
+		"tr"		"Yanlış süre"
+		"it"		"Durata errata"
+		"ua"		"Неправильна тривалість"
+		"zho"		"時間不正確"
+		"cze"		"Nesprávná doba"
 	}
 
 	"Was not on purpose"
@@ -940,6 +1408,12 @@
 		"es"		"No fue intencional"
 		"de"		"War keine Absicht"
 		"pt"		"Não foi intencional"
+		"pl"		"To nie było celowe"
+		"tr"		"Kasıtlı değildi"
+		"it"		"Non era intenzionale"
+		"ua"		"Це було ненавмисно"
+		"zho"		"並非故意"
+		"cze"		"Nebylo to úmyslné"
 	}
 
 	// =========================================================================
@@ -956,6 +1430,12 @@
 		"es"		"[entWatch] Jugadores desconectados recientemente"
 		"de"		"[entWatch] Kürzlich getrennte Spieler"
 		"pt"		"[entWatch] Jogadores desconectados recentemente"
+		"pl"		"[entWatch] Ostatnio rozłączeni gracze"
+		"tr"		"[entWatch] Yakın zamanda ayrılan oyuncular"
+		"it"		"[entWatch] Giocatori disconnessi di recente"
+		"ua"		"[entWatch] Нещодавно відключені гравці"
+		"zho"		"[entWatch] 最近離線的玩家"
+		"cze"		"[entWatch] Nedávno odpojení hráči"
 	}
 
 	"EW_Menu_Offline_NoPlayers"
@@ -967,6 +1447,12 @@
 		"es"		"No hay registros de jugadores desconectados recientemente."
 		"de"		"Keine kürzlich getrennten Spieler gespeichert."
 		"pt"		"Nenhum jogador desconectado recentemente registrado."
+		"pl"		"Brak zapisów o ostatnio rozłączonych graczach."
+		"tr"		"Kayıtlı yakın zamanda ayrılan oyuncu yok."
+		"it"		"Nessun giocatore disconnesso di recente registrato."
+		"ua"		"Немає записів про нещодавно відключених гравців."
+		"zho"		"沒有最近離線的玩家紀錄。"
+		"cze"		"Žádní nedávno odpojení hráči nejsou zaznamenáni."
 	}
 
 	"EW_Menu_Offline_EntryFormat"
@@ -979,6 +1465,12 @@
 		"es"		"{1} (#{2}) - hace {3} min"
 		"de"		"{1} (#{2}) - vor {3} Min."
 		"pt"		"{1} (#{2}) - há {3} min"
+		"pl"		"{1} (#{2}) - {3} min temu"
+		"tr"		"{1} (#{2}) - {3} dk önce"
+		"it"		"{1} (#{2}) - {3} min fa"
+		"ua"		"{1} (#{2}) - {3} хв тому"
+		"zho"		"{1} (#{2}) - {3} 分鐘前"
+		"cze"		"{1} (#{2}) - před {3} min"
 	}
 
 	// =========================================================================
@@ -996,6 +1488,12 @@
 		"es"		"[entWatch] Jugador desconectado: {1}"
 		"de"		"[entWatch] Offline-Spieler: {1}"
 		"pt"		"[entWatch] Jogador offline: {1}"
+		"pl"		"[entWatch] Gracz offline: {1}"
+		"tr"		"[entWatch] Çevrimdışı oyuncu: {1}"
+		"it"		"[entWatch] Giocatore offline: {1}"
+		"ua"		"[entWatch] Гравець офлайн: {1}"
+		"zho"		"[entWatch] 離線玩家: {1}"
+		"cze"		"[entWatch] Offline hráč: {1}"
 	}
 
 	"EW_Menu_OfflineDetails_Name"
@@ -1008,6 +1506,12 @@
 		"es"		"Nombre: {1} (#{2})"
 		"de"		"Name: {1} (#{2})"
 		"pt"		"Nome: {1} (#{2})"
+		"pl"		"Nazwa: {1} (#{2})"
+		"tr"		"İsim: {1} (#{2})"
+		"it"		"Nome: {1} (#{2})"
+		"ua"		"Нік: {1} (#{2})"
+		"zho"		"名稱: {1} (#{2})"
+		"cze"		"Jméno: {1} (#{2})"
 	}
 
 	"EW_Menu_OfflineDetails_SteamID"
@@ -1020,6 +1524,12 @@
 		"es"		"SteamID: {1}"
 		"de"		"SteamID: {1}"
 		"pt"		"SteamID: {1}"
+		"pl"		"SteamID: {1}"
+		"tr"		"SteamID: {1}"
+		"it"		"SteamID: {1}"
+		"ua"		"SteamID: {1}"
+		"zho"		"SteamID: {1}"
+		"cze"		"SteamID: {1}"
 	}
 
 	"EW_Menu_OfflineDetails_Disconnected"
@@ -1032,6 +1542,12 @@
 		"es"		"Desconectado: hace {1} min"
 		"de"		"Getrennt: vor {1} Min."
 		"pt"		"Desconectado: há {1} min"
+		"pl"		"Rozłączył się: {1} min temu"
+		"tr"		"Ayrıldı: {1} dk önce"
+		"it"		"Disconnesso: {1} min fa"
+		"ua"		"Відключився: {1} хв тому"
+		"zho"		"離線時間: {1} 分鐘前"
+		"cze"		"Odpojil se: před {1} min"
 	}
 
 	"EW_Menu_OfflineDetails_LastItem"
@@ -1044,6 +1560,12 @@
 		"es"		"Último objeto sostenido: {1}"
 		"de"		"Zuletzt gehaltenes Item: {1}"
 		"pt"		"Último item segurado: {1}"
+		"pl"		"Ostatni przedmiot: {1}"
+		"tr"		"Son tuttuğu eşya: {1}"
+		"it"		"Ultimo oggetto posseduto: {1}"
+		"ua"		"Останній предмет: {1}"
+		"zho"		"最後持有的物品: {1}"
+		"cze"		"Poslední předmět: {1}"
 	}
 
 	"EW_Menu_OfflineDetails_BanButton"
@@ -1055,6 +1577,12 @@
 		"es"		"Emitir una restricción"
 		"de"		"Sperre verhängen"
 		"pt"		"Aplicar uma restrição"
+		"pl"		"Nadaj blokadę"
+		"tr"		"Kısıtlama ver"
+		"it"		"Emetti una limitazione"
+		"ua"		"Видати обмеження"
+		"zho"		"發出限制"
+		"cze"		"Udělit omezení"
 	}
 
 	// =========================================================================
@@ -1072,6 +1600,12 @@
 		"es"		"[entWatch] Seleccionar duración de restricción para {1}"
 		"de"		"[entWatch] Sperrdauer für {1} auswählen"
 		"pt"		"[entWatch] Selecionar duração da restrição de {1}"
+		"pl"		"[entWatch] Wybierz czas blokady dla {1}"
+		"tr"		"[entWatch] {1} için kısıtlama süresini seçin"
+		"it"		"[entWatch] Seleziona la durata della limitazione per {1}"
+		"ua"		"[entWatch] Оберіть тривалість обмеження для {1}"
+		"zho"		"[entWatch] 選擇 {1} 的限制時間"
+		"cze"		"[entWatch] Vyberte dobu omezení pro {1}"
 	}
 
 	"EW_Menu_OfflineDuration_10min"
@@ -1083,6 +1617,12 @@
 		"es"		"10 minutos"
 		"de"		"10 Minuten"
 		"pt"		"10 minutos"
+		"pl"		"10 minut"
+		"tr"		"10 dakika"
+		"it"		"10 minuti"
+		"ua"		"10 хвилин"
+		"zho"		"10 分鐘"
+		"cze"		"10 minut"
 	}
 
 	"EW_Menu_OfflineDuration_1Hour"
@@ -1094,6 +1634,12 @@
 		"es"		"1 hora"
 		"de"		"1 Stunde"
 		"pt"		"1 hora"
+		"pl"		"1 godzina"
+		"tr"		"1 saat"
+		"it"		"1 ora"
+		"ua"		"1 година"
+		"zho"		"1 小時"
+		"cze"		"1 hodina"
 	}
 
 	"EW_Menu_OfflineDuration_1Day"
@@ -1105,6 +1651,12 @@
 		"es"		"1 día"
 		"de"		"1 Tag"
 		"pt"		"1 dia"
+		"pl"		"1 dzień"
+		"tr"		"1 gün"
+		"it"		"1 giorno"
+		"ua"		"1 день"
+		"zho"		"1 天"
+		"cze"		"1 den"
 	}
 
 	"EW_Menu_OfflineDuration_1Week"
@@ -1116,6 +1668,12 @@
 		"es"		"1 semana"
 		"de"		"1 Woche"
 		"pt"		"1 semana"
+		"pl"		"1 tydzień"
+		"tr"		"1 hafta"
+		"it"		"1 settimana"
+		"ua"		"1 тиждень"
+		"zho"		"1 週"
+		"cze"		"1 týden"
 	}
 
 	"EW_Menu_OfflineDuration_1Month"
@@ -1127,6 +1685,12 @@
 		"es"		"1 mes"
 		"de"		"1 Monat"
 		"pt"		"1 mês"
+		"pl"		"1 miesiąc"
+		"tr"		"1 ay"
+		"it"		"1 mese"
+		"ua"		"1 місяць"
+		"zho"		"1 個月"
+		"cze"		"1 měsíc"
 	}
 
 	"EW_Menu_OfflineDuration_Permanent"
@@ -1138,6 +1702,12 @@
 		"es"		"Permanentemente"
 		"de"		"Dauerhaft"
 		"pt"		"Permanente"
+		"pl"		"Na stałe"
+		"tr"		"Kalıcı olarak"
+		"it"		"Permanentemente"
+		"ua"		"Назавжди"
+		"zho"		"永久"
+		"cze"		"Trvale"
 	}
 
 	// =========================================================================
@@ -1155,6 +1725,12 @@
 		"es"		"[entWatch] Motivo de restricción para {1} — Permanente"
 		"de"		"[entWatch] Sperrgrund für {1} — Dauerhaft"
 		"pt"		"[entWatch] Motivo da restrição de {1} — Permanente"
+		"pl"		"[entWatch] Powód blokady dla {1} — na stałe"
+		"tr"		"[entWatch] {1} için kısıtlama sebebi — Kalıcı"
+		"it"		"[entWatch] Motivo della limitazione per {1} — Permanente"
+		"ua"		"[entWatch] Причина обмеження для {1} — назавжди"
+		"zho"		"[entWatch] {1} 的限制原因 — 永久"
+		"cze"		"[entWatch] Důvod omezení pro {1} — trvale"
 	}
 
 	"EW_Menu_OfflineReason_Title_Duration"
@@ -1167,6 +1743,12 @@
 		"es"		"[entWatch] Motivo de restricción para {1} — {2} min"
 		"de"		"[entWatch] Sperrgrund für {1} — {2} Min."
 		"pt"		"[entWatch] Motivo da restrição de {1} — {2} min"
+		"pl"		"[entWatch] Powód blokady dla {1} — {2} min"
+		"tr"		"[entWatch] {1} için kısıtlama sebebi — {2} dk"
+		"it"		"[entWatch] Motivo della limitazione per {1} — {2} min"
+		"ua"		"[entWatch] Причина обмеження для {1} — {2} хв"
+		"zho"		"[entWatch] {1} 的限制原因 — {2} 分鐘"
+		"cze"		"[entWatch] Důvod omezení pro {1} — {2} min"
 	}
 
 	// =========================================================================
@@ -1182,6 +1764,12 @@
 		"es"		"Este jugador ya no está conectado al servidor."
 		"de"		"Dieser Spieler ist nicht mehr mit dem Server verbunden."
 		"pt"		"Este jogador não está mais conectado ao servidor."
+		"pl"		"Ten gracz nie jest już połączony z serwerem."
+		"tr"		"Bu oyuncu artık sunucuya bağlı değil."
+		"it"		"Questo giocatore non è più connesso al server."
+		"ua"		"Цей гравець більше не підключений до сервера."
+		"zho"		"此玩家已不在伺服器上。"
+		"cze"		"Tento hráč již není připojen k serveru."
 	}
 
 	"EW_Error_PlayerNoLongerTracked"
@@ -1193,6 +1781,12 @@
 		"es"		"Este jugador ya no está siendo rastreado en el registro sin conexión."
 		"de"		"Dieser Spieler wird nicht mehr im Offline-Register erfasst."
 		"pt"		"Este jogador não está mais sendo rastreado pelo registro offline."
+		"pl"		"Ten gracz nie jest już śledzony w rejestrze offline."
+		"tr"		"Bu oyuncu artık çevrimdışı kayıtta takip edilmiyor."
+		"it"		"Questo giocatore non è più tracciato nel registro offline."
+		"ua"		"Цей гравець більше не відстежується в офлайн-реєстрі."
+		"zho"		"此玩家已不在離線紀錄中。"
+		"cze"		"Tento hráč již není sledován v offline registru."
 	}
 
 	// =========================================================================
@@ -1209,6 +1803,12 @@
 		"es"		"segundo(s)"
 		"de"		"Sekunde(n)"
 		"pt"		"segundo(s)"
+		"pl"		"sek."
+		"tr"		"saniye"
+		"it"		"secondo/i"
+		"ua"		"сек."
+		"zho"		"秒"
+		"cze"		"s"
 	}
 
 	"EW_Time_Minutes"
@@ -1220,6 +1820,12 @@
 		"es"		"minuto(s)"
 		"de"		"Minute(n)"
 		"pt"		"minuto(s)"
+		"pl"		"min."
+		"tr"		"dakika"
+		"it"		"minuto/i"
+		"ua"		"хв."
+		"zho"		"分鐘"
+		"cze"		"min."
 	}
 
 	"EW_Time_Hours"
@@ -1231,6 +1837,12 @@
 		"es"		"hora(s)"
 		"de"		"Stunde(n)"
 		"pt"		"hora(s)"
+		"pl"		"godz."
+		"tr"		"saat"
+		"it"		"ora/e"
+		"ua"		"год."
+		"zho"		"小時"
+		"cze"		"hod."
 	}
 
 	"EW_Time_Days"
@@ -1242,6 +1854,12 @@
 		"es"		"día(s)"
 		"de"		"Tag(e)"
 		"pt"		"dia(s)"
+		"pl"		"dni"
+		"tr"		"gün"
+		"it"		"giorno/i"
+		"ua"		"дн."
+		"zho"		"天"
+		"cze"		"dn."
 	}
 
 	// =========================================================================
@@ -1258,6 +1876,12 @@
 		"es"    "Uso: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
 		"de"    "Verwendung: sm_ewsetcooldown <hammerid> <Cooldown> [force:0/1]"
 		"pt"    "Uso: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"pl"    "Użycie: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"tr"    "Kullanım: sm_ewsetcooldown <hammerid> <bekleme> [force:0/1]"
+		"it"    "Uso: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"ua"    "Використання: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
+		"zho"    "用法: sm_ewsetcooldown <hammerid> <冷卻> [force:0/1]"
+		"cze"    "Použití: sm_ewsetcooldown <hammerid> <cooldown> [force:0/1]"
 	}
 
 	"EW_Override_SetMaxUses_Usage"
@@ -1269,6 +1893,12 @@
 		"es"    "Uso: sm_ewsetmaxuses <hammerid> <maxuses>"
 		"de"    "Verwendung: sm_ewsetmaxuses <hammerid> <maxuses>"
 		"pt"    "Uso: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"pl"    "Użycie: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"tr"    "Kullanım: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"it"    "Uso: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"ua"    "Використання: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"zho"    "用法: sm_ewsetmaxuses <hammerid> <maxuses>"
+		"cze"    "Použití: sm_ewsetmaxuses <hammerid> <maxuses>"
 	}
 
 	"EW_Override_SetMode_Usage"
@@ -1280,6 +1910,12 @@
 		"es"    "Uso: sm_ewsetmode <hammerid> <tipo(0-4)> <modo(0-4)> <cooldown> <maxuses>"
 		"de"    "Verwendung: sm_ewsetmode <hammerid> <Typ(0-4)> <Modus(0-4)> <Cooldown> <maxuses>"
 		"pt"    "Uso: sm_ewsetmode <hammerid> <tipo(0-4)> <modo(0-4)> <cooldown> <maxuses>"
+		"pl"    "Użycie: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"tr"    "Kullanım: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"it"    "Uso: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"ua"    "Використання: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"zho"    "用法: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
+		"cze"    "Použití: sm_ewsetmode <hammerid> <type(0-4)> <mode(0-4)> <cooldown> <maxuses>"
 	}
 
 	"EW_Override_SetName_Usage"
@@ -1291,6 +1927,12 @@
 		"es"    "Uso: sm_ewsetname <hammerid> <nuevonombre>"
 		"de"    "Verwendung: sm_ewsetname <hammerid> <NeuerName>"
 		"pt"    "Uso: sm_ewsetname <hammerid> <novonome>"
+		"pl"    "Użycie: sm_ewsetname <hammerid> <nowa nazwa>"
+		"tr"    "Kullanım: sm_ewsetname <hammerid> <yeni isim>"
+		"it"    "Uso: sm_ewsetname <hammerid> <nuovo nome>"
+		"ua"    "Використання: sm_ewsetname <hammerid> <нова назва>"
+		"zho"    "用法: sm_ewsetname <hammerid> <新名稱>"
+		"cze"    "Použití: sm_ewsetname <hammerid> <nový název>"
 	}
 
 	"EW_Override_SetShortName_Usage"
@@ -1302,6 +1944,12 @@
 		"es"    "Uso: sm_ewsetshortname <hammerid> <nuevonombrecorto>"
 		"de"    "Verwendung: sm_ewsetshortname <hammerid> <NeuerKurzname>"
 		"pt"    "Uso: sm_ewsetshortname <hammerid> <novonomecurto>"
+		"pl"    "Użycie: sm_ewsetshortname <hammerid> <nowa krótka nazwa>"
+		"tr"    "Kullanım: sm_ewsetshortname <hammerid> <yeni kısa isim>"
+		"it"    "Uso: sm_ewsetshortname <hammerid> <nuovo nome breve>"
+		"ua"    "Використання: sm_ewsetshortname <hammerid> <нова коротка назва>"
+		"zho"    "用法: sm_ewsetshortname <hammerid> <新簡稱>"
+		"cze"    "Použití: sm_ewsetshortname <hammerid> <nový krátký název>"
 	}
 
 	"EW_Override_LockButton_Usage"
@@ -1313,6 +1961,12 @@
 		"es"    "Uso: sm_ewlockbutton <hammerid> <1=bloquear|0=desbloquear>"
 		"de"    "Verwendung: sm_ewlockbutton <hammerid> <1=sperren|0=entsperren>"
 		"pt"    "Uso: sm_ewlockbutton <hammerid> <1=bloquear|0=desbloquear>"
+		"pl"    "Użycie: sm_ewlockbutton <hammerid> <1=zablokuj|0=odblokuj>"
+		"tr"    "Kullanım: sm_ewlockbutton <hammerid> <1=kilitle|0=kilidi aç>"
+		"it"    "Uso: sm_ewlockbutton <hammerid> <1=blocca|0=sblocca>"
+		"ua"    "Використання: sm_ewlockbutton <hammerid> <1=заблокувати|0=розблокувати>"
+		"zho"    "用法: sm_ewlockbutton <hammerid> <1=鎖定|0=解鎖>"
+		"cze"    "Použití: sm_ewlockbutton <hammerid> <1=zamknout|0=odemknout>"
 	}
 
 	"EW_Override_NoButton"
@@ -1324,6 +1978,12 @@
 		"es"    "No se encontró ningún objeto/botón para el HammerID %d."
 		"de"    "Kein Item/Button für HammerID %d gefunden."
 		"pt"    "Nenhum item/botão encontrado para o HammerID %d."
+		"pl"    "Nie znaleziono przedmiotu/przycisku dla HammerID %d."
+		"tr"    "HammerID %d için eşya/düğme bulunamadı."
+		"it"    "Nessun oggetto/pulsante trovato per HammerID %d."
+		"ua"    "Предмет/кнопку для HammerID %d не знайдено."
+		"zho"    "找不到 HammerID %d 的物品/按鈕。"
+		"cze"    "Pro HammerID %d nebyl nalezen předmět/tlačítko."
 	}
 
 	"EW_Override_NoItem"
@@ -1335,6 +1995,12 @@
 		"es"    "No se encontró ningún objeto para el HammerID %d."
 		"de"    "Kein Item für HammerID %d gefunden."
 		"pt"    "Nenhum item encontrado para o HammerID %d."
+		"pl"    "Nie znaleziono przedmiotu dla HammerID %d."
+		"tr"    "HammerID %d için eşya bulunamadı."
+		"it"    "Nessun oggetto trovato per HammerID %d."
+		"ua"    "Предмет для HammerID %d не знайдено."
+		"zho"    "找不到 HammerID %d 的物品。"
+		"cze"    "Pro HammerID %d nebyl nalezen předmět."
 	}
 
 	"EW_Override_InvalidType"
@@ -1346,6 +2012,12 @@
 		"es"    "Tipo inválido (0-4)."
 		"de"    "Ungültiger Typ (0-4)."
 		"pt"    "Tipo inválido (0-4)."
+		"pl"    "Nieprawidłowy typ (0-4)."
+		"tr"    "Geçersiz tür (0-4)."
+		"it"    "Tipo non valido (0-4)."
+		"ua"    "Недійсний тип (0-4)."
+		"zho"    "無效的類型 (0-4)。"
+		"cze"    "Neplatný typ (0-4)."
 	}
 
 	"EW_Override_InvalidMode"
@@ -1357,6 +2029,12 @@
 		"es"    "Modo inválido (0-4)."
 		"de"    "Ungültiger Modus (0-4)."
 		"pt"    "Modo inválido (0-4)."
+		"pl"    "Nieprawidłowy tryb (0-4)."
+		"tr"    "Geçersiz mod (0-4)."
+		"it"    "Modalità non valida (0-4)."
+		"ua"    "Недійсний режим (0-4)."
+		"zho"    "無效的模式 (0-4)。"
+		"cze"    "Neplatný režim (0-4)."
 	}
 
 	"EW_Override_SetCooldown_Done"
@@ -1369,6 +2047,12 @@
 		"es"    "Cooldown del botón {1} establecido en {2} s."
 		"de"    "Cooldown von Button {1} auf {2} s gesetzt."
 		"pt"    "Cooldown do botão {1} definido para {2} s."
+		"pl"    "Cooldown przycisku {1} ustawiono na {2}s."
+		"tr"    "{1} düğmesinin bekleme süresi {2}sn olarak ayarlandı."
+		"it"    "Cooldown del pulsante {1} impostato a {2}s."
+		"ua"    "Кулдаун кнопки {1} встановлено на {2}с."
+		"zho"    "{1} 按鈕冷卻已設為 {2} 秒。"
+		"cze"    "Cooldown tlačítka {1} nastaven na {2}s."
 	}
 
 	"EW_Override_SetMaxUses_Done"
@@ -1381,6 +2065,12 @@
 		"es"    "Usos máximos del botón {1} establecidos en {2}."
 		"de"    "Max. Benutzungen von Button {1} auf {2} gesetzt."
 		"pt"    "Usos máximos do botão {1} definidos para {2}."
+		"pl"    "Maksymalną liczbę użyć przycisku {1} ustawiono na {2}."
+		"tr"    "{1} düğmesinin azami kullanımı {2} olarak ayarlandı."
+		"it"    "Usi massimi del pulsante {1} impostati a {2}."
+		"ua"    "Макс. кількість використань кнопки {1} встановлено на {2}."
+		"zho"    "{1} 按鈕最大使用次數已設為 {2}。"
+		"cze"    "Maximální počet použití tlačítka {1} nastaven na {2}."
 	}
 
 	"EW_Override_SetMode_Done"
@@ -1393,6 +2083,12 @@
 		"es"    "Botón {1} → tipo {2}, modo {3}, cd {4} s, maxuses {5}."
 		"de"    "Button {1} → Typ {2}, Modus {3}, CD {4} s, maxuses {5}."
 		"pt"    "Botão {1} → tipo {2}, modo {3}, cd {4} s, maxuses {5}."
+		"pl"    "Przycisk {1} → typ {2}, tryb {3}, cd {4}s, maks. użyć {5}."
+		"tr"    "{1} düğmesi → tür {2}, mod {3}, bekleme {4}sn, azami kullanım {5}."
+		"it"    "Pulsante {1} → tipo {2}, modalità {3}, cd {4}s, usi massimi {5}."
+		"ua"    "Кнопка {1} → тип {2}, режим {3}, кд {4}с, макс. використань {5}."
+		"zho"    "{1} 按鈕 → 類型 {2}，模式 {3}，冷卻 {4} 秒，最大使用次數 {5}。"
+		"cze"    "Tlačítko {1} → typ {2}, režim {3}, cd {4}s, max. použití {5}."
 	}
 
 	"EW_Override_SetName_Done"
@@ -1405,6 +2101,12 @@
 		"es"    "Nombre del objeto #{1} establecido en \"{2}\"."
 		"de"    "Name von Item #{1} auf \"{2}\" gesetzt."
 		"pt"    "Nome do item #{1} definido como \"{2}\"."
+		"pl"    "Nazwę przedmiotu #{1} ustawiono na \"{2}\"."
+		"tr"    "Eşya #{1} adı \"{2}\" olarak ayarlandı."
+		"it"    "Nome dell'oggetto #{1} impostato su \"{2}\"."
+		"ua"    "Назву предмета #{1} встановлено: \"{2}\"."
+		"zho"    "物品 #{1} 的名稱已設為 \"{2}\"。"
+		"cze"    "Název předmětu #{1} nastaven na \"{2}\"."
 	}
 
 	"EW_Override_SetShortName_Done"
@@ -1417,6 +2119,12 @@
 		"es"    "Nombre corto del objeto #{1} establecido en \"{2}\"."
 		"de"    "Kurzname von Item #{1} auf \"{2}\" gesetzt."
 		"pt"    "Nome curto do item #{1} definido como \"{2}\"."
+		"pl"    "Krótką nazwę przedmiotu #{1} ustawiono na \"{2}\"."
+		"tr"    "Eşya #{1} kısa adı \"{2}\" olarak ayarlandı."
+		"it"    "Nome breve dell'oggetto #{1} impostato su \"{2}\"."
+		"ua"    "Коротку назву предмета #{1} встановлено: \"{2}\"."
+		"zho"    "物品 #{1} 的簡稱已設為 \"{2}\"。"
+		"cze"    "Krátký název předmětu #{1} nastaven na \"{2}\"."
 	}
 
 	"EW_Override_LockButton_Done"
@@ -1429,6 +2137,12 @@
 		"es"    "Botón {1} {2}."
 		"de"    "Button {1} {2}."
 		"pt"    "Botão {1} {2}."
+		"pl"    "Przycisk {1}: {2}."
+		"tr"    "{1} düğmesi {2}."
+		"it"    "Pulsante {1}: {2}."
+		"ua"    "Кнопка {1}: {2}."
+		"zho"    "{1} 按鈕已{2}。"
+		"cze"    "Tlačítko {1}: {2}."
 	}
 
 	"EW_Override_Locked"
@@ -1440,6 +2154,12 @@
 		"es"    "bloqueado"
 		"de"    "gesperrt"
 		"pt"    "bloqueado"
+		"pl"    "zablokowany"
+		"tr"    "kilitlendi"
+		"it"    "bloccato"
+		"ua"    "заблоковано"
+		"zho"    "鎖定"
+		"cze"    "zamčeno"
 	}
 
 	"EW_Override_Unlocked"
@@ -1451,6 +2171,12 @@
 		"es"    "desbloqueado"
 		"de"    "entsperrt"
 		"pt"    "desbloqueado"
+		"pl"    "odblokowany"
+		"tr"    "kilidi açıldı"
+		"it"    "sbloccato"
+		"ua"    "розблоковано"
+		"zho"    "解鎖"
+		"cze"    "odemčeno"
 	}
 
 	// =========================================================================
@@ -1467,6 +2193,12 @@
 		"es"    "Comandos EntWatch:"
 		"de"    "EntWatch-Befehle:"
 		"pt"    "Comandos do EntWatch:"
+		"pl"    "Komendy EntWatch:"
+		"tr"    "EntWatch Komutları:"
+		"it"    "Comandi EntWatch:"
+		"ua"    "Команди EntWatch:"
+		"zho"    "EntWatch 指令:"
+		"cze"    "Příkazy EntWatch:"
 	}
 
 	"EW_AdminMenu_Category_Option"
@@ -1478,6 +2210,12 @@
 		"es"    "Comandos EntWatch"
 		"de"    "EntWatch-Befehle"
 		"pt"    "Comandos do EntWatch"
+		"pl"    "Komendy EntWatch"
+		"tr"    "EntWatch Komutları"
+		"it"    "Comandi EntWatch"
+		"ua"    "Команди EntWatch"
+		"zho"    "EntWatch 指令"
+		"cze"    "Příkazy EntWatch"
 	}
 
 	"EW_AdminMenu_ItemList"
@@ -1489,6 +2227,12 @@
 		"es"    "Lista de objetos"
 		"de"    "Itemliste"
 		"pt"    "Lista de itens"
+		"pl"    "Lista przedmiotów"
+		"tr"    "Eşya listesi"
+		"it"    "Elenco oggetti"
+		"ua"    "Список предметів"
+		"zho"    "物品列表"
+		"cze"    "Seznam předmětů"
 	}
 
 	"EW_AdminMenu_EBanList"
@@ -1500,6 +2244,12 @@
 		"es"    "Restringir jugador"
 		"de"    "Spieler sperren"
 		"pt"    "Restringir jogador"
+		"pl"    "Zablokuj gracza"
+		"tr"    "Oyuncuyu kısıtla"
+		"it"    "Limita giocatore"
+		"ua"    "Обмежити гравця"
+		"zho"    "限制玩家"
+		"cze"    "Omezit hráče"
 	}
 
 	"EW_AdminMenu_EUnBanList"
@@ -1511,6 +2261,12 @@
 		"es"    "Lista de restricciones"
 		"de"    "Liste der Sperren"
 		"pt"    "Lista de restrições"
+		"pl"    "Lista blokad"
+		"tr"    "Kısıtlama listesi"
+		"it"    "Elenco limitazioni"
+		"ua"    "Список обмежень"
+		"zho"    "限制列表"
+		"cze"    "Seznam omezení"
 	}
 
 	"EW_AdminMenu_SpawnItem"
@@ -1522,6 +2278,12 @@
 		"es"    "Generar un objeto"
 		"de"    "Item spawnen"
 		"pt"    "Gerar um item"
+		"pl"    "Stwórz przedmiot"
+		"tr"    "Eşya oluştur"
+		"it"    "Genera un oggetto"
+		"ua"    "Створити предмет"
+		"zho"    "生成物品"
+		"cze"    "Vytvořit předmět"
 	}
 
 	// =========================================================================
@@ -1538,6 +2300,12 @@
 		"es"    "entWatch - Lista de objetos:"
 		"de"    "entWatch - Itemliste:"
 		"pt"    "entWatch - Lista de itens:"
+		"pl"    "entWatch - Lista przedmiotów:"
+		"tr"    "entWatch - Eşya listesi:"
+		"it"    "entWatch - Elenco oggetti:"
+		"ua"    "entWatch - Список предметів:"
+		"zho"    "entWatch - 物品列表:"
+		"cze"    "entWatch - Seznam předmětů:"
 	}
 
 	"EW_PM_ItemList_NoOwner"
@@ -1549,6 +2317,12 @@
 		"es"    "Sin propietario"
 		"de"    "Kein Besitzer"
 		"pt"    "Sem dono"
+		"pl"    "Brak właściciela"
+		"tr"    "Sahibi yok"
+		"it"    "Nessun proprietario"
+		"ua"    "Немає власника"
+		"zho"    "無持有者"
+		"cze"    "Žádný majitel"
 	}
 
 	// =========================================================================
@@ -1565,6 +2339,12 @@
 		"es"    "Objeto:"
 		"de"    "Item:"
 		"pt"    "Item:"
+		"pl"    "Przedmiot:"
+		"tr"    "Eşya:"
+		"it"    "Oggetto:"
+		"ua"    "Предмет:"
+		"zho"    "物品:"
+		"cze"    "Předmět:"
 	}
 
 	"EW_PM_ItemInfo_RestrictPlayer"
@@ -1576,6 +2356,12 @@
 		"es"    "Restringir jugador"
 		"de"    "Spieler sperren"
 		"pt"    "Restringir jogador"
+		"pl"    "Zablokuj gracza"
+		"tr"    "Oyuncuyu kısıtla"
+		"it"    "Limita giocatore"
+		"ua"    "Обмежити гравця"
+		"zho"    "限制玩家"
+		"cze"    "Omezit hráče"
 	}
 
 	"EW_PM_ItemInfo_TransferItem"
@@ -1587,6 +2373,12 @@
 		"es"    "Transferir objeto"
 		"de"    "Item übertragen"
 		"pt"    "Transferir item"
+		"pl"    "Przekaż przedmiot"
+		"tr"    "Eşyayı devret"
+		"it"    "Trasferisci oggetto"
+		"ua"    "Передати предмет"
+		"zho"    "轉移物品"
+		"cze"    "Předat předmět"
 	}
 
 	// =========================================================================
@@ -1603,6 +2395,12 @@
 		"es"    "Seleccionar receptor:"
 		"de"    "Empfänger auswählen:"
 		"pt"    "Selecionar destinatário:"
+		"pl"    "Wybierz odbiorcę:"
+		"tr"    "Alıcıyı seçin:"
+		"it"    "Seleziona il destinatario:"
+		"ua"    "Оберіть отримувача:"
+		"zho"    "選擇接收者:"
+		"cze"    "Vyberte příjemce:"
 	}
 
 	"EW_PM_Transfer_NoValidPlayers"
@@ -1614,6 +2412,12 @@
 		"es"    "No se encontraron jugadores válidos"
 		"de"    "Keine gültigen Spieler gefunden"
 		"pt"    "Nenhum jogador válido encontrado"
+		"pl"    "Nie znaleziono prawidłowych graczy"
+		"tr"    "Geçerli oyuncu bulunamadı"
+		"it"    "Nessun giocatore valido trovato"
+		"ua"    "Дійсних гравців не знайдено"
+		"zho"    "找不到有效的玩家"
+		"cze"    "Nebyli nalezeni žádní platní hráči"
 	}
 
 	// =========================================================================
@@ -1630,6 +2434,12 @@
 		"es"    "entWatch - Restringir jugador:"
 		"de"    "entWatch - Spieler sperren:"
 		"pt"    "entWatch - Restringir jogador:"
+		"pl"    "entWatch - Zablokuj gracza:"
+		"tr"    "entWatch - Oyuncuyu kısıtla:"
+		"it"    "entWatch - Limita giocatore:"
+		"ua"    "entWatch - Обмежити гравця:"
+		"zho"    "entWatch - 限制玩家:"
+		"cze"    "entWatch - Omezit hráče:"
 	}
 
 	"EW_PM_EBanList_NoPlayers"
@@ -1641,6 +2451,12 @@
 		"es"    "No se encontraron jugadores"
 		"de"    "Keine Spieler gefunden"
 		"pt"    "Nenhum jogador encontrado"
+		"pl"    "Nie znaleziono graczy"
+		"tr"    "Oyuncu bulunamadı"
+		"it"    "Nessun giocatore trovato"
+		"ua"    "Гравців не знайдено"
+		"zho"    "找不到玩家"
+		"cze"    "Nebyli nalezeni žádní hráči"
 	}
 
 	// =========================================================================
@@ -1658,6 +2474,12 @@
 		"es"    "Duración para {1}:"
 		"de"    "Dauer für {1}:"
 		"pt"    "Duração para {1}:"
+		"pl"    "Czas dla {1}:"
+		"tr"    "{1} için süre:"
+		"it"    "Durata per {1}:"
+		"ua"    "Тривалість для {1}:"
+		"zho"    "{1} 的時間:"
+		"cze"    "Doba pro {1}:"
 	}
 
 	// =========================================================================
@@ -1674,6 +2496,12 @@
 		"es"    "entWatch - Lista de restricciones:"
 		"de"    "entWatch - Liste der Sperren:"
 		"pt"    "entWatch - Lista de restrições:"
+		"pl"    "entWatch - Lista blokad:"
+		"tr"    "entWatch - Kısıtlama listesi:"
+		"it"    "entWatch - Elenco limitazioni:"
+		"ua"    "entWatch - Список обмежень:"
+		"zho"    "entWatch - 限制列表:"
+		"cze"    "entWatch - Seznam omezení:"
 	}
 
 	"EW_PM_EUnBanList_NoPlayers"
@@ -1685,6 +2513,12 @@
 		"es"    "No se encontraron jugadores restringidos"
 		"de"    "Keine gesperrten Spieler gefunden"
 		"pt"    "Nenhum jogador restrito encontrado"
+		"pl"    "Nie znaleziono zablokowanych graczy"
+		"tr"    "Kısıtlı oyuncu bulunamadı"
+		"it"    "Nessun giocatore limitato trovato"
+		"ua"    "Обмежених гравців не знайдено"
+		"zho"    "找不到被限制的玩家"
+		"cze"    "Nebyli nalezeni žádní omezení hráči"
 	}
 
 	// =========================================================================
@@ -1702,6 +2536,12 @@
 		"es"    "Info restricción: {1}"
 		"de"    "Sperrinfo: {1}"
 		"pt"    "Info da restrição: {1}"
+		"pl"    "Informacje o banie: {1}"
+		"tr"    "Ban bilgisi: {1}"
+		"it"    "Info ban: {1}"
+		"ua"    "Інформація про бан: {1}"
+		"zho"    "封鎖資訊: {1}"
+		"cze"    "Informace o banu: {1}"
 	}
 
 	"EW_PM_EBanInfo_Admin"
@@ -1714,6 +2554,12 @@
 		"es"    "Admin: {1}"
 		"de"    "Admin: {1}"
 		"pt"    "Admin: {1}"
+		"pl"    "Admin: {1}"
+		"tr"    "Admin: {1}"
+		"it"    "Admin: {1}"
+		"ua"    "Admin: {1}"
+		"zho"    "Admin: {1}"
+		"cze"    "Admin: {1}"
 	}
 
 	"EW_PM_EBanInfo_Duration_Permanent"
@@ -1725,6 +2571,12 @@
 		"es"    "Duración: Permanente"
 		"de"    "Dauer: Dauerhaft"
 		"pt"    "Duração: Permanente"
+		"pl"    "Czas: na stałe"
+		"tr"    "Süre: Kalıcı"
+		"it"    "Durata: Permanente"
+		"ua"    "Тривалість: назавжди"
+		"zho"    "時間: 永久"
+		"cze"    "Doba: trvale"
 	}
 
 	"EW_PM_EBanInfo_Duration_Timed"
@@ -1737,6 +2589,12 @@
 		"es"    "Duración: {1} min"
 		"de"    "Dauer: {1} Min."
 		"pt"    "Duração: {1} min"
+		"pl"    "Czas: {1} min"
+		"tr"    "Süre: {1} dk"
+		"it"    "Durata: {1} min"
+		"ua"    "Тривалість: {1} хв"
+		"zho"    "時間: {1} 分鐘"
+		"cze"    "Doba: {1} min"
 	}
 
 	"EW_PM_EBanInfo_Reason"
@@ -1749,6 +2607,12 @@
 		"es"    "Motivo: {1}"
 		"de"    "Grund: {1}"
 		"pt"    "Motivo: {1}"
+		"pl"    "Powód: {1}"
+		"tr"    "Sebep: {1}"
+		"it"    "Motivo: {1}"
+		"ua"    "Причина: {1}"
+		"zho"    "原因: {1}"
+		"cze"    "Důvod: {1}"
 	}
 
 	"EW_PM_EBanInfo_TotalEbans"
@@ -1761,6 +2625,12 @@
 		"es"    "Total eBans: {1}"
 		"de"    "Ebans insgesamt: {1}"
 		"pt"    "Total de eBans: {1}"
+		"pl"    "Łącznie ebanów: {1}"
+		"tr"    "Toplam eBan: {1}"
+		"it"    "eBan totali: {1}"
+		"ua"    "Усього eBan: {1}"
+		"zho"    "eBan 總數: {1}"
+		"cze"    "Celkem ebanů: {1}"
 	}
 
 	"EW_PM_EBanInfo_UnrestrictButton"
@@ -1772,6 +2642,12 @@
 		"es"    "Levantar restricción"
 		"de"    "Spieler entsperren"
 		"pt"    "Remover restrição"
+		"pl"    "Zdejmij blokadę"
+		"tr"    "Kısıtlamayı kaldır"
+		"it"    "Rimuovi limitazione"
+		"ua"    "Зняти обмеження"
+		"zho"    "解除限制"
+		"cze"    "Zrušit omezení"
 	}
 
 	// =========================================================================
@@ -1788,6 +2664,12 @@
 		"es"    "entWatch - Generar un objeto:"
 		"de"    "entWatch - Item spawnen:"
 		"pt"    "entWatch - Gerar um item:"
+		"pl"    "entWatch - Stwórz przedmiot:"
+		"tr"    "entWatch - Eşya oluştur:"
+		"it"    "entWatch - Genera un oggetto:"
+		"ua"    "entWatch - Створити предмет:"
+		"zho"    "entWatch - 生成物品:"
+		"cze"    "entWatch - Vytvořit předmět:"
 	}
 
 	"EW_PM_SpawnItemList_NoItems"
@@ -1799,6 +2681,12 @@
 		"es"    "No se encontraron objetos generables"
 		"de"    "Keine spawnbaren Items gefunden"
 		"pt"    "Nenhum item gerável encontrado"
+		"pl"    "Nie znaleziono przedmiotów do stworzenia"
+		"tr"    "Oluşturulabilir eşya bulunamadı"
+		"it"    "Nessun oggetto generabile trovato"
+		"ua"    "Предметів для появи не знайдено"
+		"zho"    "找不到可生成的物品"
+		"cze"    "Nebyly nalezeny žádné předměty k vytvoření"
 	}
 
 	// =========================================================================
@@ -1815,6 +2703,12 @@
 		"es"    "entWatch - ¿Quitar armas?"
 		"de"    "entWatch - Waffen entfernen?"
 		"pt"    "entWatch - Remover armas?"
+		"pl"    "entWatch - Zabrać broń?"
+		"tr"    "entWatch - Silahlar alınsın mı?"
+		"it"    "entWatch - Rimuovere le armi?"
+		"ua"    "entWatch - Забрати зброю?"
+		"zho"    "entWatch - 移除武器?"
+		"cze"    "entWatch - Odebrat zbraně?"
 	}
 
 	"EW_PM_SpawnStrip_Yes"
@@ -1826,6 +2720,12 @@
 		"es"    "Sí, quitar armas"
 		"de"    "Ja, Waffen entfernen"
 		"pt"    "Sim, remover armas"
+		"pl"    "Tak, zabierz broń"
+		"tr"    "Evet, silahları al"
+		"it"    "Sì, rimuovi le armi"
+		"ua"    "Так, забрати зброю"
+		"zho"    "是，移除武器"
+		"cze"    "Ano, odebrat zbraně"
 	}
 
 	"EW_PM_SpawnStrip_No"
@@ -1837,6 +2737,12 @@
 		"es"    "No, conservar armas"
 		"de"    "Nein, Waffen behalten"
 		"pt"    "Não, manter armas"
+		"pl"    "Nie, zostaw broń"
+		"tr"    "Hayır, silahlar kalsın"
+		"it"    "No, tieni le armi"
+		"ua"    "Ні, залишити зброю"
+		"zho"    "否，保留武器"
+		"cze"    "Ne, ponechat zbraně"
 	}
 
 	// =========================================================================
@@ -1853,6 +2759,12 @@
 		"es"    "entWatch - Seleccionar receptor:"
 		"de"    "entWatch - Empfänger auswählen:"
 		"pt"    "entWatch - Selecionar destinatário:"
+		"pl"    "entWatch - Wybierz odbiorcę:"
+		"tr"    "entWatch - Alıcıyı seçin:"
+		"it"    "entWatch - Seleziona il destinatario:"
+		"ua"    "entWatch - Оберіть отримувача:"
+		"zho"    "entWatch - 選擇接收者:"
+		"cze"    "entWatch - Vyberte příjemce:"
 	}
 
 	"EW_PM_SpawnTarget_NoPlayers"
@@ -1864,6 +2776,12 @@
 		"es"    "No se encontraron jugadores válidos"
 		"de"    "Keine gültigen Spieler gefunden"
 		"pt"    "Nenhum jogador válido encontrado"
+		"pl"    "Nie znaleziono prawidłowych graczy"
+		"tr"    "Geçerli oyuncu bulunamadı"
+		"it"    "Nessun giocatore valido trovato"
+		"ua"    "Дійсних гравців не знайдено"
+		"zho"    "找不到有效的玩家"
+		"cze"    "Nebyli nalezeni žádní platní hráči"
 	}
 
 	// =========================================================================
@@ -1880,6 +2798,12 @@
 		"es"		"Configuración del mapa cargada. (Estado: correcto)"
 		"de"		"Map-Konfiguration geladen. (Status: erfolgreich)"
 		"pt"		"Configuração do mapa carregada. (Status: sucesso)"
+		"pl"		"Wczytano konfigurację mapy. (Status: Sukces)"
+		"tr"		"Harita yapılandırması yüklendi. (Durum: Başarılı)"
+		"it"		"Configurazione mappa caricata. (Stato: Riuscito)"
+		"ua"		"Конфігурацію мапи завантажено. (Статус: успішно)"
+		"zho"		"已載入地圖設定。(狀態: 成功)"
+		"cze"		"Konfigurace mapy načtena. (Stav: Úspěch)"
 	}
 
 	"EW_Debug_LoadConfig_Failed"
@@ -1891,6 +2815,12 @@
 		"es"		"Configuración del mapa cargada. (Estado: fallido)"
 		"de"		"Map-Konfiguration geladen. (Status: fehlgeschlagen)"
 		"pt"		"Configuração do mapa carregada. (Status: falha)"
+		"pl"		"Wczytano konfigurację mapy. (Status: Niepowodzenie)"
+		"tr"		"Harita yapılandırması yüklendi. (Durum: Başarısız)"
+		"it"		"Configurazione mappa caricata. (Stato: Fallito)"
+		"ua"		"Конфігурацію мапи завантажено. (Статус: невдало)"
+		"zho"		"已載入地圖設定。(狀態: 失敗)"
+		"cze"		"Konfigurace mapy načtena. (Stav: Selhání)"
 	}
 
 	"EW_Debug_TraceItems_Done"
@@ -1902,5 +2832,11 @@
 		"es"		"objetos rastreados."
 		"de"		"Items verfolgt."
 		"pt"		"Itens rastreados."
+		"pl"		"przedmiotów prześledzono."
+		"tr"		"eşya izlendi."
+		"it"		"oggetti tracciati."
+		"ua"		"предметів відстежено."
+		"zho"		"個物品已追蹤。"
+		"cze"		"předmětů sledováno."
 	}
 }
