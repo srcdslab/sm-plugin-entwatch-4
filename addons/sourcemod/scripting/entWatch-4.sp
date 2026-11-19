@@ -68,6 +68,17 @@ StringMap g_hConfigHammerIDs;
 // triggers, and that item trigger when there is only one. OnEntityDestroyed (every entity),
 // WeaponCanUse (every tick a player touches a weapon) and the item triggers Touch hook check
 // these before walking every item and all of its buttons and triggers.
+//
+// Invariant: CItem.iWeapon, CItemButton.iButton and CItemTrigger.iTrigger are only written by
+// RegisterItemWeapon / RegisterItemButton / RegisterItemTrigger (which count) and
+// OnEntityDestroyed (which uncounts). A field set anywhere else leaves its slot at 0 and the
+// fast paths skip that entity. Code that frees a single CItem (instead of CleanupItems) must
+// untrack its live weapon, buttons and triggers first, or g_hItemTriggerOf keeps a freed handle.
+//
+// Slot = low 12 bits of an index or a reference. NUM_ENT_ENTRY_BITS is 12 on CS:S (sdk2013):
+// networked indexes are 0..2047, non-networked entries 2048..4095, and the index and the
+// reference of one entity map to the same slot. On an engine with more entries, slots would be
+// shared: counts only merge (more loop work, never a false 0).
 #define EW_ENTITY_SLOTS 4096
 
 int g_iItemEntityRefs[EW_ENTITY_SLOTS];
@@ -1691,6 +1702,7 @@ void UntrackItemTrigger(int iEntity, CItemTrigger hItemTrigger)
 	if (g_iItemTriggerRefs[iSlot] > 0)
 		g_iItemTriggerRefs[iSlot]--;
 
+	// If the count drops to 1 the cache stays null: that slot uses the loop until the next cleanup
 	if (g_hItemTriggerOf[iSlot] == hItemTrigger)
 		g_hItemTriggerOf[iSlot] = null;
 }

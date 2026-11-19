@@ -69,6 +69,7 @@ methodmap CItemButton < ArrayList
 		{
 			return this.Get(CItemButton_iButton);
 		}
+		// Written only by entWatch-4.sp Register*/OnEntityDestroyed (entity slot counters); other plugins must treat it as read-only
 		public set(int iValue)
 		{
 			this.Set(CItemButton_iButton, iValue);
