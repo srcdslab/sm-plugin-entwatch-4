@@ -75,11 +75,13 @@ StringMap g_hConfigHammerIDs;
 // fast paths skip that entity. Code that frees a single CItem (instead of CleanupItems) must
 // untrack its live weapon, buttons and triggers first, or g_hItemTriggerOf keeps a freed handle.
 //
-// Slot = low 12 bits of an index or a reference. NUM_ENT_ENTRY_BITS is 12 on CS:S (sdk2013):
-// networked indexes are 0..2047, non-networked entries 2048..4095, and the index and the
-// reference of one entity map to the same slot. On an engine with more entries, slots would be
+// Slot = low 13 bits of an index or a reference, i.e. the entity entry. CS:S (hl2sdk css branch)
+// has NUM_ENT_ENTRY_BITS = MAX_EDICT_BITS + 2 = 13 and a reference is entry | serial << 16:
+// networked indexes are 0..2047, non-networked entries 2048..8191, so each live entity has its
+// own slot. Measured on MAPS TEST (2026-11-24): non-networked item parts reach entries above 4095,
+// which 4096 slots folded onto networked indexes. On an engine with more entries, slots would be
 // shared: counts only merge (more loop work, never a false 0).
-#define EW_ENTITY_SLOTS 4096
+#define EW_ENTITY_SLOTS 8192
 
 int g_iItemEntityRefs[EW_ENTITY_SLOTS];
 int g_iItemTriggerRefs[EW_ENTITY_SLOTS];
