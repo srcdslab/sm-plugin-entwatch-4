@@ -62,6 +62,7 @@ methodmap CItemTrigger < ArrayList
 		{
 			return this.Get(CItemTrigger_iTrigger);
 		}
+		// Written only by entWatch-4.sp Register*/OnEntityDestroyed (entity slot counters); other plugins must treat it as read-only
 		public set(int iValue)
 		{
 			this.Set(CItemTrigger_iTrigger, iValue);
